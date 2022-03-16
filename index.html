@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Gelasio:wght@700&family=Itim&family=Noto+Sans+TC:wght@500&display=swap"
+    rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vite App</title>
+
+  <!-- PWA: Apple Touch Icon, and Service Worker registration. -->
+  <!-- Vite Plugin PWA will add the Web App Manifest during build -->
+  <link rel="apple-touch-icon" href="/images/pwa/icon-192x192.png">
+
+
+  <script type="module">
+    // Register Service Worker using Vite Plugin PWA
+    import { registerSW } from 'virtual:pwa-register';
+    registerSW();
+  </script>
+</head>
+
+<body>
+  <main id="app">
+    <wanted-poster name="PUTLER" bounty="???" padding="10" avatar-url="/images/war-criminal-c.png" />
+  </main>
+  <!-- <div class="blood-overlay"></div> -->
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+import { WantedImageInfo } from './types'
+import CanvasObject from './CanvasObject'
+import bellySignImageUrl from './images/belly.png'
+import patternImageUrl from './images/text-pattern.png'
+import { getTextActualHeight, loadImage } from './utils'
+
+class Bounty extends CanvasObject {
+  #text = ''
+  #space = 1
+  #fontSize = 0
+  #fillPattern: CanvasPattern | null = null
+  #numberFormat: Intl.NumberFormat
+  #bellySignImage: HTMLImageElement | null = null
+  #bellySignMarginRight = 10
+  #bellySignSize: { width: number; height: number } | null = null
+
+  constructor(ctx: CanvasRenderingContext2D) {
+    super(ctx)
+    this.#numberFormat = new Intl.NumberFormat()
+  }
+
+  async init(wantedImageInfo: WantedImageInfo) {
+    try {
+      this.#bellySignImage = await loadImage(bellySignImageUrl)
+      const patternImage = await loadImage(patternImageUrl)
+      this.#fillPattern = this.ctx.createPattern(patternImage, 'repeat')
+    } catch (error) {
+      console.error(error)
+      throw new Error('Failed to init bounty.')
+    }
+
+    this.setPosition(wantedImageInfo)
+  }
+
+  setPosition(wantedImageInfo: WantedImageInfo) {
+    const { bountyPosition, bountyFontSize, bellySignSize } = wantedImageInfo
+    this.x = bountyPosition.x
+    this.y = bountyPosition.y
+    this.width = bountyPosition.width
+    this.height = bountyPosition.height
+    this.#fontSize = bountyFontSize
+
+    this.#bellySignSize = { ...bellySignSize }
+  }
+
+  set text(value: string) {
+    const space = new Array(this.#space).join(' ') + ' '
+    const price = Number.parseInt(value)
+    if (Number.isNaN(price)) {
+      this.#text = Array.from(value).join(space)
+      return
+    }
+
+    const text = this.#numberFormat.format(price) + '-'
+    this.#text = Array.from(text).join(space)
+  }
+
+  render(): void {
+    if (!this.#bellySignImage || !this.#bellySignSize) {
+      return
+    }
+    const { width, height } = this.#bellySignSize
+
+    this.ctx.save()
+    this.ctx.textAlign = 'center'
+    this.ctx.textBaseline = 'top'
+    this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
+    this.ctx.font = `900 ${this.#fontSize}px 'Itim', sans-serif`
+
+    const centerX = this.x + this.width / 2
+    const bellySignWidth = width + this.#bellySignMarginRight
+    const actualHeight = getTextActualHeight(this.ctx, this.#text)
+    const topOffset = (this.height - actualHeight) / 2
+    const textX = centerX + bellySignWidth / 2
+    const textY = this.y + topOffset
+    const textMaxWidth = this.width - bellySignWidth
+    this.ctx.fillText(this.#text, textX, textY, textMaxWidth)
+
+    const textWidth = Math.min(
+      this.ctx.measureText(this.#text).width,
+      textMaxWidth
+    )
+
+    const bellySignX = centerX - bellySignWidth / 2 - textWidth / 2
+    this.ctx.drawImage(this.#bellySignImage, bellySignX, this.y, width, height)
+    this.ctx.restore()
+  }
+}
+
+export default Bounty
