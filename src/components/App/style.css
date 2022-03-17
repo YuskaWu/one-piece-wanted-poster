@@ -1,0 +1,12 @@
+#app {
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/wood-panel.jpg'),
+    url('/images/blood-stains-0.png');
+
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
