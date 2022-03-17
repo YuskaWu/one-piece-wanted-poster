@@ -9,6 +9,7 @@ class AvatarResizer extends CanvasObject {
   #isMousedown = false
   #isResizing = false
   #borderWidth = 4
+  #resizeBorder: 'left' | 'right' | 'top' | 'bottom' | null = null
 
   #dashOffset = 0
 
@@ -95,8 +96,10 @@ class AvatarResizer extends CanvasObject {
 
     if (borderHoverInfo.left || borderHoverInfo.right) {
       this.ctx.canvas.style.cursor = 'ew-resize'
+      this.#resizeBorder = borderHoverInfo.left ? 'left' : 'right'
     } else if (borderHoverInfo.top || borderHoverInfo.bottom) {
       this.ctx.canvas.style.cursor = 'ns-resize'
+      this.#resizeBorder = borderHoverInfo.top ? 'top' : 'bottom'
     } else if (this.#isHover) {
       this.ctx.canvas.style.cursor = 'move'
     } else {
@@ -117,30 +120,42 @@ class AvatarResizer extends CanvasObject {
 
       case 'ew-resize': {
         this.#isResizing = true
-        const resizeScale = this.height / this.width
-        const newWidth = Math.max(this.width + diffX, 1)
-        const newHeight = Math.max(this.height + diffX * resizeScale, 1)
-
-        this.width = newWidth
-        this.height = newHeight
-
-        this.#avatar.width = newWidth
-        this.#avatar.height = newHeight
+        if (this.#resizeBorder === 'right') {
+          const newWidth = Math.max(this.width + diffX, 1)
+          this.width = newWidth
+          this.#avatar.width = newWidth
+        } else {
+          const newX = this.x + diffX
+          if (newX >= this.x + this.width) {
+            break
+          }
+          const newWidth = this.width - diffX
+          this.x = newX
+          this.#avatar.x = newX
+          this.width = newWidth
+          this.#avatar.width = newWidth
+        }
         this.#avatar.updateRenderPosition()
         break
       }
 
       case 'ns-resize': {
         this.#isResizing = true
-        const resizeScale = this.width / this.height
-        const newHeight = Math.max(this.height + diffY, 1)
-        const newWidth = Math.max(this.width + diffY * resizeScale, 1)
-
-        this.height = newHeight
-        this.width = newWidth
-
-        this.#avatar.height = newHeight
-        this.#avatar.width = newWidth
+        if (this.#resizeBorder === 'bottom') {
+          const newHeight = Math.max(this.height + diffY, 1)
+          this.height = newHeight
+          this.#avatar.height = newHeight
+        } else {
+          const newY = this.y + diffY
+          if (newY >= this.y + this.height) {
+            break
+          }
+          const newHeight = this.height - diffY
+          this.y = newY
+          this.#avatar.y = newY
+          this.height = newHeight
+          this.#avatar.height = newHeight
+        }
         this.#avatar.updateRenderPosition()
       }
     }

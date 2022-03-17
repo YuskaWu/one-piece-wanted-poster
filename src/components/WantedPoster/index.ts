@@ -1,4 +1,4 @@
-import { downloadFile } from './utils'
+import { downloadFile, getScale } from './utils'
 import cssContent from './style.css?inline'
 import { ONE_PIECE_WANTED_IMAGE } from './constants'
 
@@ -36,6 +36,7 @@ class WantedPoster extends HTMLElement {
   #status: 'init' | 'loading' | 'success' | 'error'
 
   #resizeListener: () => void
+  #resizeTimeout?: number
 
   constructor() {
     super()
@@ -133,19 +134,26 @@ class WantedPoster extends HTMLElement {
     bounty.render()
     name.render()
 
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          return
-        }
-        const url = URL.createObjectURL(blob)
-        downloadFile(url, 'wanted-poster.png')
-        URL.revokeObjectURL(url)
-        this.#container.removeChild(canvas)
-      },
-      'image/png',
-      1
-    )
+    try {
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            return
+          }
+          const url = URL.createObjectURL(blob)
+          downloadFile(url, 'wanted-poster.png')
+          URL.revokeObjectURL(url)
+          this.#container.removeChild(canvas)
+        },
+        'image/png',
+        1
+      )
+    } catch (e) {
+      console.error(e)
+      // Oops! Seems the avatar image is cross origin and not allow to export.
+      // You can right click on the canvas and save it by yourself.
+      this.dispatchEvent(new CustomEvent('ExportError', { bubbles: true }))
+    }
   }
 
   #resize() {
@@ -153,18 +161,30 @@ class WantedPoster extends HTMLElement {
       return
     }
 
-    const padding = this.#getPadding()
-    const rect = this.#container.getBoundingClientRect()
-    const { wantedImageInfo } = this.#wantedImage.setSize({
-      width: rect.width,
-      height: rect.height,
-      padding
-    })
+    clearTimeout(this.#resizeTimeout)
+    this.#resizeTimeout = window.setTimeout(() => {
+      const padding = this.#getPadding()
+      const rect = this.#container.getBoundingClientRect()
 
-    this.#avatar.resetPosition(wantedImageInfo)
-    this.#name.setPosition(wantedImageInfo.namePosition)
-    this.#bounty.setPosition(wantedImageInfo)
-    this.#avatarResizer.reset()
+      const resizeScale = getScale(
+        rect.width,
+        rect.height,
+        this.#canvas.width,
+        this.#canvas.height
+      )
+      const { wantedImageInfo } = this.#wantedImage.setSize({
+        width: rect.width,
+        height: rect.height,
+        padding
+      })
+
+      this.#name.setPosition(wantedImageInfo.namePosition)
+      this.#bounty.setPosition(wantedImageInfo)
+
+      this.#avatar.setAvatarPosition(wantedImageInfo.avatarPosition)
+      this.#avatar.scale(resizeScale)
+      this.#avatarResizer.scale(resizeScale)
+    }, 200)
   }
 
   #render() {
@@ -184,6 +204,14 @@ class WantedPoster extends HTMLElement {
 
   async connectedCallback() {
     console.log('[connected]')
+
+    // We need to get correct rect of container to calculate canvas's size,
+    // but 'connectedCallback' hook does not mean element is fully parsed, therefor
+    // here we wait a event loop cycle to make sure container is parsed.
+    await new Promise((resolve) => {
+      setTimeout(() => resolve(''))
+    })
+
     this.#status = 'loading'
     const padding = this.#getPadding()
     const rect = this.#container.getBoundingClientRect()

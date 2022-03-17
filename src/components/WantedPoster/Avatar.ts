@@ -12,14 +12,16 @@ type RenderOffset = {
   bottom: number
 }
 
+const DEFAULT_POSITION = { x: 0, y: 0, width: 0, height: 0 }
+
 class Avatar extends CanvasObject {
   filter = 'grayscale(35%) sepia(40%) saturate(80%) contrast(105%)'
   #listeners = new Map<EventName, Array<() => void>>()
   #image: HTMLImageElement | null = null
   #fillPattern: CanvasPattern | null = null
-  #transparentPosition: Position | null = null
-  #renderPosition: Position | null = null
-  #renderOffset: RenderOffset | null = null
+  #transparentPosition: Position = { ...DEFAULT_POSITION }
+  #renderPosition: Position = { ...DEFAULT_POSITION }
+  #renderOffset: RenderOffset = { left: 0, right: 0, top: 0, bottom: 0 }
 
   async init(wantedImageInfo: WantedImageInfo) {
     try {
@@ -30,7 +32,7 @@ class Avatar extends CanvasObject {
       throw new Error('Failed to create fill pattern.')
     }
 
-    this.resetPosition(wantedImageInfo)
+    this.#resetPosition(wantedImageInfo)
   }
 
   async loadImage(url: string | null) {
@@ -48,7 +50,7 @@ class Avatar extends CanvasObject {
     }
   }
 
-  resetPosition(wantedImageInfo: WantedImageInfo) {
+  #resetPosition(wantedImageInfo: WantedImageInfo) {
     const { avatarPosition, boundaryOffset } = wantedImageInfo
     this.x = avatarPosition.x
     this.y = avatarPosition.y
@@ -65,6 +67,15 @@ class Avatar extends CanvasObject {
     }
 
     this.updateRenderPosition()
+  }
+
+  scale(scale: number) {
+    super.scale(scale)
+    this.updateRenderPosition()
+  }
+
+  setAvatarPosition(position: Position) {
+    this.#transparentPosition = position
   }
 
   updateRenderPosition() {
@@ -110,13 +121,15 @@ class Avatar extends CanvasObject {
   render(): void {
     this.ctx.save()
     // render background on the transparent area of avatar
-    if (this.#transparentPosition) {
-      const { x, y, width, height } = this.#transparentPosition
-      this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
-      this.ctx.fillRect(x, y, width, height)
-    }
+    this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
+    this.ctx.fillRect(
+      this.#transparentPosition.x,
+      this.#transparentPosition.y,
+      this.#transparentPosition.width,
+      this.#transparentPosition.height
+    )
 
-    if (!this.#image || !this.#renderPosition) {
+    if (!this.#image) {
       this.ctx.restore()
       return
     }
@@ -126,12 +139,7 @@ class Avatar extends CanvasObject {
     this.ctx.drawImage(this.#image, x, y, width, height)
 
     // following logic is to clear rectangles which is outside the boundary of wanted image
-    const {
-      left = 0,
-      right = 0,
-      top = 0,
-      bottom = 0
-    } = this.#renderOffset ?? {}
+    const { left, right, top, bottom } = this.#renderOffset
 
     // clear left edge
     x <= left && this.ctx.clearRect(0, y, left, height)

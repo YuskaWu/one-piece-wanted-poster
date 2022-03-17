@@ -9,6 +9,13 @@ abstract class CanvasObject {
     this.ctx = ctx
   }
 
+  scale(scale: number) {
+    this.x = this.x * scale
+    this.y = this.y * scale
+    this.width = this.width * scale
+    this.height = this.height * scale
+  }
+
   abstract render(): void
 }
 
