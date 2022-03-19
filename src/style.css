@@ -3,41 +3,10 @@
 }
 
 html,
-body,
-#app {
+body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   overflow: hidden;
-}
-
-.blood-overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  opacity: 0.8;
-
-  background-image: url('/images/blood-stains-3.png');
-  background-size: cover;
-  background-position: center;
-  mix-blend-mode: multiply;
-
-  animation-name: fade-in;
-  animation-duration: 4s;
-}
-
-:root {
-  --border-color: #1e88e5;
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0.8;
-  }
 }

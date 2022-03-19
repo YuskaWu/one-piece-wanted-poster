@@ -14,5 +14,9 @@ export default defineConfig({
       filename: 'service-worker.js',
       manifest
     })
-  ]
+  ],
+  base: '',
+  server: {
+    host: true
+  }
 })
