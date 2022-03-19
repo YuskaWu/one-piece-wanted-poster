@@ -15,6 +15,8 @@ type RenderOffset = {
 const DEFAULT_POSITION = { x: 0, y: 0, width: 0, height: 0 }
 
 class Avatar extends CanvasObject {
+  #wantedImageInfo?: WantedImageInfo
+
   filter = 'grayscale(35%) sepia(40%) saturate(80%) contrast(105%)'
   #listeners = new Map<EventName, Array<() => void>>()
   #image: HTMLImageElement | null = null
@@ -24,6 +26,8 @@ class Avatar extends CanvasObject {
   #renderOffset: RenderOffset = { left: 0, right: 0, top: 0, bottom: 0 }
 
   async init(wantedImageInfo: WantedImageInfo) {
+    this.#wantedImageInfo = wantedImageInfo
+
     try {
       const bgImage = await loadImage(backgroundImageUrl)
       this.#fillPattern = this.ctx.createPattern(bgImage, 'repeat')
@@ -32,7 +36,7 @@ class Avatar extends CanvasObject {
       throw new Error('Failed to create fill pattern.')
     }
 
-    this.#resetPosition(wantedImageInfo)
+    this.#resetPosition()
   }
 
   async loadImage(url: string | null) {
@@ -42,7 +46,7 @@ class Avatar extends CanvasObject {
 
     try {
       this.#image = await loadImage(url)
-      this.updateRenderPosition()
+      this.#resetPosition()
       this.#listeners.get('imageloaded')?.forEach((fn) => fn())
     } catch (error) {
       console.error(error)
@@ -50,8 +54,12 @@ class Avatar extends CanvasObject {
     }
   }
 
-  #resetPosition(wantedImageInfo: WantedImageInfo) {
-    const { avatarPosition, boundaryOffset } = wantedImageInfo
+  #resetPosition() {
+    if (!this.#wantedImageInfo) {
+      return
+    }
+
+    const { avatarPosition, boundaryOffset } = this.#wantedImageInfo
     this.x = avatarPosition.x
     this.y = avatarPosition.y
     this.width = avatarPosition.width
@@ -74,8 +82,10 @@ class Avatar extends CanvasObject {
     this.updateRenderPosition()
   }
 
-  setAvatarPosition(position: Position) {
-    this.#transparentPosition = position
+  setWantedImageInfo(wantedImageInfo: WantedImageInfo) {
+    this.#wantedImageInfo = wantedImageInfo
+    this.#renderOffset = { ...wantedImageInfo.boundaryOffset }
+    this.#transparentPosition = { ...wantedImageInfo.avatarPosition }
   }
 
   updateRenderPosition() {

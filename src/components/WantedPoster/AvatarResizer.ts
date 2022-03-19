@@ -3,7 +3,6 @@ import CanvasObject from './CanvasObject'
 import { getBorderHoverInfo, isInside } from './utils'
 
 class AvatarResizer extends CanvasObject {
-  #canvasRect: DOMRect
   #avatar: Avatar
   #isHover = false
   #isMousedown = false
@@ -19,18 +18,15 @@ class AvatarResizer extends CanvasObject {
   constructor(ctx: CanvasRenderingContext2D, avatar: Avatar) {
     super(ctx)
     this.#avatar = avatar
-    this.#canvasRect = ctx.canvas.getBoundingClientRect()
-
-    this.ctx
 
     avatar.on('imageloaded', () => this.reset())
     ctx.canvas.addEventListener('mousedown', this.#onMousedown.bind(this))
     ctx.canvas.addEventListener('mouseup', this.#onMouseup.bind(this))
     ctx.canvas.addEventListener('mousemove', this.#onMouseover.bind(this))
+    ctx.canvas.addEventListener('mouseout', this.#onMouseout.bind(this))
   }
 
   reset() {
-    this.#canvasRect = this.ctx.canvas.getBoundingClientRect()
     this.x = this.#avatar.x
     this.y = this.#avatar.y
     this.width = this.#avatar.width
@@ -50,8 +46,9 @@ class AvatarResizer extends CanvasObject {
   }
 
   #onMouseover(e: MouseEvent) {
-    const canvasX = e.clientX - this.#canvasRect.left
-    const canvasY = e.clientY - this.#canvasRect.top
+    const { left, top } = this.ctx.canvas.getBoundingClientRect()
+    const canvasX = e.clientX - left
+    const canvasY = e.clientY - top
 
     if (this.#isMousedown) {
       const diffX = e.clientX - this.#preX
@@ -81,6 +78,11 @@ class AvatarResizer extends CanvasObject {
 
     this.#preX = e.clientX
     this.#preY = e.clientY
+  }
+
+  #onMouseout() {
+    this.#isMousedown = false
+    this.#isResizing = false
   }
 
   #setCursor(canvasX: number, canvasY: number) {

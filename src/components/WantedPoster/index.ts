@@ -21,7 +21,11 @@ const ATTRIBUTES = [
   'filter',
   'padding'
 ] as const
+
 type Attributes = typeof ATTRIBUTES
+export type WantedPosterAttribute = Partial<{
+  [key in Attributes[number]]: string
+}>
 
 class WantedPoster extends HTMLElement {
   #container: HTMLDivElement
@@ -35,7 +39,7 @@ class WantedPoster extends HTMLElement {
   #wantedImage: WantedImage
   #status: 'init' | 'loading' | 'success' | 'error'
 
-  #resizeListener: () => void
+  #resizeObserver: ResizeObserver
   #resizeTimeout?: number
 
   constructor() {
@@ -43,10 +47,9 @@ class WantedPoster extends HTMLElement {
     this.#status = 'init'
 
     // Create a shadow root
-    const shadow = this.attachShadow({ mode: 'open' }) // sets and returns 'this.shadowRoot'
+    const shadowRoot = this.attachShadow({ mode: 'open' }) // sets and returns 'this.shadowRoot'
 
     const canvas = document.createElement('canvas')
-
     const container = document.createElement('div')
     container.className = 'container'
     container.appendChild(canvas)
@@ -56,7 +59,7 @@ class WantedPoster extends HTMLElement {
     style.textContent = cssContent
 
     // attach the created elements to the shadow DOM
-    shadow.append(style, container)
+    shadowRoot.append(style, container)
 
     const ctx = canvas.getContext('2d')!
 
@@ -70,8 +73,11 @@ class WantedPoster extends HTMLElement {
     this.#bounty = new Bounty(ctx)
     this.#avatarResizer = new AvatarResizer(ctx, this.#avatar)
 
-    this.#resizeListener = this.#resize.bind(this)
-    window.addEventListener('resize', this.#resizeListener)
+    this.#resizeObserver = new ResizeObserver(() => {
+      clearTimeout(this.#resizeTimeout)
+      this.#resizeTimeout = window.setTimeout(() => this.#resize(), 200)
+    })
+    this.#resizeObserver.observe(container)
   }
 
   #getPadding() {
@@ -161,30 +167,27 @@ class WantedPoster extends HTMLElement {
       return
     }
 
-    clearTimeout(this.#resizeTimeout)
-    this.#resizeTimeout = window.setTimeout(() => {
-      const padding = this.#getPadding()
-      const rect = this.#container.getBoundingClientRect()
+    const padding = this.#getPadding()
+    const rect = this.#container.getBoundingClientRect()
 
-      const resizeScale = getScale(
-        rect.width,
-        rect.height,
-        this.#canvas.width,
-        this.#canvas.height
-      )
-      const { wantedImageInfo } = this.#wantedImage.setSize({
-        width: rect.width,
-        height: rect.height,
-        padding
-      })
+    const resizeScale = getScale(
+      rect.width,
+      rect.height,
+      this.#canvas.width,
+      this.#canvas.height
+    )
+    const { wantedImageInfo } = this.#wantedImage.setSize({
+      width: rect.width,
+      height: rect.height,
+      padding
+    })
 
-      this.#name.setPosition(wantedImageInfo.namePosition)
-      this.#bounty.setPosition(wantedImageInfo)
+    this.#name.setPosition(wantedImageInfo.namePosition)
+    this.#bounty.setPosition(wantedImageInfo)
 
-      this.#avatar.setAvatarPosition(wantedImageInfo.avatarPosition)
-      this.#avatar.scale(resizeScale)
-      this.#avatarResizer.scale(resizeScale)
-    }, 200)
+    this.#avatar.setWantedImageInfo(wantedImageInfo)
+    this.#avatar.scale(resizeScale)
+    this.#avatarResizer.scale(resizeScale)
   }
 
   #render() {
@@ -250,7 +253,7 @@ class WantedPoster extends HTMLElement {
 
   disconnectedCallback() {
     console.log('[disconnected]')
-    window.removeEventListener('resize', this.#resizeListener)
+    this.#resizeObserver.disconnect()
   }
 
   adoptedCallback() {
@@ -276,7 +279,6 @@ class WantedPoster extends HTMLElement {
 
       case 'avatar-url': {
         await this.#avatar.loadImage(newValue)
-        this.#avatarResizer.reset()
         break
       }
 
