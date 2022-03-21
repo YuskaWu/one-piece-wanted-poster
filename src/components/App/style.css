@@ -19,6 +19,10 @@
   background-color: rgb(192 192 192);
 }
 
+#uploadInput {
+  display: none;
+}
+
 .blood-overlay {
   position: absolute;
   width: 100%;
@@ -110,7 +114,7 @@
 }
 
 .img-button--blood-hand:hover {
-  filter: contrast(100%) brightness(100%) drop-shadow(0 0 7px #770707);
+  filter: contrast(100%) brightness(100%) drop-shadow(0 0 15px #770707);
 }
 
 @keyframes logo-blink {

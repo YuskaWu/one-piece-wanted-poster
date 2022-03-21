@@ -4,17 +4,18 @@ import cssContent from './style.css?inline'
 const template = document.createElement('template')
 template.innerHTML = `
 <main class="app">
+  <input id="uploadInput" type="file" >
   <slot name="poster"></slot>
   <div class="blood-overlay"></div>
 
   <slot></slot>
 
-  <button id="upload" class="img-button img-button--upload"></button>
-  <button id="download" class="img-button img-button--download"></button>
-  <button id="blood-hand" class="img-button img-button--blood-hand"></button>
+  <button id="uploadButton" class="img-button img-button--upload"></button>
+  <button id="downloadButton" class="img-button img-button--download"></button>
+  <button id="bloodhandButton" class="img-button img-button--blood-hand"></button>
 
   <div class="loading-overlay">
-    <img class="loading-overlay__luffy" src="/images/luffy.png"/>
+    <img class="loading-overlay__luffy" src="./images/luffy.png"/>
   </div>
 </main>
 `
@@ -33,6 +34,11 @@ const WARCRIMINAL_POSTER_INFO: WantedPosterAttribute = {
 }
 
 class App extends HTMLElement {
+  #wantedPoster: WantedPoster
+  #uploadInput: HTMLInputElement
+  #uploadBbtton: HTMLButtonElement
+  #downloadButton: HTMLButtonElement
+  #bloodHandButton: HTMLButtonElement
   #startTime: number = 0
   #root: ShadowRoot
   #hashChangeListener: (event: HashChangeEvent) => void
@@ -53,6 +59,19 @@ class App extends HTMLElement {
       this.#removeLoading()
     })
 
+    const posterSlot =
+      this.#root.querySelector<HTMLSlotElement>('slot[name=poster]')
+    this.#wantedPoster = posterSlot?.assignedNodes()[0] as WantedPoster
+
+    this.#uploadInput =
+      this.#root.querySelector<HTMLInputElement>('#uploadInput')!
+    this.#uploadBbtton =
+      this.#root.querySelector<HTMLButtonElement>('#uploadButton')!
+    this.#downloadButton =
+      this.#root.querySelector<HTMLButtonElement>('#downloadButton')!
+    this.#bloodHandButton =
+      this.#root.querySelector<HTMLButtonElement>('#bloodhandButton')!
+
     this.#hashChangeListener = this.#onHashtagChange.bind(this)
     window.addEventListener('hashchange', this.#hashChangeListener)
   }
@@ -61,7 +80,7 @@ class App extends HTMLElement {
     const loadingOverlay =
       this.#root.querySelector<HTMLElement>('.loading-overlay')!
 
-    let minLoadingTime = 1
+    let minLoadingTime = 1000
     let intervalId = setInterval(() => {
       const time = new Date().getTime()
       if (time - this.#startTime < minLoadingTime) {
@@ -102,17 +121,19 @@ class App extends HTMLElement {
   }
 
   #setWantedPosterAttributes(attributes: WantedPosterAttribute) {
-    const slot = this.#root.querySelector<HTMLSlotElement>('slot[name=poster]')
-    const wantedPoster = slot?.assignedNodes()[0] as WantedPoster
     const keys = Object.keys(attributes) as Array<keyof WantedPosterAttribute>
     for (let key of keys) {
       const value = attributes[key] ?? ''
-      wantedPoster.setAttribute(key, value)
+      this.#wantedPoster.setAttribute(key, value)
     }
   }
 
   connectedCallback() {
     this.#startTime = new Date().getTime()
+
+    if (location.hash === WARCRIMINAL_HASH) {
+      this.#toggleWarCriminalMode(true)
+    }
 
     const main = this.#root.querySelector<HTMLElement>('main')!
     main.addEventListener('dragover', (event) => {
@@ -142,11 +163,27 @@ class App extends HTMLElement {
       this.#setWantedPosterAttributes({ 'avatar-url': objUrl })
     })
 
-    this.#root
-      .querySelector<HTMLButtonElement>('button#blood-hand')
-      ?.addEventListener('click', () => {
-        location.href = WARCRIMINAL_HASH
-      })
+    this.#uploadInput.addEventListener('change', () => {
+      const file = this.#uploadInput.files ? this.#uploadInput.files[0] : null
+      if (!file || !file.type.startsWith('image')) {
+        return
+      }
+
+      const objUrl = URL.createObjectURL(file)
+      this.#setWantedPosterAttributes({ 'avatar-url': objUrl })
+    })
+
+    this.#uploadBbtton.addEventListener('click', () => {
+      this.#uploadInput.click()
+    })
+
+    this.#downloadButton.addEventListener('click', () => {
+      this.#wantedPoster.export()
+    })
+
+    this.#bloodHandButton.addEventListener('click', () => {
+      location.hash = WARCRIMINAL_HASH
+    })
   }
 
   disconnectedCallback() {
