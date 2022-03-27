@@ -3,21 +3,19 @@ import cssContent from './style.css?inline'
 
 const template = document.createElement('template')
 template.innerHTML = `
-<main class="app">
   <input id="uploadInput" type="file" >
   <slot name="poster"></slot>
   <div class="blood-overlay"></div>
 
   <slot></slot>
 
-  <button id="uploadButton" class="img-button img-button--upload"></button>
-  <button id="downloadButton" class="img-button img-button--download"></button>
-  <button id="bloodhandButton" class="img-button img-button--blood-hand"></button>
+  <wanted-button id="uploadButton" class="button button--upload" icon="fa-upload" text="UPLOAD"></wanted-button>
+  <wanted-button id="downloadButton" class="button button--download" icon="fa-download" text="DOWNLOAD" font-size="0.5rem"></wanted-button>
+  <button id="bloodhandButton" class="blood-hand"></button>
 
   <div class="loading-overlay">
     <img class="loading-overlay__luffy" src="./images/luffy.png"/>
   </div>
-</main>
 `
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,7 +27,7 @@ const WARCRIMINAL_HASH = '#warcriminal'
 const WARCRIMINAL_POSTER_INFO: WantedPosterAttribute = {
   name: 'PUTLER',
   padding: '10',
-  bounty: '??????????',
+  bounty: '????????????',
   'avatar-url': './images/war-criminal.png'
 }
 
@@ -101,21 +99,22 @@ class App extends HTMLElement {
   }
 
   #toggleWarCriminalMode(toggle: boolean) {
-    const container = this.#root.querySelector<HTMLElement>('.app')
     const overlay = this.#root.querySelector<HTMLElement>('.blood-overlay')
 
-    if (!container || !overlay) {
+    if (!overlay) {
       return
     }
 
     if (!toggle) {
-      container.classList.remove('app--warcriminal')
+      this.classList.remove('warcriminal')
       overlay.classList.remove('blood-overlay--visible')
+      this.#bloodHandButton.classList.remove('blood-hand--enabled')
       return
     }
 
-    container.classList.add('app--warcriminal')
+    this.classList.add('warcriminal')
     overlay.classList.add('blood-overlay--visible')
+    this.#bloodHandButton.classList.add('blood-hand--enabled')
 
     this.#setWantedPosterAttributes(WARCRIMINAL_POSTER_INFO)
   }
@@ -135,24 +134,23 @@ class App extends HTMLElement {
       this.#toggleWarCriminalMode(true)
     }
 
-    const main = this.#root.querySelector<HTMLElement>('main')!
-    main.addEventListener('dragover', (event) => {
+    this.addEventListener('dragover', (event) => {
       // prevent default to allow drop
       event.preventDefault()
     })
 
-    main.addEventListener('dragenter', () => {
-      main.classList.add('app--dragin')
+    this.addEventListener('dragenter', () => {
+      this.classList.add('dragin')
     })
 
-    main.addEventListener('dragleave', () => {
-      main.classList.remove('app--dragin')
+    this.addEventListener('dragleave', () => {
+      this.classList.remove('dragin')
     })
 
-    main.addEventListener('drop', (event) => {
+    this.addEventListener('drop', (event) => {
       // prevent default action (open as link for some elements)
       event.preventDefault()
-      main.classList.remove('app--dragin')
+      this.classList.remove('dragin')
 
       const file = event.dataTransfer?.files[0]
       if (!file || !file.type.startsWith('image')) {
@@ -177,20 +175,21 @@ class App extends HTMLElement {
       this.#uploadInput.click()
     })
 
-    this.#downloadButton.addEventListener('click', () => {
-      this.#wantedPoster.export()
+    this.#downloadButton.addEventListener('click', async () => {
+      this.#downloadButton.setAttribute('loading', 'true')
+      await this.#wantedPoster.export()
+      this.#downloadButton.removeAttribute('loading')
     })
 
     this.#bloodHandButton.addEventListener('click', () => {
-      location.hash = WARCRIMINAL_HASH
+      const isEnabled = location.hash === WARCRIMINAL_HASH
+      location.hash = isEnabled ? '' : WARCRIMINAL_HASH
     })
   }
 
   disconnectedCallback() {
     window.removeEventListener('hashchange', this.#hashChangeListener)
   }
-
-  adoptedCallback() {}
 }
 
 customElements.define('app-container', App)
