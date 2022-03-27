@@ -3,31 +3,35 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="shortcut icon" href="assets/favicon.6ee68954.png">
+  <!-- PWA: Apple Touch Icon, and Service Worker registration. -->
+  <!-- Vite Plugin PWA will add the Web App Manifest during build -->
+  <link rel="apple-touch-icon" href="images/pwa/icon-192x192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Gelasio:wght@700&family=Itim&family=Noto+Sans+TC:wght@500&display=swap"
     rel="stylesheet">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>One Piece Wanted Poster</title>
 
-  <!-- PWA: Apple Touch Icon, and Service Worker registration. -->
-  <!-- Vite Plugin PWA will add the Web App Manifest during build -->
-  <link rel="apple-touch-icon" href="images/pwa/icon-192x192.png">
-
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
   
-  <script type="module" crossorigin src="assets/index.628cee23.js"></script>
+  <script type="module" crossorigin src="assets/index.5e1c5134.js"></script>
   <link rel="modulepreload" href="assets/vendor.098c5d43.js">
   <link rel="stylesheet" href="assets/index.50285a5e.css">
 <link rel="manifest" href="/manifest.webmanifest"></head>
 
 <body>
+
+
   <app-container>
-    <wanted-poster slot="poster" padding="10" />
+    <wanted-poster slot="poster" padding="10" avatar-url="/images/war-criminal.png" />
   </app-container>
+
   <!-- <div class="blood-overlay"></div> -->
   
 </body>
