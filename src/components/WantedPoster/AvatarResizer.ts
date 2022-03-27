@@ -10,10 +10,12 @@ class AvatarResizer extends CanvasObject {
   #borderWidth = 4
   #resizeBorder: 'left' | 'right' | 'top' | 'bottom' | null = null
 
+  #ongoingTouches: Map<number, Touch> = new Map()
+
   #dashOffset = 0
 
-  #preX = 0
-  #preY = 0
+  #clientX = 0
+  #clientY = 0
 
   constructor(ctx: CanvasRenderingContext2D, avatar: Avatar) {
     super(ctx)
@@ -24,6 +26,12 @@ class AvatarResizer extends CanvasObject {
     ctx.canvas.addEventListener('mouseup', this.#onMouseup.bind(this))
     ctx.canvas.addEventListener('mousemove', this.#onMouseover.bind(this))
     ctx.canvas.addEventListener('mouseout', this.#onMouseout.bind(this))
+    ctx.canvas.addEventListener('wheel', this.#onWheel.bind(this))
+
+    ctx.canvas.addEventListener('touchstart', this.#onTouchstart.bind(this))
+    ctx.canvas.addEventListener('touchend', this.#onTouchend.bind(this))
+    ctx.canvas.addEventListener('touchcancel', this.#onTouchcancel.bind(this))
+    ctx.canvas.addEventListener('touchmove', this.#onTouchmove.bind(this))
   }
 
   reset() {
@@ -51,8 +59,8 @@ class AvatarResizer extends CanvasObject {
     const canvasY = e.clientY - top
 
     if (this.#isMousedown) {
-      const diffX = e.clientX - this.#preX
-      const diffY = e.clientY - this.#preY
+      const diffX = e.clientX - this.#clientX
+      const diffY = e.clientY - this.#clientY
       this.#resize(diffX, diffY)
     }
 
@@ -76,13 +84,132 @@ class AvatarResizer extends CanvasObject {
       this.#isHover = false
     }
 
-    this.#preX = e.clientX
-    this.#preY = e.clientY
+    this.#clientX = e.clientX
+    this.#clientY = e.clientY
   }
 
   #onMouseout() {
     this.#isMousedown = false
     this.#isResizing = false
+    this.#isHover = false
+  }
+
+  #onWheel(e: WheelEvent) {
+    e.preventDefault()
+    const scale = e.deltaY > 0 ? 0.9 : 1.1
+    this.#zoom(scale)
+  }
+
+  // a new touch on the surface has occurred
+  #onTouchstart(e: TouchEvent) {
+    // keep the browser from continuing to process the touch event,
+    // and also prevents a mouse event from also being delivered
+    e.preventDefault()
+
+    const touches = e.changedTouches
+    // add tracking touches
+    for (let i = 0; i < touches.length; i++) {
+      this.#ongoingTouches.set(touches[i].identifier, touches[i])
+    }
+
+    const { left, top } = this.ctx.canvas.getBoundingClientRect()
+    let isHover = false
+    for (let touch of this.#ongoingTouches.values()) {
+      const canvasX = touch.clientX - left
+      const canvasY = touch.clientY - top
+
+      if (
+        isInside(
+          canvasX,
+          canvasY,
+          this.x,
+          this.y,
+          this.width,
+          this.height,
+          this.#borderWidth
+        )
+      ) {
+        isHover = true
+        break
+      }
+    }
+
+    this.#isHover = isHover
+  }
+
+  // user lifts a finger off the surface
+  #onTouchend(e: TouchEvent) {
+    const touches = e.changedTouches
+    for (let i = 0; i < touches.length; i++) {
+      this.#ongoingTouches.delete(touches[i].identifier)
+    }
+  }
+
+  // user's finger wanders into browser UI, or the touch otherwise needs to be canceled
+  #onTouchcancel(e: TouchEvent) {
+    const touches = e.changedTouches
+    for (let i = 0; i < touches.length; i++) {
+      this.#ongoingTouches.delete(touches[i].identifier)
+    }
+  }
+
+  #onTouchmove(e: TouchEvent) {
+    const touches = e.changedTouches
+
+    if (touches.length === 1 && this.#isHover) {
+      const touch = touches[0]
+      const { clientX, clientY } = touch
+
+      const preTouch = this.#ongoingTouches.get(touch.identifier)
+      // move resizer
+      if (preTouch) {
+        const diffX = clientX - preTouch.clientX
+        const diffY = clientY - preTouch.clientY
+        this.x += diffX
+        this.y += diffY
+
+        this.#avatar.x += diffX
+        this.#avatar.y += diffY
+        this.#avatar.updateRenderPosition()
+      }
+    }
+
+    if (touches.length === 2 && this.#isHover) {
+      let oldTouchA = this.#ongoingTouches.get(touches[0].identifier)
+      let oldTouchB = this.#ongoingTouches.get(touches[1].identifier)
+      if (oldTouchA && oldTouchB) {
+        let newDistance = this.#getDistance(touches[0], touches[1])
+        let oldDistance = this.#getDistance(oldTouchA, oldTouchB)
+        let scale = newDistance > oldDistance ? 1.04 : 0.96
+        this.#zoom(scale)
+      }
+    }
+
+    // update tracking touches
+    for (let i = 0; i < touches.length; i++) {
+      this.#ongoingTouches.set(touches[i].identifier, touches[i])
+    }
+  }
+
+  #getDistance(touchA: Touch, touchB: Touch) {
+    const distanceX = Math.abs(touchA.clientX - touchB.clientX)
+    const distanceY = Math.abs(touchA.clientY - touchB.clientY)
+    return Math.pow(distanceX, 2) + Math.pow(distanceY, 2)
+  }
+
+  #zoom(scale: number) {
+    const widthDiff = this.width * scale - this.width
+    const heightDiff = this.height * scale - this.height
+    this.x = this.x - widthDiff / 2
+    this.width = this.width + widthDiff
+    this.y = this.y - heightDiff / 2
+    this.height = this.height + heightDiff
+
+    this.#avatar.x = this.x
+    this.#avatar.y = this.y
+    this.#avatar.width = this.width
+    this.#avatar.height = this.height
+    this.#avatar.updateRenderPosition()
   }
 
   #setCursor(canvasX: number, canvasY: number) {
