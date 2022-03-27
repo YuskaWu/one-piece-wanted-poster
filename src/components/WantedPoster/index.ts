@@ -141,19 +141,18 @@ class WantedPoster extends HTMLElement {
     name.render()
 
     try {
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            return
-          }
-          const url = URL.createObjectURL(blob)
-          downloadFile(url, 'wanted-poster.png')
-          URL.revokeObjectURL(url)
-          this.#container.removeChild(canvas)
-        },
-        'image/png',
-        1
-      )
+      const blob = await new Promise<Blob | null>((resolve) => {
+        canvas.toBlob((blob) => resolve(blob), 'image/png', 1)
+      })
+
+      if (!blob) {
+        throw new Error('blob is null')
+      }
+
+      const url = URL.createObjectURL(blob)
+      downloadFile(url, 'wanted-poster.png')
+      URL.revokeObjectURL(url)
+      this.#container.removeChild(canvas)
     } catch (e) {
       console.error(e)
       // Oops! Seems the avatar image is cross origin and not allow to export.
