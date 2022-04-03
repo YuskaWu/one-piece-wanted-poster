@@ -122,4 +122,8 @@ export function removeListener<T extends keyof AppState>(
   }
 }
 
+export function reset() {
+  Object.assign(store, { ...DEFAULT_STATE })
+}
+
 export default store

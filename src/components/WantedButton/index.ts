@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-const ATTRIBUTES = ['icon', 'text', 'font-size', 'loading'] as const
+const ATTRIBUTES = ['icon', 'font-size', 'loading'] as const
 
 type Attributes = typeof ATTRIBUTES
 export type WantedPosterAttribute = Partial<{
@@ -20,7 +20,7 @@ template.innerHTML = `
   <div class="icon">
     <i class="fa"></i>
   </div>
-  <span class="text"></span>
+  <span class="text"><slot><slot></span>
 `
 //
 class WantedButton extends HTMLElement {
@@ -65,10 +65,6 @@ class WantedButton extends HTMLElement {
       case 'icon':
         this.#icon = newValue
         this.#iconElm.classList.add(newValue)
-        break
-
-      case 'text':
-        this.#textElm.textContent = newValue
         break
 
       case 'font-size':

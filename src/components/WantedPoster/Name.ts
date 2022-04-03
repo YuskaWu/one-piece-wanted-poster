@@ -33,9 +33,7 @@ class Name extends CanvasObject {
 
   set text(value: string) {
     const space = new Array(this.#space).join(' ') + ' '
-    this.#text = Array.from(value)
-      .join(space)
-      .replaceAll(/\s\s\s\s*/g, ' • ')
+    this.#text = Array.from(value).join(space)
   }
 
   render(): void {

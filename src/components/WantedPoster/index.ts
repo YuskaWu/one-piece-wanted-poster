@@ -155,6 +155,7 @@ class WantedPoster extends HTMLElement {
       this.#container.removeChild(canvas)
     } catch (e) {
       console.error(e)
+      // TODO catch event and show error message in parent component:
       // Oops! Seems the avatar image is cross origin and not allow to export.
       // You can right click on the canvas and save it by yourself.
       this.dispatchEvent(new CustomEvent('ExportError', { bubbles: true }))
