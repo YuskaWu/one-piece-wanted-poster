@@ -6,6 +6,7 @@ import { getTextActualHeight, loadImage } from './utils'
 
 class Bounty extends CanvasObject {
   #text = ''
+  #isNumber = true
   #space = 1
   #fontSize = 0
   #fillPattern: CanvasPattern | null = null
@@ -47,10 +48,11 @@ class Bounty extends CanvasObject {
     const space = new Array(this.#space).join(' ') + ' '
     const price = Number.parseInt(value)
     if (Number.isNaN(price)) {
+      this.#isNumber = false
       this.#text = Array.from(value).join(space)
       return
     }
-
+    this.#isNumber = true
     const text = this.#numberFormat.format(price) + '-'
     this.#text = Array.from(text).join(space)
   }
@@ -65,10 +67,14 @@ class Bounty extends CanvasObject {
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'top'
     this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
-    this.ctx.font = `900 ${this.#fontSize}px 'Itim', sans-serif`
+    this.ctx.font = `900 ${
+      this.#fontSize
+    }px 'Gelasio', 'Noto Sans TC', sans-serif`
 
     const centerX = this.x + this.width / 2
-    const bellySignWidth = width + this.#bellySignMarginRight
+    const bellySignWidth = this.#isNumber
+      ? width + this.#bellySignMarginRight
+      : 0
     const actualHeight = getTextActualHeight(this.ctx, this.#text)
     const topOffset = (this.height - actualHeight) / 2
     const textX = centerX + bellySignWidth / 2
@@ -76,13 +82,21 @@ class Bounty extends CanvasObject {
     const textMaxWidth = this.width - bellySignWidth
     this.ctx.fillText(this.#text, textX, textY, textMaxWidth)
 
-    const textWidth = Math.min(
-      this.ctx.measureText(this.#text).width,
-      textMaxWidth
-    )
+    if (this.#isNumber) {
+      const textWidth = Math.min(
+        this.ctx.measureText(this.#text).width,
+        textMaxWidth
+      )
+      const bellySignX = centerX - bellySignWidth / 2 - textWidth / 2
+      this.ctx.drawImage(
+        this.#bellySignImage,
+        bellySignX,
+        this.y,
+        width,
+        height
+      )
+    }
 
-    const bellySignX = centerX - bellySignWidth / 2 - textWidth / 2
-    this.ctx.drawImage(this.#bellySignImage, bellySignX, this.y, width, height)
     this.ctx.restore()
   }
 }
