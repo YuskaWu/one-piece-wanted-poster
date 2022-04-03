@@ -8,11 +8,30 @@ template.innerHTML = `
   <slot name="poster"></slot>
   <div class="blood-overlay"></div>
 
-  <slot></slot>
+  <div class="button-container">
+    <wanted-button
+      id="configButton"
+      icon="fa-cog">
+      CONFIG
+    </wanted-button>
 
-  <wanted-button id="uploadButton" class="button button--upload" icon="fa-upload" text="UPLOAD"></wanted-button>
-  <wanted-button id="downloadButton" class="button button--download" icon="fa-download" text="DOWNLOAD" font-size="0.5rem"></wanted-button>
-  <button id="bloodhandButton" class="blood-hand"></button>
+    <wanted-button
+      id="uploadButton"
+      icon="fa-upload">
+      UPLOAD
+    </wanted-button>
+
+    <wanted-button
+      id="downloadButton"
+      icon="fa-download"
+      font-size="0.5rem">
+      DOWNLOAD
+    </wanted-button>
+
+    <button id="criminalButton" class="criminal"></button>
+  </div>
+
+  <slot></slot>
 
   <div class="loading-overlay">
     <img class="loading-overlay__luffy" src="./images/luffy.png"/>
@@ -26,7 +45,7 @@ declare global {
 
 const WARCRIMINAL_HASH = '#warcriminal'
 const WARCRIMINAL_POSTER_INFO: WantedPosterAttribute = {
-  name: 'VLADOLF PUTLER',
+  name: 'PUTLER',
   padding: '10',
   bounty: `War Criminal`,
   'avatar-url': './images/war-criminal.png'
@@ -37,11 +56,11 @@ class App extends HTMLElement {
   #uploadInput: HTMLInputElement
   #uploadBbtton: HTMLButtonElement
   #downloadButton: HTMLButtonElement
-  #bloodHandButton: HTMLButtonElement
+  #criminalButton: HTMLButtonElement
   #startTime: number = 0
   #root: ShadowRoot
   #hashChangeListener: (event: HashChangeEvent) => void
-  #storeListener?: Parameters<typeof addListener>[1]
+  #storeListener: Parameters<typeof addListener>[1]
 
   constructor() {
     super()
@@ -69,10 +88,21 @@ class App extends HTMLElement {
       this.#root.querySelector<HTMLButtonElement>('#uploadButton')!
     this.#downloadButton =
       this.#root.querySelector<HTMLButtonElement>('#downloadButton')!
-    this.#bloodHandButton =
-      this.#root.querySelector<HTMLButtonElement>('#bloodhandButton')!
+    this.#criminalButton =
+      this.#root.querySelector<HTMLButtonElement>('#criminalButton')!
 
     this.#hashChangeListener = this.#onHashtagChange.bind(this)
+
+    this.#storeListener = (key, value) => {
+      switch (key) {
+        case 'avatarUrl':
+        case 'name':
+        case 'bounty':
+        case 'padding':
+        case 'filter':
+          this.#setWantedPosterAttributes({ [key]: value.toString() })
+      }
+    }
     window.addEventListener('hashchange', this.#hashChangeListener)
   }
 
@@ -102,23 +132,17 @@ class App extends HTMLElement {
 
   #toggleWarCriminalMode(toggle: boolean) {
     const overlay = this.#root.querySelector<HTMLElement>('.blood-overlay')
-
     if (!overlay) {
       return
     }
 
-    if (!toggle) {
-      this.classList.remove('warcriminal')
-      overlay.classList.remove('blood-overlay--visible')
-      this.#bloodHandButton.classList.remove('blood-hand--enabled')
-      return
+    this.classList.toggle('warcriminal')
+    overlay.classList.toggle('blood-overlay--visible')
+    this.#criminalButton.classList.toggle('criminal--stamp')
+
+    if (toggle) {
+      this.#setWantedPosterAttributes(WARCRIMINAL_POSTER_INFO)
     }
-
-    this.classList.add('warcriminal')
-    overlay.classList.add('blood-overlay--visible')
-    this.#bloodHandButton.classList.add('blood-hand--enabled')
-
-    this.#setWantedPosterAttributes(WARCRIMINAL_POSTER_INFO)
   }
 
   #setWantedPosterAttributes(attributes: WantedPosterAttribute) {
@@ -130,23 +154,13 @@ class App extends HTMLElement {
   }
 
   connectedCallback() {
-    this.#storeListener = (key, value) => {
-      switch (key) {
-        case 'avatarUrl':
-        case 'name':
-        case 'bounty':
-        case 'padding':
-        case 'filter':
-          this.#setWantedPosterAttributes({ [key]: value.toString() })
-      }
-    }
+    this.#startTime = new Date().getTime()
+
     addListener('avatarUrl', this.#storeListener)
     addListener('name', this.#storeListener)
     addListener('bounty', this.#storeListener)
     addListener('padding', this.#storeListener)
     addListener('filter', this.#storeListener)
-
-    this.#startTime = new Date().getTime()
 
     if (location.hash === WARCRIMINAL_HASH) {
       this.#toggleWarCriminalMode(true)
@@ -199,7 +213,7 @@ class App extends HTMLElement {
       this.#downloadButton.removeAttribute('loading')
     })
 
-    this.#bloodHandButton.addEventListener('click', () => {
+    this.#criminalButton.addEventListener('click', () => {
       const isEnabled = location.hash === WARCRIMINAL_HASH
       location.hash = isEnabled ? '' : WARCRIMINAL_HASH
     })
@@ -207,13 +221,11 @@ class App extends HTMLElement {
 
   disconnectedCallback() {
     window.removeEventListener('hashchange', this.#hashChangeListener)
-    if (this.#storeListener) {
-      removeListener('avatarUrl', this.#storeListener)
-      removeListener('name', this.#storeListener)
-      removeListener('bounty', this.#storeListener)
-      removeListener('padding', this.#storeListener)
-      removeListener('filter', this.#storeListener)
-    }
+    removeListener('avatarUrl', this.#storeListener)
+    removeListener('name', this.#storeListener)
+    removeListener('bounty', this.#storeListener)
+    removeListener('padding', this.#storeListener)
+    removeListener('filter', this.#storeListener)
   }
 }
 
