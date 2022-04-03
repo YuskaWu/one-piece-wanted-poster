@@ -10,7 +10,7 @@ class AvatarResizer extends CanvasObject {
   #borderWidth = 4
   #resizeBorder: 'left' | 'right' | 'top' | 'bottom' | null = null
 
-  #ongoingTouches: Map<number, Touch> = new Map()
+  #trackingTouches: Map<number, Touch> = new Map()
 
   #dashOffset = 0
 
@@ -109,12 +109,12 @@ class AvatarResizer extends CanvasObject {
     const touches = e.changedTouches
     // add tracking touches
     for (let i = 0; i < touches.length; i++) {
-      this.#ongoingTouches.set(touches[i].identifier, touches[i])
+      this.#trackingTouches.set(touches[i].identifier, touches[i])
     }
 
     const { left, top } = this.ctx.canvas.getBoundingClientRect()
     let isHover = false
-    for (let touch of this.#ongoingTouches.values()) {
+    for (let touch of this.#trackingTouches.values()) {
       const canvasX = touch.clientX - left
       const canvasY = touch.clientY - top
 
@@ -139,28 +139,25 @@ class AvatarResizer extends CanvasObject {
 
   // user lifts a finger off the surface
   #onTouchend(e: TouchEvent) {
-    const touches = e.changedTouches
-    for (let i = 0; i < touches.length; i++) {
-      this.#ongoingTouches.delete(touches[i].identifier)
-    }
+    e.preventDefault()
+    this.#removeTrackingTouches(e.changedTouches)
   }
 
   // user's finger wanders into browser UI, or the touch otherwise needs to be canceled
   #onTouchcancel(e: TouchEvent) {
-    const touches = e.changedTouches
-    for (let i = 0; i < touches.length; i++) {
-      this.#ongoingTouches.delete(touches[i].identifier)
-    }
+    e.preventDefault()
+    this.#removeTrackingTouches(e.changedTouches)
   }
 
   #onTouchmove(e: TouchEvent) {
+    e.preventDefault()
     const touches = e.changedTouches
 
     if (touches.length === 1 && this.#isHover) {
       const touch = touches[0]
       const { clientX, clientY } = touch
 
-      const preTouch = this.#ongoingTouches.get(touch.identifier)
+      const preTouch = this.#trackingTouches.get(touch.identifier)
       // move resizer
       if (preTouch) {
         const diffX = clientX - preTouch.clientX
@@ -175,19 +172,29 @@ class AvatarResizer extends CanvasObject {
     }
 
     if (touches.length === 2 && this.#isHover) {
-      let oldTouchA = this.#ongoingTouches.get(touches[0].identifier)
-      let oldTouchB = this.#ongoingTouches.get(touches[1].identifier)
+      let oldTouchA = this.#trackingTouches.get(touches[0].identifier)
+      let oldTouchB = this.#trackingTouches.get(touches[1].identifier)
       if (oldTouchA && oldTouchB) {
         let newDistance = this.#getDistance(touches[0], touches[1])
         let oldDistance = this.#getDistance(oldTouchA, oldTouchB)
-        let scale = newDistance > oldDistance ? 1.04 : 0.96
+        let scale = newDistance > oldDistance ? 1.02 : 0.98
         this.#zoom(scale)
       }
     }
 
     // update tracking touches
     for (let i = 0; i < touches.length; i++) {
-      this.#ongoingTouches.set(touches[i].identifier, touches[i])
+      this.#trackingTouches.set(touches[i].identifier, touches[i])
+    }
+  }
+
+  #removeTrackingTouches(touchList: TouchList) {
+    for (let i = 0; i < touchList.length; i++) {
+      this.#trackingTouches.delete(touchList[i].identifier)
+    }
+
+    if (!this.#trackingTouches.size) {
+      this.#isHover = false
     }
   }
 
