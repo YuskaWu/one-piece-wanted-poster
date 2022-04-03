@@ -1,5 +1,6 @@
-import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
 import cssContent from './style.css?inline'
+import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
+import { addListener, removeListener } from '../../store'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -25,9 +26,9 @@ declare global {
 
 const WARCRIMINAL_HASH = '#warcriminal'
 const WARCRIMINAL_POSTER_INFO: WantedPosterAttribute = {
-  name: 'PUTLER',
+  name: 'VLADOLF PUTLER',
   padding: '10',
-  bounty: '????????????',
+  bounty: `War Criminal`,
   'avatar-url': './images/war-criminal.png'
 }
 
@@ -40,6 +41,7 @@ class App extends HTMLElement {
   #startTime: number = 0
   #root: ShadowRoot
   #hashChangeListener: (event: HashChangeEvent) => void
+  #storeListener?: Parameters<typeof addListener>[1]
 
   constructor() {
     super()
@@ -128,6 +130,22 @@ class App extends HTMLElement {
   }
 
   connectedCallback() {
+    this.#storeListener = (key, value) => {
+      switch (key) {
+        case 'avatarUrl':
+        case 'name':
+        case 'bounty':
+        case 'padding':
+        case 'filter':
+          this.#setWantedPosterAttributes({ [key]: value.toString() })
+      }
+    }
+    addListener('avatarUrl', this.#storeListener)
+    addListener('name', this.#storeListener)
+    addListener('bounty', this.#storeListener)
+    addListener('padding', this.#storeListener)
+    addListener('filter', this.#storeListener)
+
     this.#startTime = new Date().getTime()
 
     if (location.hash === WARCRIMINAL_HASH) {
@@ -189,6 +207,13 @@ class App extends HTMLElement {
 
   disconnectedCallback() {
     window.removeEventListener('hashchange', this.#hashChangeListener)
+    if (this.#storeListener) {
+      removeListener('avatarUrl', this.#storeListener)
+      removeListener('name', this.#storeListener)
+      removeListener('bounty', this.#storeListener)
+      removeListener('padding', this.#storeListener)
+      removeListener('filter', this.#storeListener)
+    }
   }
 }
 

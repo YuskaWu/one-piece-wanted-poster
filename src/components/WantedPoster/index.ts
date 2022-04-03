@@ -23,9 +23,9 @@ const ATTRIBUTES = [
 ] as const
 
 type Attributes = typeof ATTRIBUTES
-export type WantedPosterAttribute = Partial<{
-  [key in Attributes[number]]: string
-}>
+export type WantedPosterAttribute = {
+  [key in Attributes[number]]?: string
+}
 
 class WantedPoster extends HTMLElement {
   #container: HTMLDivElement
