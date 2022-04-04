@@ -31,7 +31,7 @@ const DEFAULT_STATE: AppState = {
   name: '',
   bounty: '',
   filter: '',
-  padding: 0,
+  padding: 10,
   blur: 0,
   brightness: 100,
   contrast: 105,
@@ -56,11 +56,8 @@ function getFilter({
 const store = new Proxy<AppState>(
   { ...DEFAULT_STATE, filter: getFilter(DEFAULT_STATE) },
   {
-    set: function (target, prop, value, receiver) {
+    set(target, prop, value, receiver) {
       if (prop in DEFAULT_STATE === false) {
-        return false
-      }
-      if (prop === 'filter') {
         return false
       }
 
@@ -72,23 +69,22 @@ const store = new Proxy<AppState>(
         case 'hueRotate':
         case 'saturate':
         case 'sepia':
-          const filter = getFilter(target)
-          target.filter = filter
+          const filterValue = getFilter({ ...target, [prop]: value })
+          if (filterValue === target.filter) {
+            break
+          }
+          target.filter = filterValue
           setTimeout(() => {
-            const filterListeners = LISTENERS.get('filter')
-            if (filterListeners) {
-              filterListeners.forEach((listener) =>
-                listener('filter', value, target)
-              )
-            }
+            const filterListeners = LISTENERS.get('filter') ?? []
+            filterListeners.forEach((listener) =>
+              listener('filter', filterValue, target)
+            )
           })
       }
 
       setTimeout(() => {
-        const listeners = LISTENERS.get(prop as AppStateKey)
-        if (listeners) {
-          listeners.forEach((listener) => listener(prop, value, target))
-        }
+        const listeners = LISTENERS.get(prop as AppStateKey) ?? []
+        listeners.forEach((listener) => listener(prop, value, target))
       })
 
       return Reflect.set(target, prop, value, receiver)
@@ -123,7 +119,7 @@ export function removeListener<T extends keyof AppState>(
 }
 
 export function reset() {
-  Object.assign(store, { ...DEFAULT_STATE })
+  Object.assign(store, { ...DEFAULT_STATE, filter: getFilter(DEFAULT_STATE) })
 }
 
 export default store

@@ -1,6 +1,7 @@
 import cssContent from './style.css?inline'
+import SideMenu from '../SideMenu'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
-import { addListener, removeListener } from '../../store'
+import store, { addListener, removeListener } from '../../store'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -31,7 +32,7 @@ template.innerHTML = `
     <button id="criminalButton" class="criminal"></button>
   </div>
 
-  <slot></slot>
+  <slot name="sideMenu"></slot>
 
   <div class="loading-overlay">
     <img class="loading-overlay__luffy" src="./images/luffy.png"/>
@@ -44,17 +45,19 @@ declare global {
 }
 
 const WARCRIMINAL_HASH = '#warcriminal'
-const WARCRIMINAL_POSTER_INFO: WantedPosterAttribute = {
+const WARCRIMINAL_POSTER_INFO = {
+  padding: 10,
   name: 'PUTLER',
-  padding: '10',
   bounty: `War Criminal`,
-  'avatar-url': './images/war-criminal.png'
+  avatarUrl: './images/war-criminal.png'
 }
 
 class App extends HTMLElement {
+  #sideMenu: SideMenu
   #wantedPoster: WantedPoster
   #uploadInput: HTMLInputElement
-  #uploadBbtton: HTMLButtonElement
+  #configButton: HTMLButtonElement
+  #uploadButton: HTMLButtonElement
   #downloadButton: HTMLButtonElement
   #criminalButton: HTMLButtonElement
   #startTime: number = 0
@@ -82,9 +85,16 @@ class App extends HTMLElement {
       this.#root.querySelector<HTMLSlotElement>('slot[name=poster]')
     this.#wantedPoster = posterSlot?.assignedNodes()[0] as WantedPoster
 
+    const sideMenuSlot = this.#root.querySelector<HTMLSlotElement>(
+      'slot[name=sideMenu]'
+    )
+    this.#sideMenu = sideMenuSlot?.assignedNodes()[0] as SideMenu
+
     this.#uploadInput =
       this.#root.querySelector<HTMLInputElement>('#uploadInput')!
-    this.#uploadBbtton =
+    this.#configButton =
+      this.#root.querySelector<HTMLButtonElement>('#configButton')!
+    this.#uploadButton =
       this.#root.querySelector<HTMLButtonElement>('#uploadButton')!
     this.#downloadButton =
       this.#root.querySelector<HTMLButtonElement>('#downloadButton')!
@@ -96,6 +106,7 @@ class App extends HTMLElement {
     this.#storeListener = (key, value) => {
       switch (key) {
         case 'avatarUrl':
+          this.#setWantedPosterAttributes({ 'avatar-url': value.toString() })
         case 'name':
         case 'bounty':
         case 'padding':
@@ -141,7 +152,7 @@ class App extends HTMLElement {
     this.#criminalButton.classList.toggle('criminal--stamp')
 
     if (toggle) {
-      this.#setWantedPosterAttributes(WARCRIMINAL_POSTER_INFO)
+      Object.assign(store, { ...WARCRIMINAL_POSTER_INFO })
     }
   }
 
@@ -155,6 +166,11 @@ class App extends HTMLElement {
 
   connectedCallback() {
     this.#startTime = new Date().getTime()
+
+    this.#setWantedPosterAttributes({
+      padding: store.padding.toString(),
+      filter: store.filter
+    })
 
     addListener('avatarUrl', this.#storeListener)
     addListener('name', this.#storeListener)
@@ -203,7 +219,11 @@ class App extends HTMLElement {
       this.#setWantedPosterAttributes({ 'avatar-url': objUrl })
     })
 
-    this.#uploadBbtton.addEventListener('click', () => {
+    this.#configButton.addEventListener('click', () => {
+      this.#sideMenu.toggle(true)
+    })
+
+    this.#uploadButton.addEventListener('click', () => {
       this.#uploadInput.click()
     })
 
