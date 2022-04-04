@@ -1,4 +1,5 @@
 :host {
+  outline: none;
   display: inline-flex;
   position: relative;
   cursor: pointer;
