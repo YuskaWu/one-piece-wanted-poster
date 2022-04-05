@@ -9,6 +9,10 @@ template.innerHTML = `
   <slot name="poster"></slot>
   <div class="blood-overlay"></div>
 
+  <a class="github" href="https://github.com/YuskaWu/one-piece-wanted-poster" target="_blank">
+    <i class="fab fa-github"></i>
+  </a>
+
   <div class="button-container">
     <wanted-button
       id="configButton"
@@ -80,6 +84,14 @@ class App extends HTMLElement {
     shadowRoot.addEventListener('WantedPosterLoaded', () => {
       this.#removeLoading()
     })
+
+    // Since Web components are completely isolated entities, so parent or document style will
+    // not be available inside a web component, that's why we clone font-awesome link element here
+    // to make font-awesome work inside our custom button
+    const fontawesomeLink = document.querySelector('link[href*="font-awesome"]')
+    if (fontawesomeLink) {
+      shadowRoot.appendChild(fontawesomeLink.cloneNode())
+    }
 
     const posterSlot =
       this.#root.querySelector<HTMLSlotElement>('slot[name=poster]')

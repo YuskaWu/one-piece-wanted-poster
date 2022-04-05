@@ -20,6 +20,20 @@
   background-color: rgb(192 192 192);
 }
 
+.github {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  color: #584034;
+  transition: 0.2s;
+}
+
+.github:hover {
+  filter: brightness(130%);
+  transform: scale(1.05);
+}
+
 #uploadInput {
   display: none;
 }
