@@ -1,7 +1,7 @@
 import cssContent from './style.css?inline'
 import SideMenu from '../SideMenu'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
-import store, { addListener, removeListener } from '../../store'
+import store, { addListener, removeListener, reset } from '../../store'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -135,7 +135,7 @@ class App extends HTMLElement {
       setTimeout(() => loadingOverlay.remove(), 1000)
       setTimeout(
         () => this.#criminalButton.classList.add('criminal--visible'),
-        2000
+        3000
       )
     }, 200)
   }
@@ -155,6 +155,7 @@ class App extends HTMLElement {
     this.#criminalButton.classList.toggle('criminal--stamp')
 
     if (toggle) {
+      reset()
       Object.assign(store, { ...WARCRIMINAL_POSTER_INFO })
     }
   }
