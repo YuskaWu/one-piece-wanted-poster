@@ -49,8 +49,8 @@ template.innerHTML = `
     </div>
   </div>
   <div class="action-container">
-    <button id="closeButton" class="close-button"></button>
-    <button id="resetButton" class="wood-button">RESET</button>
+    <button id="closeButton" class="close-button" aria-label="Close side-menu button"></button>
+    <button id="resetButton" class="wood-button" aria-label="Reset button">RESET</button>
   </div>
 </div>
 

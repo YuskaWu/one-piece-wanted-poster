@@ -16,7 +16,7 @@ export type WantedPosterAttribute = Partial<{
 
 const template = document.createElement('template')
 template.innerHTML = `
-  <img class="img" src="${ButtonImageUrl}"/>
+  <img class="img" src="${ButtonImageUrl}" alt="wanted button"/>
   <div class="icon">
     <i class="fa"></i>
   </div>

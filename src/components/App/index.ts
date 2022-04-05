@@ -29,13 +29,13 @@ template.innerHTML = `
       DOWNLOAD
     </wanted-button>
 
-    <button id="criminalButton" class="criminal"></button>
+    <button id="criminalButton" class="criminal" aria-label="Criminal mode button"></button>
   </div>
 
   <slot name="sideMenu"></slot>
 
   <div class="loading-overlay">
-    <img class="loading-overlay__luffy" src="./images/luffy.png"/>
+    <img class="loading-overlay__luffy" src="./images/luffy.png" alt="luffy logo"/>
   </div>
 `
 declare global {
