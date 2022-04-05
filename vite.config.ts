@@ -12,6 +12,7 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: '',
       filename: 'service-worker.js',
+      base: './',
       manifest
     })
   ],
