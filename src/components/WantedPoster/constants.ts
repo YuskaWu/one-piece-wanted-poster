@@ -9,11 +9,11 @@ export const ONE_PIECE_WANTED_IMAGE: WantedImageInfo = {
   namePosition: { x: 88, y: 826, width: 585, height: 114 },
   bountyPosition: {
     x: 88,
-    y: 953,
+    y: 958,
     width: 586,
     height: 85
   },
-  bountyFontSize: 60,
+  bountyFontSize: 70,
   boundaryOffset: {
     left: 10,
     right: 10,
