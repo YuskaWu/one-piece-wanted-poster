@@ -5,7 +5,7 @@ import store, { addListener, removeListener } from '../../store'
 
 const template = document.createElement('template')
 template.innerHTML = `
-  <input id="uploadInput" type="file" >
+  <input id="uploadInput" type="file" accept="image/*">
   <slot name="poster"></slot>
   <div class="blood-overlay"></div>
 
@@ -132,10 +132,11 @@ class App extends HTMLElement {
       loadingOverlay.style.transition = 'opacity 1s'
       loadingOverlay.style.opacity = '0'
 
-      setTimeout(() => {
-        loadingOverlay.remove()
-        this.#criminalButton.classList.add('criminal--visible')
-      }, 1000)
+      setTimeout(() => loadingOverlay.remove(), 1000)
+      setTimeout(
+        () => this.#criminalButton.classList.add('criminal--visible'),
+        2000
+      )
     }, 200)
   }
 
