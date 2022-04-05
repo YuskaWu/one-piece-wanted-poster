@@ -89,6 +89,19 @@
   border: 0;
   padding: 0;
   background-color: transparent;
+  visibility: hidden;
+  opacity: 0;
+  transition: 2s;
+}
+
+.criminal--visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.criminal.criminal--visible::after {
+  top: 55%;
+  opacity: 1;
 }
 
 .criminal::before {
@@ -124,17 +137,12 @@
   content: '?';
   font-size: 2rem;
   filter: brightness(100%) !important;
-  transition: 0.3s;
+  transition: 1s ease-out;
   opacity: 0;
 }
 
 .criminal--stamp::after {
   content: '';
-}
-
-.criminal:hover::after {
-  top: 55%;
-  opacity: 1;
 }
 
 @keyframes logo-blink {

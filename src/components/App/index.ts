@@ -25,7 +25,7 @@ template.innerHTML = `
     <wanted-button
       id="downloadButton"
       icon="fa-download"
-      font-size="0.5rem">
+      font-size="0.65rem">
       DOWNLOAD
     </wanted-button>
 
@@ -131,8 +131,10 @@ class App extends HTMLElement {
       clearTimeout(intervalId)
       loadingOverlay.style.transition = 'opacity 1s'
       loadingOverlay.style.opacity = '0'
+
       setTimeout(() => {
         loadingOverlay.remove()
+        this.#criminalButton.classList.add('criminal--visible')
       }, 1000)
     }, 200)
   }

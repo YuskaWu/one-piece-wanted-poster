@@ -69,7 +69,7 @@ class Bounty extends CanvasObject {
     this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
     this.ctx.font = `900 ${
       this.#fontSize
-    }px 'Gelasio', 'Noto Sans TC', sans-serif`
+    }px 'Scheherazade New', 'Noto Sans TC', serif`
 
     const centerX = this.x + this.width / 2
     const bellySignWidth = this.#isNumber

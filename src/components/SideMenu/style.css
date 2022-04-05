@@ -216,6 +216,12 @@
   filter: var(--element-filter);
 }
 
+::selection {
+  color: white;
+  background: rgba(88, 64, 52, 0.8);
+  filter: brightness(120%);
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 0.2rem;

@@ -8,8 +8,8 @@ class Name extends CanvasObject {
   #space = 1
   #fontSize = 0
   #fillPattern: CanvasPattern | null = null
-  // for 'Gelasio' font to fullfill the height of name area
-  #fontSizeScale = 1.31
+  // This is scale constant for specific font. It should be revised whenever font changes.
+  #fontSizeScale = 1.5
 
   async init(position: Position) {
     try {
@@ -41,9 +41,9 @@ class Name extends CanvasObject {
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'top'
     this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
-    this.ctx.font = `900 ${
+    this.ctx.font = `700 ${
       this.#fontSize
-    }px 'Gelasio', 'Noto Sans TC', sans-serif`
+    }px 'Scheherazade New', 'Noto Sans TC', serif`
 
     // The actual height of text may exceed the boundary of name area when text includes
     // characters which is not english alphabet, so here we need to calculate the actual height
@@ -51,9 +51,9 @@ class Name extends CanvasObject {
     const actualHeight = getTextActualHeight(this.ctx, this.#text)
     const scale = this.height / actualHeight
     const offsetY = (actualHeight - this.height) / 2
-    this.ctx.font = `900 ${Math.floor(
+    this.ctx.font = `700 ${Math.floor(
       this.#fontSize * scale
-    )}px 'Gelasio', 'Noto Sans TC', sans-serif`
+    )}px 'Scheherazade New', 'Noto Sans TC', serif`
 
     this.ctx.fillText(
       this.#text,
