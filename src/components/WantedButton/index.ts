@@ -1,9 +1,10 @@
 import cssContent from './style.css?inline'
 import ButtonImageUrl from './wanted.png'
 
+const TAG_NAME = 'wanted-button'
 declare global {
   interface HTMLElementTagNameMap {
-    'wanted-button': WantedButton
+    [TAG_NAME]: WantedButton
   }
 }
 
@@ -86,6 +87,6 @@ class WantedButton extends HTMLElement {
   }
 }
 
-customElements.define('wanted-button', WantedButton)
+customElements.define(TAG_NAME, WantedButton)
 
 export default WantedButton

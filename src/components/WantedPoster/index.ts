@@ -8,9 +8,10 @@ import Bounty from './Bounty'
 import WantedImage from './WantedImage'
 import AvatarResizer from './AvatarResizer'
 
+const TAG_NAME = 'wanted-poster'
 declare global {
   interface HTMLElementTagNameMap {
-    'wanted-poster': WantedPoster
+    [TAG_NAME]: WantedPoster
   }
 }
 
@@ -295,6 +296,6 @@ class WantedPoster extends HTMLElement {
   }
 }
 
-customElements.define('wanted-poster', WantedPoster)
+customElements.define(TAG_NAME, WantedPoster)
 
 export default WantedPoster

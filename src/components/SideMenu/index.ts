@@ -55,9 +55,11 @@ template.innerHTML = `
 </div>
 
 `
+
+const TAG_NAME = 'side-menu'
 declare global {
   interface HTMLElementTagNameMap {
-    'side-menu': SideMenu
+    [TAG_NAME]: SideMenu
   }
 }
 
@@ -261,6 +263,6 @@ class SideMenu extends HTMLElement {
   }
 }
 
-customElements.define('side-menu', SideMenu)
+customElements.define(TAG_NAME, SideMenu)
 
 export default SideMenu
