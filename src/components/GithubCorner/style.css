@@ -1,0 +1,56 @@
+:host {
+  display: block;
+  position: fixed;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+:host([placement='topRight']) {
+  top: 0;
+  right: 0;
+  transform: rotate(135deg) translateX(-71%);
+}
+
+:host([placement='topLeft']) {
+  top: 0;
+  left: 0;
+  transform: rotate(45deg) scale(1, -1) translateX(-71%);
+}
+
+.link {
+  display: inline-block;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.octo {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 50%;
+  transform: rotate(225deg) scale(0.70710678118);
+}
+
+.link:hover .octo__arm {
+  animation-name: octocat-wave;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+}
+
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
+}

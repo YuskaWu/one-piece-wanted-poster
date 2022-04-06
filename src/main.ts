@@ -1,4 +1,5 @@
 import './style.css'
+import './components/GithubCorner'
 import './components/WantedButton'
 import './components/WantedPoster'
 import './components/SideMenu'
