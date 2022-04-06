@@ -9,7 +9,7 @@ class Name extends CanvasObject {
   #fontSize = 0
   #fillPattern: CanvasPattern | null = null
   // This is scale constant for specific font. It should be revised whenever font changes.
-  #fontSizeScale = 1.5
+  #fontSizeScale = 1.6
 
   async init(position: Position) {
     try {
