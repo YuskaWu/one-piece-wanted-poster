@@ -2,8 +2,8 @@
   "name": "One Piece Wanted Poster",
   "short_name": "One Piece Wanted Poster",
   "description": "Create your own One Piece style wanted poster.",
-  "background_color": "#1976D2",
-  "theme_color": "#1976D2",
+  "background_color": "#584034",
+  "theme_color": "#584034",
   "display": "standalone",
   "icons": [
     {
