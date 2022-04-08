@@ -94,7 +94,6 @@ class GithubCorner extends HTMLElement {
 
       case 'background-color':
         this.#svg.style.fill = newValue
-        console.log('bgColor', newValue)
         break
 
       case 'octopus-color':
