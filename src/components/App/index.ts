@@ -238,6 +238,7 @@ class App extends HTMLElement {
     })
 
     this.#uploadButton.addEventListener('click', () => {
+      this.#uploadInput.value = ''
       this.#uploadInput.click()
     })
 
