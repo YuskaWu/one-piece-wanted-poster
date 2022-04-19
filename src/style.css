@@ -9,4 +9,7 @@ body {
   height: 100%;
   width: 100%;
   overflow: hidden;
+
+  /* set font size to be 2.5vmin, but limit size in the range between 1rem and 4rem */
+  font-size: clamp(1rem, 2.5vmin, 4rem);
 }
