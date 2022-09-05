@@ -14,30 +14,33 @@ template.innerHTML = `
     background-color="#584034"
     duration="1s"
     size="5rem"
-    href="https://github.com/YuskaWu/one-piece-wanted-poster">
+    href="https://github.com/YuskaWu/one-piece-wanted-poster"
+    title="GitHub page">
   </github-corner>
 
   <div class="button-container">
     <wanted-button
       id="configButton"
-      icon="fa-cog">
-      CONFIG
+      icon="fa-cog"
+      title="Open the edit panel.">
+      EDIT
     </wanted-button>
 
     <wanted-button
       id="uploadButton"
-      icon="fa-upload">
-      UPLOAD
+      icon="fa-upload"
+      title="Import local image to edit.">
+      IMPORT
     </wanted-button>
 
     <wanted-button
       id="downloadButton"
       icon="fa-download"
-      font-size="0.65rem">
-      DOWNLOAD
+      title="Export as image file.">
+      EXPORT
     </wanted-button>
 
-    <button id="criminalButton" class="criminal" aria-label="Criminal mode button"></button>
+    <button id="criminalButton" class="criminal" aria-label="Criminal mode button" title="War criminal"></button>
   </div>
 
   <slot name="sideMenu"></slot>
