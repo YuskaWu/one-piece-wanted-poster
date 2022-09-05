@@ -80,7 +80,7 @@ class SideMenu extends HTMLElement {
   #closeButton: HTMLButtonElement
   #resetButton: HTMLButtonElement
 
-  #windowClickListener: () => void
+  #windowClickListener: (e: MouseEvent) => void
   #storeListener: Parameters<typeof addListener>[1]
 
   constructor() {
@@ -159,8 +159,12 @@ class SideMenu extends HTMLElement {
     }
 
     // close when user click outside of side-menu
-    this.#windowClickListener = () => this.toggle(false)
-    this.addEventListener('click', (e) => e.stopPropagation())
+    this.#windowClickListener = (e: MouseEvent) => {
+      if (e.target instanceof Node && this.contains(e.target)) {
+        return
+      }
+      this.toggle(false)
+    }
   }
 
   toggle(open: boolean) {
