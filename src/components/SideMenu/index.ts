@@ -80,7 +80,7 @@ class SideMenu extends HTMLElement {
   #closeButton: HTMLButtonElement
   #resetButton: HTMLButtonElement
 
-  #windowClickListener: (e: MouseEvent) => void
+  #pointerdownListener: (e: PointerEvent) => void
   #storeListener: Parameters<typeof addListener>[1]
 
   constructor() {
@@ -159,7 +159,7 @@ class SideMenu extends HTMLElement {
     }
 
     // close when user click outside of side-menu
-    this.#windowClickListener = (e: MouseEvent) => {
+    this.#pointerdownListener = (e: PointerEvent) => {
       if (e.target instanceof Node && this.contains(e.target)) {
         return
       }
@@ -182,7 +182,7 @@ class SideMenu extends HTMLElement {
   }
 
   connectedCallback() {
-    window.addEventListener('click', this.#windowClickListener)
+    window.addEventListener('pointerdown', this.#pointerdownListener)
 
     addListener('name', this.#storeListener)
     addListener('bounty', this.#storeListener)
@@ -253,7 +253,7 @@ class SideMenu extends HTMLElement {
   }
 
   disconnectedCallback() {
-    window.removeEventListener('click', this.#windowClickListener)
+    window.removeEventListener('pointerdown', this.#pointerdownListener)
     removeListener('name', this.#storeListener)
     removeListener('bounty', this.#storeListener)
     removeListener('padding', this.#storeListener)
