@@ -10,28 +10,28 @@ class AvatarResizer extends CanvasObject {
   #borderWidth = 4
   #resizeBorder: 'left' | 'right' | 'top' | 'bottom' | null = null
 
-  #trackingTouches: Map<number, Touch> = new Map()
+  #trackingPointers: Map<number, PointerEvent> = new Map()
 
   #dashOffset = 0
 
-  #clientX = 0
-  #clientY = 0
+  #mouseClientX = 0
+  #mouseClientY = 0
 
   constructor(ctx: CanvasRenderingContext2D, avatar: Avatar) {
     super(ctx)
     this.#avatar = avatar
 
     avatar.on('imageloaded', () => this.reset())
-    ctx.canvas.addEventListener('mousedown', this.#onMousedown.bind(this))
-    ctx.canvas.addEventListener('mouseup', this.#onMouseup.bind(this))
-    ctx.canvas.addEventListener('mousemove', this.#onMouseover.bind(this))
-    ctx.canvas.addEventListener('mouseout', this.#onMouseout.bind(this))
     ctx.canvas.addEventListener('wheel', this.#onWheel.bind(this))
 
-    ctx.canvas.addEventListener('touchstart', this.#onTouchstart.bind(this))
-    ctx.canvas.addEventListener('touchend', this.#onTouchend.bind(this))
-    ctx.canvas.addEventListener('touchcancel', this.#onTouchcancel.bind(this))
-    ctx.canvas.addEventListener('touchmove', this.#onTouchmove.bind(this))
+    ctx.canvas.addEventListener('pointerdown', this.#onPointerdown.bind(this))
+    ctx.canvas.addEventListener('pointerup', this.#onPointerup.bind(this))
+    ctx.canvas.addEventListener(
+      'pointercancel',
+      this.#onPointercancel.bind(this)
+    )
+    ctx.canvas.addEventListener('pointermove', this.#onPointermove.bind(this))
+    ctx.canvas.addEventListener('pointerout', this.#onPointerout.bind(this))
   }
 
   reset() {
@@ -44,23 +44,20 @@ class AvatarResizer extends CanvasObject {
     this.#isResizing = false
   }
 
-  #onMousedown() {
-    this.#isMousedown = true
+  #onWheel(e: WheelEvent) {
+    e.preventDefault()
+    const scale = e.deltaY > 0 ? 0.95 : 1.05
+    this.#zoom(scale)
   }
 
-  #onMouseup() {
-    this.#isMousedown = false
-    this.#isResizing = false
-  }
-
-  #onMouseover(e: MouseEvent) {
+  #onMousemove(e: MouseEvent) {
     const { left, top } = this.ctx.canvas.getBoundingClientRect()
     const canvasX = e.clientX - left
     const canvasY = e.clientY - top
 
     if (this.#isMousedown) {
-      const diffX = e.clientX - this.#clientX
-      const diffY = e.clientY - this.#clientY
+      const diffX = e.clientX - this.#mouseClientX
+      const diffY = e.clientY - this.#mouseClientY
       this.#resize(diffX, diffY)
     }
 
@@ -84,39 +81,22 @@ class AvatarResizer extends CanvasObject {
       this.#isHover = false
     }
 
-    this.#clientX = e.clientX
-    this.#clientY = e.clientY
+    this.#mouseClientX = e.clientX
+    this.#mouseClientY = e.clientY
   }
 
-  #onMouseout() {
-    this.#isMousedown = false
-    this.#isResizing = false
-    this.#isHover = false
-  }
-
-  #onWheel(e: WheelEvent) {
-    e.preventDefault()
-    const scale = e.deltaY > 0 ? 0.9 : 1.1
-    this.#zoom(scale)
-  }
-
-  // a new touch on the surface has occurred
-  #onTouchstart(e: TouchEvent) {
-    // keep the browser from continuing to process the touch event,
-    // and also prevents a mouse event from also being delivered
-    e.preventDefault()
-
-    const touches = e.changedTouches
-    // add tracking touches
-    for (let i = 0; i < touches.length; i++) {
-      this.#trackingTouches.set(touches[i].identifier, touches[i])
+  #onPointerdown(e: PointerEvent) {
+    if (e.pointerType === 'mouse' && e.button === 0) {
+      this.#isMousedown = true
+      return
     }
 
+    this.#trackingPointers.set(e.pointerId, e)
     const { left, top } = this.ctx.canvas.getBoundingClientRect()
     let isHover = false
-    for (let touch of this.#trackingTouches.values()) {
-      const canvasX = touch.clientX - left
-      const canvasY = touch.clientY - top
+    for (let pointer of this.#trackingPointers.values()) {
+      const canvasX = pointer.clientX - left
+      const canvasY = pointer.clientY - top
 
       if (
         isInside(
@@ -137,31 +117,44 @@ class AvatarResizer extends CanvasObject {
     this.#isHover = isHover
   }
 
-  // user lifts a finger off the surface
-  #onTouchend(e: TouchEvent) {
-    e.preventDefault()
-    this.#removeTrackingTouches(e.changedTouches)
+  // pointer lifts off the surface
+  #onPointerup(e: PointerEvent) {
+    if (e.pointerType === 'mouse' && e.button === 0) {
+      this.#isMousedown = false
+      this.#isResizing = false
+      return
+    }
+
+    this.#removeTrackingPointer(e)
   }
 
-  // user's finger wanders into browser UI, or the touch otherwise needs to be canceled
-  #onTouchcancel(e: TouchEvent) {
-    e.preventDefault()
-    this.#removeTrackingTouches(e.changedTouches)
+  // cancel by system:
+  // (for more detail see https://developer.mozilla.org/en-US/docs/Web/API/Element/pointercancel_event)
+  // a. user switching applications
+  // b. The device's screen orientation is changed
+  // c. The browser decides that the user started pointer input accidentally.
+  // d. The touch-action CSS property prevents the input from continuing.
+  #onPointercancel(e: PointerEvent) {
+    this.#removeTrackingPointer(e)
   }
 
-  #onTouchmove(e: TouchEvent) {
-    e.preventDefault()
-    const touches = e.changedTouches
+  #onPointermove(e: PointerEvent) {
+    if (e.pointerType === 'mouse') {
+      this.#onMousemove(e)
+      return
+    }
 
-    if (touches.length === 1 && this.#isHover) {
-      const touch = touches[0]
-      const { clientX, clientY } = touch
+    const pointers = Array.from(this.#trackingPointers.values())
 
-      const preTouch = this.#trackingTouches.get(touch.identifier)
+    if (pointers.length === 1 && this.#isHover) {
+      const pointer = pointers[0]
+      const { clientX, clientY } = e
+
+      const oldPointer = this.#trackingPointers.get(pointer.pointerId)
       // move resizer
-      if (preTouch) {
-        const diffX = clientX - preTouch.clientX
-        const diffY = clientY - preTouch.clientY
+      if (oldPointer) {
+        const diffX = clientX - oldPointer.clientX
+        const diffY = clientY - oldPointer.clientY
         this.x += diffX
         this.y += diffY
 
@@ -171,36 +164,41 @@ class AvatarResizer extends CanvasObject {
       }
     }
 
-    if (touches.length === 2 && this.#isHover) {
-      let oldTouchA = this.#trackingTouches.get(touches[0].identifier)
-      let oldTouchB = this.#trackingTouches.get(touches[1].identifier)
-      if (oldTouchA && oldTouchB) {
-        let newDistance = this.#getDistance(touches[0], touches[1])
-        let oldDistance = this.#getDistance(oldTouchA, oldTouchB)
+    if (pointers.length === 2 && this.#isHover) {
+      let oldPointerA = this.#trackingPointers.get(pointers[0].pointerId)
+      let oldPointerB = this.#trackingPointers.get(pointers[1].pointerId)
+      if (oldPointerA && oldPointerB) {
+        const datumPointer =
+          pointers[0].pointerId === e.pointerId ? pointers[1] : pointers[0]
+        let newDistance = this.#getDistance(datumPointer, e)
+        let oldDistance = this.#getDistance(oldPointerA, oldPointerB)
         let scale = newDistance > oldDistance ? 1.02 : 0.98
         this.#zoom(scale)
       }
     }
 
-    // update tracking touches
-    for (let i = 0; i < touches.length; i++) {
-      this.#trackingTouches.set(touches[i].identifier, touches[i])
+    // update pointer
+    this.#trackingPointers.set(e.pointerId, e)
+  }
+
+  #onPointerout(e: PointerEvent) {
+    if (e.pointerType === 'mouse') {
+      this.#isMousedown = false
+      this.#isResizing = false
     }
   }
 
-  #removeTrackingTouches(touchList: TouchList) {
-    for (let i = 0; i < touchList.length; i++) {
-      this.#trackingTouches.delete(touchList[i].identifier)
-    }
+  #removeTrackingPointer(pointerEvent: PointerEvent) {
+    this.#trackingPointers.delete(pointerEvent.pointerId)
 
-    if (!this.#trackingTouches.size) {
+    if (!this.#trackingPointers.size) {
       this.#isHover = false
     }
   }
 
-  #getDistance(touchA: Touch, touchB: Touch) {
-    const distanceX = Math.abs(touchA.clientX - touchB.clientX)
-    const distanceY = Math.abs(touchA.clientY - touchB.clientY)
+  #getDistance(pointerA: PointerEvent, pointerB: PointerEvent) {
+    const distanceX = Math.abs(pointerA.clientX - pointerB.clientX)
+    const distanceY = Math.abs(pointerA.clientY - pointerB.clientY)
     return Math.pow(distanceX, 2) + Math.pow(distanceY, 2)
   }
 
