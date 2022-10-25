@@ -45,6 +45,19 @@
   <link rel="prefetch" as="image" href="./images/blood-stains-1.png">
   <link rel="prefetch" as="image" href="./images/criminal-stamp.png">
 
+  <style>
+    github-corner {
+      transition: 0.2s;
+      mix-blend-mode: darken;
+    }
+
+    github-corner:hover {
+      filter: contrast(150%);
+    }
+  </style>
+
+  <script src="https://unpkg.com/github-corner-element"></script>
+
   <script type="application/ld+json">
   {
     "@context": "http://schema.org",
@@ -82,6 +95,9 @@
   <app-container>
     <wanted-poster slot="poster"></wanted-poster>
     <side-menu slot="sideMenu"></side-menu>
+
+    <github-corner href="https://github.com/YuskaWu/one-piece-wanted-poster" banner-color="#584034" size="5rem">
+    </github-corner>
   </app-container>
 
   <script type="module" src="/src/main.ts"></script>

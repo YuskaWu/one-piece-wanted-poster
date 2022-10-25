@@ -20,14 +20,6 @@
   background-color: rgb(192 192 192);
 }
 
-.github-corner {
-  transition: 0.2s;
-}
-
-.github-corner:hover {
-  filter: brightness(130%);
-}
-
 #uploadInput {
   display: none;
 }
