@@ -9,32 +9,23 @@ template.innerHTML = `
   <slot name="poster"></slot>
   <div class="blood-overlay"></div>
 
-  <github-corner
-    class="github-corner"
-    background-color="#584034"
-    duration="1s"
-    size="5rem"
-    href="https://github.com/YuskaWu/one-piece-wanted-poster"
-    title="GitHub page">
-  </github-corner>
-
   <div class="button-container">
     <wanted-button
-      id="configButton"
+      id="editButton"
       icon="fa-cog"
       title="Open the edit panel.">
       EDIT
     </wanted-button>
 
     <wanted-button
-      id="uploadButton"
+      id="importButton"
       icon="fa-upload"
       title="Import local image to edit.">
       IMPORT
     </wanted-button>
 
     <wanted-button
-      id="downloadButton"
+      id="exportButton"
       icon="fa-download"
       title="Export as image file.">
       EXPORT
@@ -44,6 +35,7 @@ template.innerHTML = `
   </div>
 
   <slot name="sideMenu"></slot>
+  <slot></slot>
 
   <div class="loading-overlay">
     <img class="loading-overlay__luffy" src="./images/luffy.png" alt="luffy logo"/>
@@ -69,9 +61,9 @@ class App extends HTMLElement {
   #sideMenu: SideMenu
   #wantedPoster: WantedPoster
   #uploadInput: HTMLInputElement
-  #configButton: HTMLButtonElement
-  #uploadButton: HTMLButtonElement
-  #downloadButton: HTMLButtonElement
+  #editButton: HTMLButtonElement
+  #importButton: HTMLButtonElement
+  #exportButton: HTMLButtonElement
   #criminalButton: HTMLButtonElement
   #startTime: number = 0
   #root: ShadowRoot
@@ -105,12 +97,12 @@ class App extends HTMLElement {
 
     this.#uploadInput =
       this.#root.querySelector<HTMLInputElement>('#uploadInput')!
-    this.#configButton =
-      this.#root.querySelector<HTMLButtonElement>('#configButton')!
-    this.#uploadButton =
-      this.#root.querySelector<HTMLButtonElement>('#uploadButton')!
-    this.#downloadButton =
-      this.#root.querySelector<HTMLButtonElement>('#downloadButton')!
+    this.#editButton =
+      this.#root.querySelector<HTMLButtonElement>('#editButton')!
+    this.#importButton =
+      this.#root.querySelector<HTMLButtonElement>('#importButton')!
+    this.#exportButton =
+      this.#root.querySelector<HTMLButtonElement>('#exportButton')!
     this.#criminalButton =
       this.#root.querySelector<HTMLButtonElement>('#criminalButton')!
 
@@ -236,19 +228,19 @@ class App extends HTMLElement {
       this.#setWantedPosterAttributes({ 'avatar-url': objUrl })
     })
 
-    this.#configButton.addEventListener('click', () => {
+    this.#editButton.addEventListener('click', () => {
       this.#sideMenu.toggle(true)
     })
 
-    this.#uploadButton.addEventListener('click', () => {
+    this.#importButton.addEventListener('click', () => {
       this.#uploadInput.value = ''
       this.#uploadInput.click()
     })
 
-    this.#downloadButton.addEventListener('click', async () => {
-      this.#downloadButton.setAttribute('loading', 'true')
+    this.#exportButton.addEventListener('click', async () => {
+      this.#exportButton.setAttribute('loading', 'true')
       await this.#wantedPoster.export()
-      this.#downloadButton.removeAttribute('loading')
+      this.#exportButton.removeAttribute('loading')
     })
 
     this.#criminalButton.addEventListener('click', () => {
