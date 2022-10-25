@@ -207,44 +207,44 @@ class SideMenu extends HTMLElement {
     this.#sepiaSlider.value = store.sepia.toString()
 
     this.#nameInput.addEventListener(
-      'keyup',
+      'input',
       () => (store.name = this.#nameInput.value)
     )
     this.#bountyInput.addEventListener(
-      'keyup',
+      'input',
       () => (store.bounty = this.#bountyInput.value)
     )
 
     this.#paddingSlider.addEventListener(
-      'change',
+      'input',
       () => (store.padding = parseInt(this.#paddingSlider.value))
     )
     this.#blurSlider.addEventListener(
-      'change',
+      'input',
       () => (store.blur = parseInt(this.#blurSlider.value))
     )
     this.#brightnessSlider.addEventListener(
-      'change',
+      'input',
       () => (store.brightness = parseInt(this.#brightnessSlider.value))
     )
     this.#contrastSlider.addEventListener(
-      'change',
+      'input',
       () => (store.contrast = parseInt(this.#contrastSlider.value))
     )
     this.#grayscaleSlider.addEventListener(
-      'change',
+      'input',
       () => (store.grayscale = parseInt(this.#grayscaleSlider.value))
     )
     this.#hueRotateSlider.addEventListener(
-      'change',
+      'input',
       () => (store.hueRotate = parseInt(this.#hueRotateSlider.value))
     )
     this.#saturateSlider.addEventListener(
-      'change',
+      'input',
       () => (store.saturate = parseInt(this.#saturateSlider.value))
     )
     this.#sepiaSlider.addEventListener(
-      'change',
+      'input',
       () => (store.sepia = parseInt(this.#sepiaSlider.value))
     )
 
