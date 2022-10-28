@@ -68,7 +68,7 @@ class Bounty extends CanvasObject {
     this.ctx.textBaseline = 'top'
     this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
     this.ctx.font = this.#isNumber
-      ? `700 ${this.#fontSize}px 'Averia Sans Libre'`
+      ? `700 ${this.#fontSize * 0.75}px 'Averia Sans Libre'`
       : `900 ${this.#fontSize}px 'Scheherazade New', 'Noto Sans TC', serif`
 
     const centerX = this.x + this.width / 2
