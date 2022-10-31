@@ -67,7 +67,6 @@
 .button-container {
   position: absolute;
   display: flex;
-  width: 100%;
   box-sizing: border-box;
   gap: 0.5rem;
   bottom: 0;
@@ -76,8 +75,10 @@
 }
 
 .criminal {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1rem;
   outline: none;
-  position: relative;
   cursor: pointer;
   margin-left: auto;
   width: 5rem;
