@@ -23,6 +23,9 @@ class AvatarResizer extends CanvasObject {
     this.#avatar = avatar
 
     avatar.on('imageloaded', () => this.reset())
+    ctx.canvas.addEventListener('mouseout', this.#onMouseout.bind(this), {
+      passive: true
+    })
     ctx.canvas.addEventListener('wheel', this.#onWheel.bind(this), {
       passive: true
     })
@@ -65,6 +68,10 @@ class AvatarResizer extends CanvasObject {
   #onWheel(e: WheelEvent) {
     const scale = e.deltaY > 0 ? 0.95 : 1.05
     this.#zoom(scale)
+  }
+
+  #onMouseout() {
+    this.#isHover = false
   }
 
   #onMousemove(e: MouseEvent) {
