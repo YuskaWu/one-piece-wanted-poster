@@ -61,11 +61,7 @@
 .loading-overlay__luffy {
   max-width: 50vw;
   max-height: 40vh;
-  animation-name: logo-blink;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  filter: contrast(80%) brightness(85%) drop-shadow(0 1px 3px gray);
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.5));
 }
 
 .button-container {
@@ -143,12 +139,6 @@
 
 .criminal--stamp::after {
   content: '';
-}
-
-@keyframes logo-blink {
-  50% {
-    filter: contrast(120%) brightness(110%) drop-shadow(0 5px 3px gray);
-  }
 }
 
 @keyframes fade-in {

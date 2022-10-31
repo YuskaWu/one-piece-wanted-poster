@@ -1,4 +1,5 @@
 import './style.css'
+import './components/LuffyLogo'
 import './components/WantedButton'
 import './components/WantedPoster'
 import './components/SideMenu'
