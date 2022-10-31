@@ -3,16 +3,11 @@ import templateContent from './template.html?raw'
 import SideMenu from '../SideMenu'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
 import store, { addListener, removeListener, reset } from '../../store'
+import { WARCRIMINAL_POSTER_INFO } from './config'
 
 const TAG_NAME = 'app-container'
 
 const WARCRIMINAL_HASH = '#warcriminal'
-const WARCRIMINAL_POSTER_INFO = {
-  padding: 10,
-  name: 'PUTLER',
-  bounty: `War Criminal`,
-  avatarUrl: './images/war-criminal.png'
-}
 
 const template = document.createElement('template')
 template.innerHTML = templateContent
@@ -43,7 +38,7 @@ class App extends HTMLElement {
     // attach the created elements to the shadow DOM
     shadowRoot.append(style, template.content.cloneNode(true))
     shadowRoot.addEventListener('WantedPosterLoaded', () => {
-      // this.#removeLoading()
+      this.#removeLoading()
     })
 
     const posterSlot =
@@ -82,7 +77,6 @@ class App extends HTMLElement {
     window.addEventListener('hashchange', this.#hashChangeListener)
   }
 
-  // @ts-ignore
   #removeLoading() {
     const loadingOverlay =
       this.#root.querySelector<HTMLElement>('.loading-overlay')!
@@ -101,7 +95,7 @@ class App extends HTMLElement {
       setTimeout(() => loadingOverlay.remove(), 1000)
       setTimeout(
         () => this.#criminalButton.classList.add('criminal--visible'),
-        3000
+        10000
       )
     }, 200)
   }
@@ -121,8 +115,7 @@ class App extends HTMLElement {
     this.#criminalButton.classList.toggle('criminal--stamp')
 
     if (toggle) {
-      reset()
-      Object.assign(store, { ...WARCRIMINAL_POSTER_INFO })
+      reset({ ...WARCRIMINAL_POSTER_INFO })
     }
   }
 

@@ -193,7 +193,7 @@ class SideMenu extends HTMLElement {
     )
 
     this.#closeButton.addEventListener('click', () => this.toggle(false))
-    this.#resetButton.addEventListener('click', reset)
+    this.#resetButton.addEventListener('click', () => reset())
   }
 
   disconnectedCallback() {
