@@ -4,6 +4,7 @@ import { getBorderHoverInfo, isInside } from './utils'
 
 class AvatarResizer extends CanvasObject {
   #avatar: Avatar
+  #highlight = false
   #isHover = false
   #isMousedown = false
   #isResizing = false
@@ -22,16 +23,33 @@ class AvatarResizer extends CanvasObject {
     this.#avatar = avatar
 
     avatar.on('imageloaded', () => this.reset())
-    ctx.canvas.addEventListener('wheel', this.#onWheel.bind(this))
+    ctx.canvas.addEventListener('wheel', this.#onWheel.bind(this), {
+      passive: true
+    })
 
-    ctx.canvas.addEventListener('pointerdown', this.#onPointerdown.bind(this))
-    ctx.canvas.addEventListener('pointerup', this.#onPointerup.bind(this))
+    ctx.canvas.addEventListener('pointerdown', this.#onPointerdown.bind(this), {
+      passive: true
+    })
+    ctx.canvas.addEventListener('pointerup', this.#onPointerup.bind(this), {
+      passive: true
+    })
     ctx.canvas.addEventListener(
       'pointercancel',
-      this.#onPointercancel.bind(this)
+      this.#onPointercancel.bind(this),
+      {
+        passive: true
+      }
     )
-    ctx.canvas.addEventListener('pointermove', this.#onPointermove.bind(this))
-    ctx.canvas.addEventListener('pointerout', this.#onPointerout.bind(this))
+    ctx.canvas.addEventListener('pointermove', this.#onPointermove.bind(this), {
+      passive: true
+    })
+    ctx.canvas.addEventListener('pointerout', this.#onPointerout.bind(this), {
+      passive: true
+    })
+  }
+
+  set highlight(value: boolean) {
+    this.#highlight = value
   }
 
   reset() {
@@ -45,7 +63,6 @@ class AvatarResizer extends CanvasObject {
   }
 
   #onWheel(e: WheelEvent) {
-    e.preventDefault()
     const scale = e.deltaY > 0 ? 0.95 : 1.05
     this.#zoom(scale)
   }
@@ -77,6 +94,7 @@ class AvatarResizer extends CanvasObject {
       )
     ) {
       this.#isHover = true
+      this.#highlight = false
     } else {
       this.#isHover = false
     }
@@ -86,6 +104,8 @@ class AvatarResizer extends CanvasObject {
   }
 
   #onPointerdown(e: PointerEvent) {
+    this.#highlight = false
+
     if (e.pointerType === 'mouse' && e.button === 0) {
       this.#isMousedown = true
       return
@@ -296,7 +316,7 @@ class AvatarResizer extends CanvasObject {
   }
 
   render() {
-    if (!this.#isHover && !this.#isResizing) {
+    if (!this.#isHover && !this.#isResizing && !this.#highlight) {
       return
     }
     this.ctx.save()

@@ -1,6 +1,7 @@
 import { downloadFile, getScale } from './utils'
 import cssContent from './style.css?inline'
 import { ONE_PIECE_WANTED_IMAGE } from './constants'
+import { WARCRIMINAL_POSTER_INFO } from '../App/config'
 
 import Name from './Name'
 import Avatar from './Avatar'
@@ -274,6 +275,8 @@ class WantedPoster extends HTMLElement {
 
       case 'avatar-url': {
         await this.#avatar.loadImage(newValue)
+        this.#avatarResizer.highlight =
+          newValue === WARCRIMINAL_POSTER_INFO.avatarUrl ? false : true
         break
       }
 
