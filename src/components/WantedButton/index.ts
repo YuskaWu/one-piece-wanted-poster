@@ -1,29 +1,18 @@
 import cssContent from './style.css?inline'
+import templateContent from './template.html?raw'
 import ButtonImageUrl from './wanted.png'
-
-const TAG_NAME = 'wanted-button'
-declare global {
-  interface HTMLElementTagNameMap {
-    [TAG_NAME]: WantedButton
-  }
-}
-
-const ATTRIBUTES = ['icon', 'font-size', 'loading'] as const
 
 type Attributes = typeof ATTRIBUTES
 export type WantedPosterAttribute = Partial<{
   [key in Attributes[number]]: string
 }>
 
+const TAG_NAME = 'wanted-button'
+const ATTRIBUTES = ['icon', 'font-size', 'loading'] as const
+
 const template = document.createElement('template')
-template.innerHTML = `
-  <img class="img" src="${ButtonImageUrl}" alt="wanted button"/>
-  <div class="icon">
-    <i class="fa"></i>
-  </div>
-  <span class="text"><slot><slot></span>
-`
-//
+template.innerHTML = templateContent
+
 class WantedButton extends HTMLElement {
   #icon: string = ''
   #iconElm: HTMLElement
@@ -41,6 +30,7 @@ class WantedButton extends HTMLElement {
     // attach the created elements to the shadow DOM
     shadowRoot.append(style, template.content.cloneNode(true))
 
+    shadowRoot.querySelector('img')?.setAttribute('src', ButtonImageUrl)
     this.#iconElm = shadowRoot.querySelector('i.fa') as HTMLElement
     this.#textElm = shadowRoot.querySelector('span.text') as HTMLSpanElement
 

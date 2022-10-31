@@ -1,0 +1,26 @@
+<input id="uploadInput" type="file" accept="image/*">
+<slot name="poster"></slot>
+<div class="blood-overlay"></div>
+
+<div class="button-container">
+  <wanted-button id="editButton" icon="fa-cog" title="Open the edit panel.">
+    EDIT
+  </wanted-button>
+
+  <wanted-button id="importButton" icon="fa-upload" title="Import local image to edit.">
+    IMPORT
+  </wanted-button>
+
+  <wanted-button id="exportButton" icon="fa-download" title="Export as image file.">
+    EXPORT
+  </wanted-button>
+
+  <button id="criminalButton" class="criminal" aria-label="Criminal mode button" title="War criminal"></button>
+</div>
+
+<slot name="sideMenu"></slot>
+<slot></slot>
+
+<div class="loading-overlay">
+  <brass-luffy class="loading-overlay__luffy"></brass-luffy>
+</div>

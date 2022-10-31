@@ -1,67 +1,11 @@
 import cssContent from './style.css?inline'
+import templateContent from './template.html?raw'
 import store, { addListener, removeListener, reset } from '../../store'
 
-const template = document.createElement('template')
-template.innerHTML = `
-<div class="container">
-  <div class="field-container">
-    <input id="nameInput" class="text-input" placeholder="Name"/>
-    <input id="bountyInput" class="text-input" placeholder="Bounty"/>
-
-    <div class="slider">
-      <label for="paddingSlider" class="slider__label">Padding</label>
-      <input id="paddingSlider" class="slider__input" type="range" min="0" max="20" >
-    </div>
-
-    <div class="slider">
-      <label for="blurSlider" class="slider__label">Blur</label>
-      <input id="blurSlider" class="slider__input" type="range" min="0" max="10" >
-    </div>
-
-    <div class="slider">
-      <label for="brightnessSlider" class="slider__label">Brightness</label>
-      <input id="brightnessSlider" class="slider__input" type="range" min="0" max="200" >
-    </div>
-
-    <div class="slider">
-      <label for="contrastSlider" class="slider__label">Contrast</label>
-      <input id="contrastSlider" class="slider__input" type="range" min="0" max="200" >
-    </div>
-
-    <div class="slider">
-      <label for="grayscaleSlider" class="slider__label">Grayscale</label>
-      <input id="grayscaleSlider" class="slider__input" type="range" min="0" max="100" >
-    </div>
-
-    <div class="slider">
-      <label for="hueRotateSlider" class="slider__label">Hue Rotate</label>
-      <input id="hueRotateSlider" class="slider__input" type="range" min="0" max="360" >
-    </div>
-
-    <div class="slider">
-      <label for="saturateSlider" class="slider__label">Saturate</label>
-      <input id="saturateSlider" class="slider__input" type="range" min="0" max="200" >
-    </div>
-
-    <div class="slider">
-      <label for="sepiaSlider" class="slider__label">Sepia</label>
-      <input id="sepiaSlider" class="slider__input" type="range" min="0" max="100" >
-    </div>
-  </div>
-  <div class="action-container">
-    <button id="closeButton" class="close-button" aria-label="Close side-menu button" title="Close"></button>
-    <button id="resetButton" class="wood-button" aria-label="Reset button" title="Reset to default settings.">RESET</button>
-  </div>
-</div>
-
-`
-
 const TAG_NAME = 'side-menu'
-declare global {
-  interface HTMLElementTagNameMap {
-    [TAG_NAME]: SideMenu
-  }
-}
+
+const template = document.createElement('template')
+template.innerHTML = templateContent
 
 class SideMenu extends HTMLElement {
   #isOpening = false

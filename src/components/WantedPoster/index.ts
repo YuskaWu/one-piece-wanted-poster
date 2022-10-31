@@ -9,12 +9,6 @@ import WantedImage from './WantedImage'
 import AvatarResizer from './AvatarResizer'
 
 const TAG_NAME = 'wanted-poster'
-declare global {
-  interface HTMLElementTagNameMap {
-    [TAG_NAME]: WantedPoster
-  }
-}
-
 const ATTRIBUTES = [
   'name',
   'bounty',

@@ -1,53 +1,10 @@
 import cssContent from './style.css?inline'
+import templateContent from './template.html?raw'
 import SideMenu from '../SideMenu'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
 import store, { addListener, removeListener, reset } from '../../store'
 
-const template = document.createElement('template')
-template.innerHTML = `
-  <input id="uploadInput" type="file" accept="image/*">
-  <slot name="poster"></slot>
-  <div class="blood-overlay"></div>
-
-  <div class="button-container">
-    <wanted-button
-      id="editButton"
-      icon="fa-cog"
-      title="Open the edit panel.">
-      EDIT
-    </wanted-button>
-
-    <wanted-button
-      id="importButton"
-      icon="fa-upload"
-      title="Import local image to edit.">
-      IMPORT
-    </wanted-button>
-
-    <wanted-button
-      id="exportButton"
-      icon="fa-download"
-      title="Export as image file.">
-      EXPORT
-    </wanted-button>
-
-    <button id="criminalButton" class="criminal" aria-label="Criminal mode button" title="War criminal"></button>
-  </div>
-
-  <slot name="sideMenu"></slot>
-  <slot></slot>
-
-  <div class="loading-overlay">
-    <img class="loading-overlay__luffy" src="./images/luffy.png" alt="luffy logo"/>
-  </div>
-`
-
 const TAG_NAME = 'app-container'
-declare global {
-  interface HTMLElementTagNameMap {
-    [TAG_NAME]: App
-  }
-}
 
 const WARCRIMINAL_HASH = '#warcriminal'
 const WARCRIMINAL_POSTER_INFO = {
@@ -56,6 +13,9 @@ const WARCRIMINAL_POSTER_INFO = {
   bounty: `War Criminal`,
   avatarUrl: './images/war-criminal.png'
 }
+
+const template = document.createElement('template')
+template.innerHTML = templateContent
 
 class App extends HTMLElement {
   #sideMenu: SideMenu
@@ -83,7 +43,7 @@ class App extends HTMLElement {
     // attach the created elements to the shadow DOM
     shadowRoot.append(style, template.content.cloneNode(true))
     shadowRoot.addEventListener('WantedPosterLoaded', () => {
-      this.#removeLoading()
+      // this.#removeLoading()
     })
 
     const posterSlot =
@@ -122,6 +82,7 @@ class App extends HTMLElement {
     window.addEventListener('hashchange', this.#hashChangeListener)
   }
 
+  // @ts-ignore
   #removeLoading() {
     const loadingOverlay =
       this.#root.querySelector<HTMLElement>('.loading-overlay')!
