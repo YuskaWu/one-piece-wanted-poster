@@ -1,19 +1,31 @@
 :host {
   position: relative;
+  width: 317px;
+  height: 298px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bottom-img {
   display: block;
   max-width: 100%;
   max-height: 100%;
+  object-fit: contain;
+  aspect-ratio: 317/298;
 }
 
 .top-img {
+  /* center it both vertically and horizontally */
   position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+
   max-width: 100%;
   max-height: 100%;
-  left: 0;
-  top: 0;
 
   animation-name: flicker;
   animation-duration: 4s;
