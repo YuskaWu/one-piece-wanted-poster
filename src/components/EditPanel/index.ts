@@ -2,12 +2,12 @@ import cssContent from './style.css?inline'
 import templateContent from './template.html?raw'
 import store, { addListener, removeListener, reset } from '../../store'
 
-const TAG_NAME = 'side-menu'
+const TAG_NAME = 'edit-panel'
 
 const template = document.createElement('template')
 template.innerHTML = templateContent
 
-class SideMenu extends HTMLElement {
+class EditPanel extends HTMLElement {
   #isOpening = false
   #nameInput: HTMLInputElement
   #bountyInput: HTMLInputElement
@@ -102,7 +102,7 @@ class SideMenu extends HTMLElement {
       }
     }
 
-    // close when user click outside of side-menu
+    // close when user click outside of edit-panel
     this.#pointerdownListener = (e: PointerEvent) => {
       if (e.target instanceof Node && this.contains(e.target)) {
         return
@@ -211,6 +211,6 @@ class SideMenu extends HTMLElement {
   }
 }
 
-customElements.define(TAG_NAME, SideMenu)
+customElements.define(TAG_NAME, EditPanel)
 
-export default SideMenu
+export default EditPanel

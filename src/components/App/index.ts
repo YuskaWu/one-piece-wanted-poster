@@ -1,6 +1,6 @@
 import cssContent from './style.css?inline'
 import templateContent from './template.html?raw'
-import SideMenu from '../SideMenu'
+import EditPanel from '../EditPanel'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
 import store, { addListener, removeListener, reset } from '../../store'
 import { WARCRIMINAL_POSTER_INFO } from './config'
@@ -13,7 +13,7 @@ const template = document.createElement('template')
 template.innerHTML = templateContent
 
 class App extends HTMLElement {
-  #sideMenu: SideMenu
+  #editPanel: EditPanel
   #wantedPoster: WantedPoster
   #uploadInput: HTMLInputElement
   #editButton: HTMLButtonElement
@@ -45,10 +45,10 @@ class App extends HTMLElement {
       this.#root.querySelector<HTMLSlotElement>('slot[name=poster]')
     this.#wantedPoster = posterSlot?.assignedNodes()[0] as WantedPoster
 
-    const sideMenuSlot = this.#root.querySelector<HTMLSlotElement>(
-      'slot[name=sideMenu]'
+    const editPanelSlot = this.#root.querySelector<HTMLSlotElement>(
+      'slot[name=editPanel]'
     )
-    this.#sideMenu = sideMenuSlot?.assignedNodes()[0] as SideMenu
+    this.#editPanel = editPanelSlot?.assignedNodes()[0] as EditPanel
 
     this.#uploadInput =
       this.#root.querySelector<HTMLInputElement>('#uploadInput')!
@@ -183,7 +183,7 @@ class App extends HTMLElement {
     })
 
     this.#editButton.addEventListener('click', () => {
-      this.#sideMenu.toggle(true)
+      this.#editPanel.toggle(true)
     })
 
     this.#importButton.addEventListener('click', () => {
