@@ -122,6 +122,8 @@ class WantedPoster extends HTMLElement {
     await avatar.loadImage(this.getAttribute('avatar-url'))
     name.text = this.getAttribute('name') ?? ''
     bounty.text = this.getAttribute('bounty') ?? ''
+    name.spacing = parseInt(this.getAttribute('name-spacing') ?? '0') || 0
+    bounty.spacing = parseInt(this.getAttribute('bounty-spacing') ?? '0') || 0
 
     // according to the avatar of displaying canvas to update render postion
     const { x, y, width, height, filter } = this.#avatar
