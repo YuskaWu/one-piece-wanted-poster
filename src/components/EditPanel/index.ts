@@ -12,6 +12,8 @@ class EditPanel extends HTMLElement {
   #nameInput: HTMLInputElement
   #bountyInput: HTMLInputElement
 
+  #nameSpacingSlider: HTMLInputElement
+  #bountySpacingSlider: HTMLInputElement
   #paddingSlider: HTMLInputElement
   #blurSlider: HTMLInputElement
   #brightnessSlider: HTMLInputElement
@@ -44,6 +46,11 @@ class EditPanel extends HTMLElement {
     this.#bountyInput =
       shadowRoot.querySelector<HTMLInputElement>('#bountyInput')!
 
+    this.#nameSpacingSlider =
+      shadowRoot.querySelector<HTMLInputElement>('#nameSpacingSlider')!
+    this.#bountySpacingSlider = shadowRoot.querySelector<HTMLInputElement>(
+      '#bountySpacingSlider'
+    )!
     this.#paddingSlider =
       shadowRoot.querySelector<HTMLInputElement>('#paddingSlider')!
     this.#blurSlider =
@@ -74,6 +81,12 @@ class EditPanel extends HTMLElement {
           break
         case 'bounty':
           this.#bountyInput.value = value
+          break
+        case 'nameSpacing':
+          this.#nameSpacingSlider.value = value
+          break
+        case 'bountySpacing':
+          this.#bountySpacingSlider.value = value
           break
         case 'padding':
           this.#paddingSlider.value = value
@@ -130,6 +143,8 @@ class EditPanel extends HTMLElement {
 
     addListener('name', this.#storeListener)
     addListener('bounty', this.#storeListener)
+    addListener('nameSpacing', this.#storeListener)
+    addListener('bountySpacing', this.#storeListener)
     addListener('padding', this.#storeListener)
     addListener('blur', this.#storeListener)
     addListener('saturate', this.#storeListener)
@@ -141,6 +156,9 @@ class EditPanel extends HTMLElement {
 
     this.#nameInput.value = store.name
     this.#bountyInput.value = store.bounty.toString()
+
+    this.#nameSpacingSlider.value = store.nameSpacing.toString()
+    this.#bountySpacingSlider.value = store.bountySpacing.toString()
     this.#paddingSlider.value = store.padding.toString()
     this.#blurSlider.value = store.blur.toString()
     this.#brightnessSlider.value = store.brightness.toString()
@@ -159,6 +177,14 @@ class EditPanel extends HTMLElement {
       () => (store.bounty = this.#bountyInput.value)
     )
 
+    this.#nameSpacingSlider.addEventListener(
+      'input',
+      () => (store.nameSpacing = parseInt(this.#nameSpacingSlider.value))
+    )
+    this.#bountySpacingSlider.addEventListener(
+      'input',
+      () => (store.bountySpacing = parseInt(this.#bountySpacingSlider.value))
+    )
     this.#paddingSlider.addEventListener(
       'input',
       () => (store.padding = parseInt(this.#paddingSlider.value))

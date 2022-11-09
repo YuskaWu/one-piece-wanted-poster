@@ -8,12 +8,14 @@ interface FilterState {
   sepia: number
 }
 
-interface AppState extends FilterState {
+export interface AppState extends FilterState {
   avatarUrl: string
   name: string
   bounty: string | number
   filter: string
   padding: number
+  nameSpacing: number
+  bountySpacing: number
 }
 
 type AppStateKey = keyof AppState
@@ -30,6 +32,8 @@ const DEFAULT_STATE: AppState = {
   avatarUrl: '',
   name: '',
   bounty: '',
+  nameSpacing: 0,
+  bountySpacing: 1,
   filter: '',
   padding: 10,
   blur: 0,

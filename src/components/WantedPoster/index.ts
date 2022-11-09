@@ -13,6 +13,8 @@ const TAG_NAME = 'wanted-poster'
 const ATTRIBUTES = [
   'name',
   'bounty',
+  'name-spacing',
+  'bounty-spacing',
   'avatar-url',
   'filter',
   'padding'
@@ -236,6 +238,9 @@ class WantedPoster extends HTMLElement {
 
     this.#name.text = this.getAttribute('name') ?? ''
     this.#bounty.text = this.getAttribute('bounty') ?? ''
+    this.#name.spacing = parseInt(this.getAttribute('name-spacing') ?? '0') || 0
+    this.#bounty.spacing =
+      parseInt(this.getAttribute('bounty-spacing') ?? '0') || 0
 
     const filter = this.getAttribute('filter')
     if (filter) {
@@ -271,6 +276,14 @@ class WantedPoster extends HTMLElement {
 
       case 'bounty':
         this.#bounty.text = newValue
+        break
+
+      case 'name-spacing':
+        this.#name.spacing = parseInt(newValue) || 0
+        break
+
+      case 'bounty-spacing':
+        this.#bounty.spacing = parseInt(newValue) || 0
         break
 
       case 'avatar-url': {

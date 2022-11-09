@@ -67,8 +67,20 @@ class App extends HTMLElement {
       switch (key) {
         case 'avatarUrl':
           this.#setWantedPosterAttributes({ 'avatar-url': value.toString() })
+          break
+        case 'nameSpacing':
+          this.#setWantedPosterAttributes({
+            'name-spacing': value.toString()
+          })
+          break
+        case 'bountySpacing':
+          this.#setWantedPosterAttributes({
+            'bounty-spacing': value.toString()
+          })
+          break
         case 'name':
         case 'bounty':
+
         case 'padding':
         case 'filter':
           this.#setWantedPosterAttributes({ [key]: value.toString() })
@@ -131,6 +143,8 @@ class App extends HTMLElement {
     this.#startTime = new Date().getTime()
 
     this.#setWantedPosterAttributes({
+      'name-spacing': store.nameSpacing.toString(),
+      'bounty-spacing': store.bountySpacing.toString(),
       padding: store.padding.toString(),
       filter: store.filter
     })
@@ -138,6 +152,8 @@ class App extends HTMLElement {
     addListener('avatarUrl', this.#storeListener)
     addListener('name', this.#storeListener)
     addListener('bounty', this.#storeListener)
+    addListener('nameSpacing', this.#storeListener)
+    addListener('bountySpacing', this.#storeListener)
     addListener('padding', this.#storeListener)
     addListener('filter', this.#storeListener)
 

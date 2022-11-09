@@ -2,12 +2,13 @@ import { WantedImageInfo } from './types'
 import CanvasObject from './CanvasObject'
 import bellySignImageUrl from './images/belly.png'
 import patternImageUrl from './images/text-pattern.png'
-import { getTextActualHeight, loadImage } from './utils'
+import { getTextActualHeight, loadImage, formatCharacterSpacing } from './utils'
 
 class Bounty extends CanvasObject {
   #text = ''
+  #formattedText = ''
   #isNumber = true
-  #space = 1
+  #spacing = 0
   #fontSize = 0
   #fillPattern: CanvasPattern | null = null
   #numberFormat: Intl.NumberFormat
@@ -45,16 +46,26 @@ class Bounty extends CanvasObject {
   }
 
   set text(value: string) {
-    const space = new Array(this.#space).join(' ') + ' '
-    const price = Number.parseInt(value)
+    this.#text = value
+    this.#formatText()
+  }
+
+  set spacing(value: number) {
+    this.#spacing = value
+    this.#formatText()
+  }
+
+  #formatText() {
+    const price = Number.parseInt(this.#text)
     if (Number.isNaN(price)) {
       this.#isNumber = false
-      this.#text = Array.from(value).join(space)
+      this.#formattedText = formatCharacterSpacing(this.#text, this.#spacing)
       return
     }
+
     this.#isNumber = true
-    const text = this.#numberFormat.format(price) + '-'
-    this.#text = Array.from(text).join(space)
+    const formattedPrice = this.#numberFormat.format(price) + '-'
+    this.#formattedText = formatCharacterSpacing(formattedPrice, this.#spacing)
   }
 
   render(): void {
@@ -75,7 +86,7 @@ class Bounty extends CanvasObject {
     const bellySignWidth = this.#isNumber
       ? width + this.#bellySignMarginRight
       : 0
-    const actualHeight = getTextActualHeight(this.ctx, this.#text)
+    const actualHeight = getTextActualHeight(this.ctx, this.#formattedText)
     let topOffset = (this.height - actualHeight) / 2
 
     // The position of number character of 'Averia Sans Libre' font is too low, therefore
@@ -87,11 +98,11 @@ class Bounty extends CanvasObject {
     const textX = centerX + bellySignWidth / 2
     const textY = this.y + topOffset
     const textMaxWidth = this.width - bellySignWidth
-    this.ctx.fillText(this.#text, textX, textY, textMaxWidth)
+    this.ctx.fillText(this.#formattedText, textX, textY, textMaxWidth)
 
     if (this.#isNumber) {
       const textWidth = Math.min(
-        this.ctx.measureText(this.#text).width,
+        this.ctx.measureText(this.#formattedText).width,
         textMaxWidth
       )
       const bellySignX = centerX - bellySignWidth / 2 - textWidth / 2

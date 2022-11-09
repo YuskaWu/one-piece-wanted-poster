@@ -163,6 +163,10 @@
   position: relative;
 }
 
+.slider__label--small {
+  font-size: 0.45rem;
+}
+
 .slider__input {
   appearance: none;
   width: 100%;
