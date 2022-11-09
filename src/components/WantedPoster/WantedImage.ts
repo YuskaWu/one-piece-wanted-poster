@@ -5,8 +5,8 @@ class WantedImage {
   #ctx: CanvasRenderingContext2D
   #canvas: HTMLCanvasElement
   #scale = 1
-  #scaledPadding = 0
-  #padding = 0
+  #scaledShadowSize = 0
+  #shadowSize = 0
   #scaledWidth = 0
   #scaledHeight = 0
   #image: HTMLImageElement | null = null
@@ -37,11 +37,11 @@ class WantedImage {
   setSize({
     width,
     height,
-    padding
+    shadowSize
   }: {
     width?: number
     height?: number
-    padding?: number
+    shadowSize?: number
   }) {
     if (!this.#image) {
       throw new Error('Failed to set size: wanted image is null')
@@ -49,10 +49,10 @@ class WantedImage {
 
     this.#scaledWidth = width ?? this.#scaledWidth
     this.#scaledHeight = height ?? this.#scaledHeight
-    this.#padding = padding ?? this.#padding
+    this.#shadowSize = shadowSize ?? this.#shadowSize
 
-    const actualWidth = this.#image.width + this.#padding * 2
-    const actualHeight = this.#image.height + this.#padding * 2
+    const actualWidth = this.#image.width + this.#shadowSize * 2
+    const actualHeight = this.#image.height + this.#shadowSize * 2
 
     const scale = getScale(
       this.#scaledWidth,
@@ -62,13 +62,16 @@ class WantedImage {
     )
 
     this.#scale = scale
-    this.#scaledPadding = this.#padding * scale
+    this.#scaledShadowSize = this.#shadowSize * scale
     this.#canvas.width = actualWidth * scale
     this.#canvas.height = actualHeight * scale
 
-    const wantedImageInfo = this.#calculateImageInfo(scale, this.#scaledPadding)
+    const wantedImageInfo = this.#calculateImageInfo(
+      scale,
+      this.#scaledShadowSize
+    )
 
-    return { wantedImageInfo, scale, scaledPadding: this.#scaledPadding }
+    return { wantedImageInfo, scale, scaledShadowSize: this.#scaledShadowSize }
   }
 
   #calculateImageInfo(scale: number, padding: number): WantedImageInfo {
@@ -127,13 +130,13 @@ class WantedImage {
     }
     this.#ctx.save()
     this.#ctx.shadowColor = 'rgba(0, 0, 0, 1)'
-    this.#ctx.shadowBlur = this.#scaledPadding
+    this.#ctx.shadowBlur = this.#scaledShadowSize
     this.#ctx.drawImage(
       this.#image,
-      this.#scaledPadding,
-      this.#scaledPadding,
-      this.#canvas.width - this.#scaledPadding * 2,
-      this.#canvas.height - this.#scaledPadding * 2
+      this.#scaledShadowSize,
+      this.#scaledShadowSize,
+      this.#canvas.width - this.#scaledShadowSize * 2,
+      this.#canvas.height - this.#scaledShadowSize * 2
     )
     this.#ctx.restore()
   }

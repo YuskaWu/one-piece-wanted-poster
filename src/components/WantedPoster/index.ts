@@ -17,7 +17,7 @@ const ATTRIBUTES = [
   'bounty-spacing',
   'avatar-url',
   'filter',
-  'padding'
+  'shadow'
 ] as const
 
 type Attributes = typeof ATTRIBUTES
@@ -78,18 +78,18 @@ class WantedPoster extends HTMLElement {
     this.#resizeObserver.observe(container)
   }
 
-  #getPadding() {
-    const paddingAttr = this.getAttribute('padding')
-    if (!paddingAttr) {
+  #getShadow() {
+    const shadowAttr = this.getAttribute('shadow')
+    if (!shadowAttr) {
       return 0
     }
 
-    const padding = Number.parseInt(paddingAttr)
-    if (Number.isNaN(padding)) {
+    const shadow = Number.parseInt(shadowAttr)
+    if (Number.isNaN(shadow)) {
       return 0
     }
 
-    return padding
+    return shadow
   }
 
   async export() {
@@ -99,7 +99,7 @@ class WantedPoster extends HTMLElement {
     this.#container.appendChild(canvas)
     const ctx = canvas.getContext('2d')!
 
-    const padding = this.#getPadding()
+    const shadow = this.#getShadow()
     const wantedImage = new WantedImage(ctx)
     const avatar = new Avatar(ctx)
     const name = new Name(ctx)
@@ -107,12 +107,12 @@ class WantedPoster extends HTMLElement {
 
     await wantedImage.loadImage(ONE_PIECE_WANTED_IMAGE)
 
-    const exportWidth = ONE_PIECE_WANTED_IMAGE.width + padding * 2
-    const exportHeight = ONE_PIECE_WANTED_IMAGE.height + padding * 2
+    const exportWidth = ONE_PIECE_WANTED_IMAGE.width + shadow * 2
+    const exportHeight = ONE_PIECE_WANTED_IMAGE.height + shadow * 2
     const { wantedImageInfo } = wantedImage.setSize({
       width: exportWidth,
       height: exportHeight,
-      padding
+      shadowSize: shadow
     })
 
     await avatar.init(wantedImageInfo)
@@ -167,7 +167,7 @@ class WantedPoster extends HTMLElement {
       return
     }
 
-    const padding = this.#getPadding()
+    const shadow = this.#getShadow()
     const rect = this.#container.getBoundingClientRect()
 
     const resizeScale = getScale(
@@ -179,7 +179,7 @@ class WantedPoster extends HTMLElement {
     const { wantedImageInfo } = this.#wantedImage.setSize({
       width: rect.width,
       height: rect.height,
-      padding
+      shadowSize: shadow
     })
 
     this.#name.setPosition(wantedImageInfo.namePosition)
@@ -216,7 +216,7 @@ class WantedPoster extends HTMLElement {
     })
 
     this.#status = 'loading'
-    const padding = this.#getPadding()
+    const shadow = this.#getShadow()
     const rect = this.#container.getBoundingClientRect()
 
     try {
@@ -224,7 +224,7 @@ class WantedPoster extends HTMLElement {
       const { wantedImageInfo } = this.#wantedImage.setSize({
         width: rect.width,
         height: rect.height,
-        padding
+        shadowSize: shadow
       })
 
       await this.#avatar.init(wantedImageInfo)
@@ -300,7 +300,7 @@ class WantedPoster extends HTMLElement {
         break
       }
 
-      case 'padding': {
+      case 'shadow': {
         this.#resize()
         break
       }
