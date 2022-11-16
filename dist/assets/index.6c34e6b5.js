@@ -76,7 +76,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 <div class="blood-overlay"></div>\r
 \r
 <div class="button-container">\r
-  <wanted-button id="editButton" icon="fa-cog" title="Open the edit panel.">\r
+  <wanted-button id="editButton" icon="fa-pencil-alt" title="Open the edit panel.">\r
     EDIT\r
   </wanted-button>\r
 \r
