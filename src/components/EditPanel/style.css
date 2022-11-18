@@ -1,12 +1,13 @@
 :host {
   --text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
-  --element-filter: drop-shadow(0.1rem 0.2rem 0.1rem rgba(0, 0, 0, 0.4))
-    drop-shadow(-0.1rem 0 0.1rem rgba(0, 0, 0, 0.4)) contrast(100%)
-    brightness(100%);
+  --element-filter: drop-shadow(2px 0 2px rgba(0, 0, 0, 0.4))
+    drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.4)) contrast(100%) brightness(100%);
 
-  --element-hover-filter: drop-shadow(0.2rem 0.3rem 0.1rem rgba(0, 0, 0, 0.4))
-    drop-shadow(-0.2rem 0 0.1rem rgba(0, 0, 0, 0.5)) contrast(110%)
-    brightness(110%);
+  --element-hover-filter: drop-shadow(3px 0 3px rgba(0, 0, 0, 0.4))
+    drop-shadow(-3px 0 3px rgba(0, 0, 0, 0.5)) contrast(105%) brightness(105%);
+
+  --element-active-filter: drop-shadow(1px 0 2px rgba(0, 0, 0, 0.6))
+    drop-shadow(-1px 0 2px rgba(0, 0, 0, 0.7)) contrast(105%) brightness(105%);
 
   --slider-thumb-size: 2rem;
 
@@ -88,7 +89,7 @@
   color: rgba(255, 255, 255, 0.8);
   text-shadow: var(--text-shadow);
   filter: var(--element-filter);
-  transition: 0.2s;
+  transition: 0.05s;
 }
 
 .wood-button:hover {
@@ -107,11 +108,17 @@
   width: 2rem;
   height: 2rem;
   filter: var(--element-filter);
-  transition: 0.2s;
+  transition: 0.1s;
 }
 
 .close-button:hover {
   filter: var(--element-hover-filter);
+}
+
+.wood-button:active,
+.close-button:active {
+  filter: var(--element-active-filter);
+  transform: translateY(1px);
 }
 
 .text-input {
@@ -205,6 +212,11 @@
   background-position: center;
   cursor: pointer;
   filter: var(--element-filter);
+  transition: filter 0.05s;
+}
+
+.slider__input::-webkit-slider-thumb:hover {
+  filter: var(--element-hover-filter);
 }
 
 .slider__input::-moz-range-thumb {

@@ -6,7 +6,7 @@
   width: 4.25rem;
   height: 5rem;
   background-color: transparent;
-  transition: 0.5s;
+  transition: 0.05s;
   justify-content: center;
   filter: contrast(100%) brightness(100%)
     drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5))
@@ -14,9 +14,16 @@
 }
 
 :host(:hover) {
-  filter: contrast(110%) brightness(110%)
-    drop-shadow(1px 4px 4px rgba(0, 0, 0, 0.5))
-    drop-shadow(-1px 0px 4px rgba(0, 0, 0, 0.5));
+  filter: contrast(105%) brightness(105%)
+    drop-shadow(1px 4px 3px rgba(0, 0, 0, 0.5))
+    drop-shadow(-1px 0px 3px rgba(0, 0, 0, 0.5));
+}
+
+:host(:active) {
+  transform: translateY(1px);
+  filter: contrast(105%) brightness(105%)
+    drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.6))
+    drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.6));
 }
 
 .img {
