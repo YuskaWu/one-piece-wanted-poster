@@ -1,7 +1,7 @@
 import { AppState } from '../../store'
 
 export const WARCRIMINAL_POSTER_INFO: Partial<AppState> = {
-  shadow: 10,
+  shadow: 5,
   name: 'PUTLER',
   bounty: 'War Criminal',
   nameSpacing: 0,
