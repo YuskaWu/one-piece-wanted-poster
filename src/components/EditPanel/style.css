@@ -159,7 +159,7 @@
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
-  width: 6rem;
+  width: 10.5rem;
   height: 2rem;
   display: inline-flex;
   align-items: center;
@@ -168,10 +168,6 @@
   box-sizing: border-box;
   margin: 0;
   position: relative;
-}
-
-.slider__label--small {
-  font-size: 0.45rem;
 }
 
 .slider__input {
