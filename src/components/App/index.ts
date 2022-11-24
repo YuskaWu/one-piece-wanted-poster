@@ -1,9 +1,9 @@
-import cssContent from './style.css?inline'
-import templateContent from './template.html?raw'
+import store, { addListener, removeListener, reset } from '../../store'
 import EditPanel from '../EditPanel'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
-import store, { addListener, removeListener, reset } from '../../store'
 import { WARCRIMINAL_POSTER_INFO } from './config'
+import cssContent from './style.css?inline'
+import templateContent from './template.html?raw'
 
 const TAG_NAME = 'app-container'
 
@@ -184,17 +184,17 @@ class App extends HTMLElement {
       }
 
       const objUrl = URL.createObjectURL(file)
-      this.#setWantedPosterAttributes({ 'avatar-url': objUrl })
+      store.avatarUrl = objUrl
     })
 
-    this.#uploadInput.addEventListener('change', () => {
+    this.#uploadInput.addEventListener('input', () => {
       const file = this.#uploadInput.files ? this.#uploadInput.files[0] : null
       if (!file || !file.type.startsWith('image')) {
         return
       }
 
       const objUrl = URL.createObjectURL(file)
-      this.#setWantedPosterAttributes({ 'avatar-url': objUrl })
+      store.avatarUrl = objUrl
     })
 
     this.#editButton.addEventListener('click', () => {

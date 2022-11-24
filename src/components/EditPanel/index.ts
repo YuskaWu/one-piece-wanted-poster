@@ -1,6 +1,6 @@
+import store, { addListener, removeListener, reset } from '../../store'
 import cssContent from './style.css?inline'
 import templateContent from './template.html?raw'
-import store, { addListener, removeListener, reset } from '../../store'
 
 const TAG_NAME = 'edit-panel'
 
@@ -219,7 +219,9 @@ class EditPanel extends HTMLElement {
     )
 
     this.#closeButton.addEventListener('click', () => this.toggle(false))
-    this.#resetButton.addEventListener('click', () => reset())
+    this.#resetButton.addEventListener('click', () =>
+      reset({ avatarUrl: store.avatarUrl })
+    )
   }
 
   disconnectedCallback() {
