@@ -38,11 +38,11 @@ const DEFAULT_STATE: AppState = {
   shadow: 5,
   blur: 0,
   brightness: 100,
-  contrast: 105,
-  grayscale: 35,
+  contrast: 100,
+  grayscale: 0,
   hueRotate: 0,
-  saturate: 80,
-  sepia: 40
+  saturate: 100,
+  sepia: 0
 }
 
 function getFilter({
