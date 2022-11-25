@@ -1,8 +1,8 @@
-import { WantedImageInfo } from './types'
 import CanvasObject from './CanvasObject'
 import bellySignImageUrl from './images/belly.png'
 import patternImageUrl from './images/text-pattern.png'
-import { getTextActualHeight, loadImage, formatCharacterSpacing } from './utils'
+import { WantedImageInfo } from './types'
+import { formatCharacterSpacing, getTextActualHeight, loadImage } from './utils'
 
 class Bounty extends CanvasObject {
   #text = ''
@@ -56,7 +56,7 @@ class Bounty extends CanvasObject {
   }
 
   #formatText() {
-    const price = Number.parseInt(this.#text)
+    const price = Number.parseFloat(this.#text)
     if (Number.isNaN(price)) {
       this.#isNumber = false
       this.#formattedText = formatCharacterSpacing(this.#text, this.#spacing)
