@@ -35,7 +35,7 @@ const DEFAULT_STATE: AppState = {
   nameSpacing: 0,
   bountySpacing: 1,
   filter: '',
-  shadow: 5,
+  shadow: 0,
   blur: 0,
   brightness: 100,
   contrast: 100,
