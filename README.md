@@ -24,3 +24,6 @@
 
 MIT
 
+## Resource
+
+[One Piece Wanted Poster template](https://www.deviantart.com/ei819/art/One-Piece-Wanted-Poster-104165885), made by [ei819](https://www.deviantart.com/ei819)
