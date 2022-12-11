@@ -3,23 +3,40 @@
 <div class="blood-overlay"></div>
 
 <div class="button-container">
-  <wanted-button id="editButton" icon="fa-pencil-alt" title="Open the edit panel.">
+  <wanted-button id="editButton" icon="fa-pencil-alt" aria-label="Edit panel button" title="Open the edit panel.">
     EDIT
   </wanted-button>
 
-  <wanted-button id="importButton" icon="fa-upload" title="Import local image to edit.">
+  <wanted-button id="importButton" icon="fa-upload" aria-label="Import button" title="Import local image to edit.">
     IMPORT
   </wanted-button>
 
-  <wanted-button id="exportButton" icon="fa-download" title="Export as image file.">
+  <wanted-button id="exportButton" icon="fa-download" aria-label="Export button" title="Export as image file.">
     EXPORT
   </wanted-button>
 </div>
 
 <button id="criminalButton" class="criminal" aria-label="Criminal mode button" title="War criminal"></button>
 
+<button id="tipsButton" class="tips-button" aria-label="Tips button" title="Tips">
+  <svg width="32" height="32" viewBox="0 0 25 22">
+    <defs>
+      <radialGradient id="logo-gradient" cx="34%" cy="32%" fr="5%">
+        <stop offset="0%" stop-color="#FFFDA8"></stop>
+        <stop offset="70%" stop-color="#FFAB00"></stop>
+      </radialGradient>
+    </defs>
+    <path fill="url('#logo-gradient')" stroke="#4E4A49"
+      d="m22 10l-.625-1.375L20 8l1.375-.625L22 6l.625 1.375L24 8l-1.375.625Zm-3-4l-.95-2.05L16 3l2.05-.95L19 0l.95 2.05L22 3l-2.05.95ZM9 22q-.825 0-1.412-.587Q7 20.825 7 20h4q0 .825-.587 1.413Q9.825 22 9 22Zm-4-3v-2h8v2Zm.25-3q-1.725-1.025-2.737-2.75Q1.5 11.525 1.5 9.5q0-3.125 2.188-5.312Q5.875 2 9 2q3.125 0 5.312 2.188Q16.5 6.375 16.5 9.5q0 2.025-1.012 3.75q-1.013 1.725-2.738 2.75Z" />
+  </svg>
+</button>
+
+<tips-dialog></tips-dialog>
+
 <slot name="editPanel"></slot>
 <slot></slot>
+
+
 
 <div class="loading-overlay">
   <luffy-logo class="loading-overlay__luffy"></luffy-logo>

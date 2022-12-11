@@ -1,5 +1,6 @@
 import store, { addListener, removeListener, reset } from '../../store'
 import EditPanel from '../EditPanel'
+import type TipsDialog from '../TipsDialog'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
 import { WARCRIMINAL_POSTER_INFO } from './config'
 import cssContent from './style.css?inline'
@@ -14,12 +15,15 @@ template.innerHTML = templateContent
 
 class App extends HTMLElement {
   #editPanel: EditPanel
+  #tipsDialog: TipsDialog
   #wantedPoster: WantedPoster
   #uploadInput: HTMLInputElement
   #editButton: HTMLButtonElement
   #importButton: HTMLButtonElement
   #exportButton: HTMLButtonElement
   #criminalButton: HTMLButtonElement
+  #tipsButton: HTMLButtonElement
+
   #startTime: number = 0
   #root: ShadowRoot
   #hashChangeListener: (event: HashChangeEvent) => void
@@ -49,6 +53,7 @@ class App extends HTMLElement {
       'slot[name=editPanel]'
     )
     this.#editPanel = editPanelSlot?.assignedNodes()[0] as EditPanel
+    this.#tipsDialog = this.#root.querySelector<TipsDialog>('tips-dialog')!
 
     this.#uploadInput =
       this.#root.querySelector<HTMLInputElement>('#uploadInput')!
@@ -60,6 +65,8 @@ class App extends HTMLElement {
       this.#root.querySelector<HTMLButtonElement>('#exportButton')!
     this.#criminalButton =
       this.#root.querySelector<HTMLButtonElement>('#criminalButton')!
+    this.#tipsButton =
+      this.#root.querySelector<HTMLButtonElement>('#tipsButton')!
 
     this.#hashChangeListener = this.#onHashtagChange.bind(this)
 
@@ -215,6 +222,10 @@ class App extends HTMLElement {
     this.#criminalButton.addEventListener('click', () => {
       const isEnabled = location.hash === WARCRIMINAL_HASH
       location.hash = isEnabled ? '' : WARCRIMINAL_HASH
+    })
+
+    this.#tipsButton.addEventListener('click', () => {
+      this.#tipsDialog.toggle()
     })
   }
 
