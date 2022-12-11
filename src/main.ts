@@ -1,3 +1,4 @@
+import 'iconify-icon'
 import './components/App'
 import './components/EditPanel'
 import './components/LuffyLogo'

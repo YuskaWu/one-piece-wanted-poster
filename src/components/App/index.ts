@@ -1,6 +1,7 @@
 import store, { addListener, removeListener, reset } from '../../store'
 import EditPanel from '../EditPanel'
 import type TipsDialog from '../TipsDialog'
+import type WantedButton from '../WantedButton'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
 import { WARCRIMINAL_POSTER_INFO } from './config'
 import cssContent from './style.css?inline'
@@ -18,9 +19,9 @@ class App extends HTMLElement {
   #tipsDialog: TipsDialog
   #wantedPoster: WantedPoster
   #uploadInput: HTMLInputElement
-  #editButton: HTMLButtonElement
-  #importButton: HTMLButtonElement
-  #exportButton: HTMLButtonElement
+  #editButton: WantedButton
+  #importButton: WantedButton
+  #exportButton: WantedButton
   #criminalButton: HTMLButtonElement
   #tipsButton: HTMLButtonElement
 
@@ -57,12 +58,11 @@ class App extends HTMLElement {
 
     this.#uploadInput =
       this.#root.querySelector<HTMLInputElement>('#uploadInput')!
-    this.#editButton =
-      this.#root.querySelector<HTMLButtonElement>('#editButton')!
+    this.#editButton = this.#root.querySelector<WantedButton>('#editButton')!
     this.#importButton =
-      this.#root.querySelector<HTMLButtonElement>('#importButton')!
+      this.#root.querySelector<WantedButton>('#importButton')!
     this.#exportButton =
-      this.#root.querySelector<HTMLButtonElement>('#exportButton')!
+      this.#root.querySelector<WantedButton>('#exportButton')!
     this.#criminalButton =
       this.#root.querySelector<HTMLButtonElement>('#criminalButton')!
     this.#tipsButton =
@@ -214,9 +214,9 @@ class App extends HTMLElement {
     })
 
     this.#exportButton.addEventListener('click', async () => {
-      this.#exportButton.setAttribute('loading', 'true')
+      this.#exportButton.loading(true)
       await this.#wantedPoster.export()
-      this.#exportButton.removeAttribute('loading')
+      this.#exportButton.loading(false)
     })
 
     this.#criminalButton.addEventListener('click', () => {

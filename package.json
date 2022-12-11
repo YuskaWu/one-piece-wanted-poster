@@ -24,6 +24,7 @@
     "vite-plugin-pwa": "^0.12.7"
   },
   "dependencies": {
+    "iconify-icon": "^1.0.2",
     "workbox-recipes": "^6.5.4",
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4"

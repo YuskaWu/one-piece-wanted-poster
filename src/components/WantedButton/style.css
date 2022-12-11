@@ -45,6 +45,14 @@
   box-sizing: border-box;
 }
 
+iconify-icon {
+  display: none;
+}
+
+:host([loading]) iconify-icon {
+  display: inline;
+}
+
 .text {
   font-size: 0.9rem;
   position: absolute;

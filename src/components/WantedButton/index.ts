@@ -8,14 +8,13 @@ export type WantedPosterAttribute = Partial<{
 }>
 
 const TAG_NAME = 'wanted-button'
-const ATTRIBUTES = ['icon', 'font-size', 'loading'] as const
+const ATTRIBUTES = ['font-size'] as const
 
 const template = document.createElement('template')
 template.innerHTML = templateContent
 
 class WantedButton extends HTMLElement {
-  #icon: string = ''
-  #iconElm: HTMLElement
+  #root: ShadowRoot
   #textElm: HTMLSpanElement
 
   constructor() {
@@ -23,7 +22,7 @@ class WantedButton extends HTMLElement {
 
     // Create a shadow root
     const shadowRoot = this.attachShadow({ mode: 'open' })
-
+    this.#root = shadowRoot
     const style = document.createElement('style')
     style.textContent = cssContent
 
@@ -31,20 +30,27 @@ class WantedButton extends HTMLElement {
     shadowRoot.append(style, template.content.cloneNode(true))
 
     shadowRoot.querySelector('img')?.setAttribute('src', ButtonImageUrl)
-    this.#iconElm = shadowRoot.querySelector('i.fa') as HTMLElement
     this.#textElm = shadowRoot.querySelector('span.text') as HTMLSpanElement
-
-    // Since Web components are completely isolated entities, so parent or document style will
-    // not be available inside a web component, that's why we clone font-awesome link element here
-    // to make font-awesome work inside out custom button
-    const fontawesomeLink = document.querySelector('link[href*="font-awesome"]')
-    if (fontawesomeLink) {
-      shadowRoot.appendChild(fontawesomeLink.cloneNode())
-    }
   }
 
   static get observedAttributes(): Attributes {
     return ATTRIBUTES
+  }
+
+  loading(value: boolean) {
+    const iconSlot =
+      this.#root.querySelector<HTMLSlotElement>('slot[name=icon]')
+    const elm = iconSlot?.assignedNodes()[0] as undefined | HTMLElement
+
+    if (elm) {
+      elm.style.display = value ? 'none' : 'inline'
+    }
+
+    if (value) {
+      this.setAttribute('loading', '')
+    } else {
+      this.removeAttribute('loading')
+    }
   }
 
   attributeChangedCallback(
@@ -53,25 +59,8 @@ class WantedButton extends HTMLElement {
     newValue: string
   ) {
     switch (attributeName) {
-      case 'icon':
-        this.#icon = newValue
-        this.#iconElm.classList.add(newValue)
-        break
-
       case 'font-size':
         this.#textElm.style.fontSize = newValue
-        break
-
-      case 'loading':
-        if (newValue !== null) {
-          this.style.pointerEvents = 'none'
-          this.#iconElm.classList.remove(this.#icon)
-          this.#iconElm.classList.add('fa-circle-notch', 'fa-spin')
-        } else {
-          this.style.pointerEvents = 'auto'
-          this.#iconElm.classList.remove('fa-circle-notch', 'fa-spin')
-          this.#iconElm.classList.add(this.#icon)
-        }
         break
     }
   }
