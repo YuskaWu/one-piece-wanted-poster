@@ -5,16 +5,17 @@
 </p>
 <br/>
 
-# One Piece Wanted Poster Maker🤘
+# One Piece Wanted Poster Maker 🤘
 
-> Import any image to create your own One Piece style wanted poster.
+> Free online web application for creating One Piece wanted poster.
 
-- Import any image from local storage
-- Adjust tone with multiple filters
+- Import any image as the wanted photo from your device storage
 - Support zooming and resizing
-- Mobile friendly
+- Adjust tone with multiple filters
 - Input any text for the name and bounty
-- Export poster as an image whenever you want
+- Export the poster as an image whenever you want
+- Mobile friendly
+- Support [PWA](https://support.google.com/chrome/answer/9658361)
 - And....special mode?
 
 [Demo](https://yuskawu.github.io/one-piece-wanted-poster/dist)
