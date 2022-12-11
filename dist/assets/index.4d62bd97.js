@@ -148,9 +148,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     input field in the edit panel is name, and the second input field is bounty.\r
   </P>\r
   <p>\r
-    You can input any text for both of them, however if you input number for the bounty, the belly sign will\r
-    appear and prepend on the poster, and decimal comma will\r
-    automatically insert in it.\r
+    You can input any text for both of them, however if you input number in the bounty field, the Belly sign will be\r
+    rendered in the front of the bounty text, and decimal comma will automatically insert in the text.\r
   </p>\r
 \r
   <h3>Install this app on your device</h3>\r
