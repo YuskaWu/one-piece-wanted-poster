@@ -21,7 +21,7 @@ export const ONE_PIECE_WANTED_IMAGE: WantedImageInfo = {
     bottom: 10
   },
   bellySignSize: {
-    width: 60,
-    height: 84
+    width: 59,
+    height: 83
   }
 }
