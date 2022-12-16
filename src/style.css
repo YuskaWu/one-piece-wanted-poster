@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Vertiky';
+  src: url('../font/Vertiky.ttf');
+}
+
 * {
   box-sizing: border-box;
 }

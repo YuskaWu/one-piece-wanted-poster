@@ -79,7 +79,7 @@ class Bounty extends CanvasObject {
     this.ctx.textBaseline = 'top'
     this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
     this.ctx.font = this.#isNumber
-      ? `700 ${this.#fontSize * 0.75}px 'Averia Sans Libre'`
+      ? `600 ${this.#fontSize * 0.75}px 'Vertiky'`
       : `900 ${this.#fontSize}px 'Scheherazade New', 'Noto Sans TC', serif`
 
     const centerX = this.x + this.width / 2
@@ -89,10 +89,9 @@ class Bounty extends CanvasObject {
     const actualHeight = getTextActualHeight(this.ctx, this.#formattedText)
     let topOffset = (this.height - actualHeight) / 2
 
-    // The position of number character of 'Averia Sans Libre' font is too low, therefore
-    // here multiply 0.75 to move the position to top a little bit.
+    // 0.78 is not a fixed constant for adjusting the top position, it should change depending on the font we used.
     if (this.#isNumber) {
-      topOffset *= 0.75
+      topOffset *= 0.78
     }
 
     const textX = centerX + bellySignWidth / 2

@@ -27,4 +27,6 @@ MIT
 
 ## Resource
 
-[One Piece Wanted Poster template](https://www.deviantart.com/ei819/art/One-Piece-Wanted-Poster-104165885), made by [ei819](https://www.deviantart.com/ei819)
+- [One Piece Wanted Poster template](https://www.deviantart.com/ei819/art/One-Piece-Wanted-Poster-104165885) by [ei819](https://www.deviantart.com/ei819).
+
+- [Vertiky Font](https://www.1001fonts.com/vertiky-font.html) by [AmruID](https://www.1001fonts.com/users/AmruID/), used for the bounty.
