@@ -1,7 +1,7 @@
-import CanvasObject from './CanvasObject'
-import { getScale, loadImage } from './utils'
-import { Position, WantedImageInfo } from './types'
+import GraphicObject from './GraphicObject'
 import backgroundImageUrl from './images/paper.png'
+import { Position, WantedImageInfo } from './types'
+import { getScale, loadImage } from './utils'
 
 type EventName = 'imageloaded'
 
@@ -14,7 +14,7 @@ type RenderOffset = {
 
 const DEFAULT_POSITION = { x: 0, y: 0, width: 0, height: 0 }
 
-class Avatar extends CanvasObject {
+class Avatar extends GraphicObject {
   #wantedImageInfo?: WantedImageInfo
 
   filter = 'grayscale(35%) sepia(40%) saturate(80%) contrast(105%)'
@@ -130,7 +130,7 @@ class Avatar extends CanvasObject {
 
   render(): void {
     this.ctx.save()
-    // render background on the transparent area of avatar
+    // render background for the transparent area of avatar
     this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
     this.ctx.fillRect(
       this.#transparentPosition.x,
@@ -148,23 +148,24 @@ class Avatar extends CanvasObject {
     this.ctx.filter = this.filter
     this.ctx.drawImage(this.#image, x, y, width, height)
 
-    // following logic is to clear rectangles which is outside the boundary of wanted image
+    // Following logic is to clear overflow parts which is outside the boundary of wanted image.
+    // Since the wanted image has irregularly transparent edges, clearing overflow parts can prevent
+    // avatar to be rendered on transparent area.
     const { left, right, top, bottom } = this.#renderOffset
 
-    // clear left edge
+    // clear left overflow
     x <= left && this.ctx.clearRect(0, y, left, height)
-    // clear top edge
+    // clear top overflow
     y <= top && this.ctx.clearRect(x, 0, width, top)
-    // claer right edge
+    // claer right overflow
     if (x + width > this.ctx.canvas.width - right) {
       this.ctx.clearRect(this.ctx.canvas.width - right, y, right, height)
     }
-    // clear bottom edge
+    // clear bottom overflow
     if (y + height > this.ctx.canvas.height - bottom) {
       this.ctx.clearRect(x, this.ctx.canvas.height - bottom, width, bottom)
     }
 
-    this.ctx.canvas.width
     this.ctx.restore()
   }
 }

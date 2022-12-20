@@ -1,4 +1,4 @@
-abstract class CanvasObject {
+abstract class GraphicObject {
   x: number = 0
   y: number = 0
   width: number = 0
@@ -19,4 +19,4 @@ abstract class CanvasObject {
   abstract render(): void
 }
 
-export default CanvasObject
+export default GraphicObject

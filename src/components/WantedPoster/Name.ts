@@ -1,9 +1,9 @@
-import { Position } from './types'
-import CanvasObject from './CanvasObject'
+import GraphicObject from './GraphicObject'
 import patternImageUrl from './images/text-pattern.png'
-import { getTextActualHeight, loadImage, formatCharacterSpacing } from './utils'
+import { Position } from './types'
+import { formatCharacterSpacing, getTextActualHeight, loadImage } from './utils'
 
-class Name extends CanvasObject {
+class Name extends GraphicObject {
   #text = ''
   #formattedText = ''
   #spacing = 0

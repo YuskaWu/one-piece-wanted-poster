@@ -13,7 +13,8 @@ export type WantedImageInfo = {
   namePosition: Position
   bountyPosition: Position
   bountyFontSize: number
-  // for avatar image to avoid rendering on the outside of boundary
+  // The wanted image has irregularly transparent edges, the boundaryOffset is used
+  // to prevent avatar to be rendered on thease parts.
   boundaryOffset: {
     left: number
     right: number

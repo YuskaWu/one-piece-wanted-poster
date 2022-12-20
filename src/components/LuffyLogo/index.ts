@@ -10,13 +10,10 @@ class LuffyLogo extends HTMLElement {
   constructor() {
     super()
 
-    // Create a shadow root
     const shadowRoot = this.attachShadow({ mode: 'open' })
-
     const style = document.createElement('style')
     style.textContent = cssContent
 
-    // attach the created elements to the shadow DOM
     shadowRoot.append(style, template.content.cloneNode(true))
   }
 }

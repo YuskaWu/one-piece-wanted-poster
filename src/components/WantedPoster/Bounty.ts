@@ -1,10 +1,10 @@
-import CanvasObject from './CanvasObject'
+import GraphicObject from './GraphicObject'
 import bellySignImageUrl from './images/belly.png'
 import patternImageUrl from './images/text-pattern.png'
 import { WantedImageInfo } from './types'
 import { formatCharacterSpacing, getTextActualHeight, loadImage } from './utils'
 
-class Bounty extends CanvasObject {
+class Bounty extends GraphicObject {
   #text = ''
   #formattedText = ''
   #isNumber = true

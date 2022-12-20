@@ -1,8 +1,8 @@
 import Avatar from './Avatar'
-import CanvasObject from './CanvasObject'
+import GraphicObject from './GraphicObject'
 import { getBorderHoverInfo, isInside } from './utils'
 
-class AvatarResizer extends CanvasObject {
+class AvatarResizer extends GraphicObject {
   #avatar: Avatar
   #highlight = false
   #isHover = false
