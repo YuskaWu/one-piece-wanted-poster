@@ -214,9 +214,12 @@ class App extends HTMLElement {
     })
 
     this.#exportButton.addEventListener('click', async () => {
-      this.#exportButton.loading(true)
+      if (this.#exportButton.loading) {
+        return
+      }
+      this.#exportButton.loading = true
       await this.#wantedPoster.export()
-      this.#exportButton.loading(false)
+      this.#exportButton.loading = false
     })
 
     this.#criminalButton.addEventListener('click', () => {

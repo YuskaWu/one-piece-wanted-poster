@@ -37,7 +37,7 @@ class WantedButton extends HTMLElement {
     return ATTRIBUTES
   }
 
-  loading(value: boolean) {
+  set loading(value: boolean) {
     const iconSlot =
       this.#root.querySelector<HTMLSlotElement>('slot[name=icon]')
     const elm = iconSlot?.assignedNodes()[0] as undefined | HTMLElement
@@ -51,6 +51,10 @@ class WantedButton extends HTMLElement {
     } else {
       this.removeAttribute('loading')
     }
+  }
+
+  get loading(): boolean {
+    return this.hasAttribute('loading')
   }
 
   attributeChangedCallback(
