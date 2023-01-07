@@ -111,6 +111,12 @@ class App extends HTMLElement {
       loadingOverlay.style.opacity = '0'
 
       setTimeout(() => loadingOverlay.remove(), 1000)
+
+      if (location.hash === WARCRIMINAL_HASH) {
+        this.#criminalButton.classList.add('criminal--visible')
+        return
+      }
+
       setTimeout(
         () => this.#criminalButton.classList.add('criminal--visible'),
         10000
@@ -131,6 +137,10 @@ class App extends HTMLElement {
     this.classList.toggle('warcriminal')
     overlay.classList.toggle('blood-overlay--visible')
     this.#criminalButton.classList.toggle('criminal--stamp')
+    this.#tipsButton.classList.toggle('tips-button--hidden')
+    this.#root
+      .querySelector<HTMLDivElement>('.button-container')
+      ?.classList.toggle('button-container--hidden')
 
     if (toggle) {
       reset({ ...WARCRIMINAL_POSTER_INFO })

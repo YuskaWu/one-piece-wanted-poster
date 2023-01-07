@@ -83,6 +83,10 @@
   filter: drop-shadow(0 0 3px #c08000) drop-shadow(0 0 5px #fffca3);
 }
 
+.tips-button--hidden {
+  display: none;
+}
+
 .button-container {
   position: absolute;
   display: flex;
@@ -91,6 +95,10 @@
   bottom: 0;
   left: 0;
   padding: 0 1rem 1rem 1rem;
+}
+
+.button-container--hidden {
+  display: none;
 }
 
 .criminal {
