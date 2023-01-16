@@ -123,12 +123,16 @@ export function removeListener<T extends keyof AppState>(
   }
 }
 
-export function reset(overrideState: Partial<AppState> = {}) {
+export function update(state: Partial<AppState> = {}) {
   Object.assign(store, {
     ...store,
     filter: getFilter(DEFAULT_STATE),
-    ...overrideState
+    ...state
   })
+}
+
+export function reset() {
+  Object.assign(store, { ...DEFAULT_STATE })
 }
 
 export default store

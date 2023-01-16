@@ -1,4 +1,4 @@
-import store, { addListener, removeListener, reset } from '../../store'
+import store, { addListener, removeListener, update } from '../../store'
 import EditPanel from '../EditPanel'
 import type TipsDialog from '../TipsDialog'
 import type WantedButton from '../WantedButton'
@@ -145,7 +145,7 @@ class App extends HTMLElement {
       ?.classList.toggle('button-container--hidden')
 
     if (toggle) {
-      reset({ ...WARCRIMINAL_POSTER })
+      update({ ...WARCRIMINAL_POSTER })
     }
 
     this.#toggleWarCriminalCarousel(toggle)
@@ -157,11 +157,11 @@ class App extends HTMLElement {
       return
     }
 
-    reset({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[0] })
+    update({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[0] })
 
     let index = 1
     this.#carouselIntervalId = window.setInterval(() => {
-      reset({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[index] })
+      update({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[index] })
       index = (index + 1) % WARCRIMINAL_POSTER.avatarUrls.length
     }, 5000)
   }
