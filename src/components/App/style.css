@@ -141,14 +141,14 @@
   background-repeat: no-repeat;
   background-position: center;
   transition: filter 0.5s;
-  background-image: url('./images/criminal-avatar.png');
+  background-image: url('./images/war-criminal/criminal-avatar.png');
   filter: contrast(85%) brightness(0%) drop-shadow(1px 1px 0.5rem crimson)
     drop-shadow(-1px -1px 0.5rem crimson);
 }
 
 .criminal--stamp::before {
-  background-image: url('./images/criminal-stamp.png'),
-    url('./images/criminal-avatar.png');
+  background-image: url('./images/war-criminal/criminal-stamp.png'),
+    url('./images/war-criminal/criminal-avatar.png');
   filter: contrast(85%) brightness(110%)
     drop-shadow(1px 1px 0.1rem rgba(0, 0, 0, 0.5))
     drop-shadow(-1px -1px 0.1rem rgba(0, 0, 0, 0.5));

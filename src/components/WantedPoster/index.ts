@@ -1,13 +1,13 @@
-import { downloadFile, getScale } from './utils'
-import cssContent from './style.css?inline'
+import { WARCRIMINAL_POSTER } from '../App/config'
 import { ONE_PIECE_WANTED_IMAGE } from './constants'
-import { WARCRIMINAL_POSTER_INFO } from '../App/config'
+import cssContent from './style.css?inline'
+import { downloadFile, getScale } from './utils'
 
-import Name from './Name'
 import Avatar from './Avatar'
-import Bounty from './Bounty'
-import WantedImage from './WantedImage'
 import AvatarResizer from './AvatarResizer'
+import Bounty from './Bounty'
+import Name from './Name'
+import WantedImage from './WantedImage'
 
 const TAG_NAME = 'wanted-poster'
 const ATTRIBUTES = [
@@ -290,8 +290,11 @@ class WantedPoster extends HTMLElement {
 
       case 'avatar-url': {
         await this.#avatar.loadImage(newValue)
-        this.#avatarResizer.highlight =
-          newValue === WARCRIMINAL_POSTER_INFO.avatarUrl ? false : true
+        this.#avatarResizer.highlight = WARCRIMINAL_POSTER.avatarUrls.includes(
+          newValue
+        )
+          ? false
+          : true
         break
       }
 

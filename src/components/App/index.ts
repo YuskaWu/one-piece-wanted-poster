@@ -3,7 +3,7 @@ import EditPanel from '../EditPanel'
 import type TipsDialog from '../TipsDialog'
 import type WantedButton from '../WantedButton'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
-import { WARCRIMINAL_POSTER_INFO } from './config'
+import { WARCRIMINAL_POSTER } from './config'
 import cssContent from './style.css?inline'
 import templateContent from './template.html?raw'
 
@@ -24,6 +24,8 @@ class App extends HTMLElement {
   #exportButton: WantedButton
   #criminalButton: HTMLButtonElement
   #tipsButton: HTMLButtonElement
+
+  #carouselIntervalId: number = 0
 
   #startTime: number = 0
   #root: ShadowRoot
@@ -143,8 +145,25 @@ class App extends HTMLElement {
       ?.classList.toggle('button-container--hidden')
 
     if (toggle) {
-      reset({ ...WARCRIMINAL_POSTER_INFO })
+      reset({ ...WARCRIMINAL_POSTER })
     }
+
+    this.#toggleWarCriminalCarousel(toggle)
+  }
+
+  #toggleWarCriminalCarousel(toggle: boolean) {
+    if (!toggle) {
+      clearInterval(this.#carouselIntervalId)
+      return
+    }
+
+    reset({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[0] })
+
+    let index = 1
+    this.#carouselIntervalId = window.setInterval(() => {
+      reset({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[index] })
+      index = (index + 1) % WARCRIMINAL_POSTER.avatarUrls.length
+    }, 5000)
   }
 
   #setWantedPosterAttributes(attributes: WantedPosterAttribute) {

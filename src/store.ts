@@ -62,7 +62,8 @@ const store = new Proxy<AppState>(
   {
     set(target, prop, value, receiver) {
       if (prop in DEFAULT_STATE === false) {
-        return false
+        // ignroe unknown property
+        return true
       }
 
       switch (prop) {
@@ -124,7 +125,7 @@ export function removeListener<T extends keyof AppState>(
 
 export function reset(overrideState: Partial<AppState> = {}) {
   Object.assign(store, {
-    ...DEFAULT_STATE,
+    ...store,
     filter: getFilter(DEFAULT_STATE),
     ...overrideState
   })

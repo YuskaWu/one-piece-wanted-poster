@@ -1,6 +1,6 @@
 import { AppState } from '../../store'
 
-export const WARCRIMINAL_POSTER_INFO: Partial<AppState> = {
+export const WARCRIMINAL_POSTER = {
   shadow: 5,
   contrast: 105,
   grayscale: 35,
@@ -10,5 +10,9 @@ export const WARCRIMINAL_POSTER_INFO: Partial<AppState> = {
   bounty: 'War Criminal',
   nameSpacing: 0,
   bountySpacing: 1,
-  avatarUrl: './images/war-criminal.png'
-}
+  avatarUrls: [
+    './images/war-criminal/photo-01.png',
+    './images/war-criminal/photo-02.png',
+    './images/war-criminal/photo-03.png'
+  ]
+} satisfies Partial<AppState> & { avatarUrls: string[] }
