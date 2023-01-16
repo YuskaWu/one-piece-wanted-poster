@@ -7,21 +7,21 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.36.2",
-    "@typescript-eslint/parser": "^5.36.2",
-    "eslint": "^8.23.0",
-    "eslint-config-prettier": "^8.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.27.4",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.1",
-    "prettier": "2.7.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "2.8.3",
     "prettier-config-standard": "^5.0.0",
-    "typescript": "^4.8.2",
-    "vite": "^3.1.0",
-    "vite-plugin-checker": "^0.5.1",
-    "vite-plugin-full-reload": "^1.0.4",
-    "vite-plugin-pwa": "^0.12.7"
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4",
+    "vite-plugin-checker": "^0.5.3",
+    "vite-plugin-full-reload": "^1.0.5",
+    "vite-plugin-pwa": "^0.14.1"
   },
   "dependencies": {
     "iconify-icon": "^1.0.2",
