@@ -186,8 +186,16 @@ class App extends HTMLElement {
       this.classList.add('dragin')
     })
 
-    this.addEventListener('dragleave', () => {
-      this.classList.remove('dragin')
+    this.addEventListener('dragleave', (e) => {
+      // The "dragleave" event will trigger whenever cursor cross over the child element
+      // which is a web component, so we can not just remove "dragin" style without any judgement.
+
+      // For dragleave event, the "relatedTarget" property menas the element entered to.
+      // So if "relatedTarget" is null, it will be the outside of window, which is the case
+      // that we want to remove "dragin" style.
+      if (e.relatedTarget === null) {
+        this.classList.remove('dragin')
+      }
     })
 
     this.addEventListener('drop', (event) => {
