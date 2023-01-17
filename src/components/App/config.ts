@@ -2,10 +2,9 @@ import { AppState } from '../../store'
 
 export const WARCRIMINAL_POSTER = {
   shadow: 5,
-  contrast: 105,
-  grayscale: 35,
+  grayscale: 12,
   saturate: 80,
-  sepia: 40,
+  sepia: 15,
   name: 'PUTLER',
   bounty: 'War Criminal',
   nameSpacing: 0,
