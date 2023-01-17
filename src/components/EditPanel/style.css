@@ -86,7 +86,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.8);
   text-shadow: var(--text-shadow);
   filter: var(--element-filter);
   transition: 0.05s;
@@ -122,6 +121,7 @@
 }
 
 .text-input {
+  font-family: 'Scheherazade New', serif;
   border: 0;
   outline: none;
   color: #584034;
@@ -134,7 +134,6 @@
   line-height: 4rem;
   font-size: 2rem;
   padding: 0 1rem;
-  text-shadow: var(--text-shadow);
   filter: var(--element-filter);
 }
 
@@ -151,7 +150,6 @@
 }
 
 .slider__label {
-  font-family: sans-serif;
   color: #584034;
   font-size: 0.75rem;
   background-image: url('./images/scroll-paper.png');

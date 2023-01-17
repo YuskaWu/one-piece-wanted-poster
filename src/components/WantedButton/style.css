@@ -63,7 +63,7 @@ iconify-icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Scheherazade New', 'Noto Sans TC', sans-serif;
+  font-family: 'Scheherazade New', serif;
   color: rgb(81, 55, 33);
   bottom: 12%;
   width: 85%;
