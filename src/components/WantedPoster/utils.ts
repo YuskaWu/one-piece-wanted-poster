@@ -90,11 +90,3 @@ export function downloadFile(uri: string, fileName: string) {
   anchor.click()
   anchor.remove()
 }
-
-export function formatCharacterSpacing(text: string, spacing: number) {
-  let space = ''
-  for (let i = 0; i < spacing; i++) {
-    space += ' '
-  }
-  return Array.from(text).join(space)
-}

@@ -116,8 +116,8 @@ class WantedPoster extends HTMLElement {
     })
 
     await avatar.init(wantedImageInfo)
-    await name.init(wantedImageInfo.namePosition)
     await bounty.init(wantedImageInfo)
+    name.setPosition(wantedImageInfo.namePosition)
 
     await avatar.loadImage(this.getAttribute('avatar-url'))
     name.text = this.getAttribute('name') ?? ''
@@ -228,8 +228,8 @@ class WantedPoster extends HTMLElement {
       })
 
       await this.#avatar.init(wantedImageInfo)
-      await this.#name.init(wantedImageInfo.namePosition)
       await this.#bounty.init(wantedImageInfo)
+      this.#name.setPosition(wantedImageInfo.namePosition)
 
       await this.#avatar.loadImage(this.getAttribute('avatar-url'))
     } catch (e) {
