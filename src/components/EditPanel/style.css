@@ -71,6 +71,7 @@
 }
 
 .wood-button {
+  font-family: serif;
   border: 0;
   font-size: 1rem;
   outline: none;
@@ -121,6 +122,7 @@
 }
 
 .text-input {
+  font-family: serif;
   border: 0;
   outline: none;
   color: #584034;

@@ -157,12 +157,13 @@ class App extends HTMLElement {
       return
     }
 
-    update({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[0] })
+    const length = WARCRIMINAL_POSTER.avatarUrls.length
+    let index = Math.floor(length * Math.random())
 
-    let index = 1
+    update({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[index] })
     this.#carouselIntervalId = window.setInterval(() => {
+      index = (index + 1) % length
       update({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[index] })
-      index = (index + 1) % WARCRIMINAL_POSTER.avatarUrls.length
     }, 5000)
   }
 
