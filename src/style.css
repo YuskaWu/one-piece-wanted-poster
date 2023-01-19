@@ -18,3 +18,24 @@ body {
   /* set font size to be 2.5vmin, but limit size in the range between 1rem and 4rem */
   font-size: clamp(1rem, 2.5vmin, 4rem);
 }
+
+github-corner:not(.gc-ua) {
+  transition: 0.2s;
+  mix-blend-mode: darken;
+}
+
+github-corner:not(.gc-ua)::part(banner) {
+  fill: #584034;
+}
+
+github-corner:not(.gc-ua):hover {
+  filter: contrast(150%);
+}
+
+.gc-ua::part(banner) {
+  fill: url(#banner-grad);
+}
+
+.gc-ua::part(octocat) {
+  fill: white;
+}

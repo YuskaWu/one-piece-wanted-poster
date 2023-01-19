@@ -136,6 +136,7 @@ class App extends HTMLElement {
       return
     }
 
+    document.querySelector('github-corner')?.classList.toggle('gc-ua', toggle)
     this.classList.toggle('warcriminal')
     overlay.classList.toggle('blood-overlay--visible')
     this.#criminalButton.classList.toggle('criminal--stamp')
