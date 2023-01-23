@@ -119,7 +119,8 @@ class WantedImage {
       },
       bellySignSize: {
         width: bellySignSize.width * scale,
-        height: bellySignSize.height * scale
+        height: bellySignSize.height * scale,
+        marginRight: bellySignSize.marginRight * scale
       }
     }
   }

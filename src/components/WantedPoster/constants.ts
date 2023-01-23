@@ -10,7 +10,7 @@ export const ONE_PIECE_WANTED_IMAGE: WantedImageInfo = {
   bountyPosition: {
     x: 84,
     y: 958,
-    width: 584,
+    width: 592,
     height: 85
   },
   bountyFontSize: 70,
@@ -22,6 +22,7 @@ export const ONE_PIECE_WANTED_IMAGE: WantedImageInfo = {
   },
   bellySignSize: {
     width: 59,
-    height: 83
+    height: 83,
+    marginRight: 18
   }
 }

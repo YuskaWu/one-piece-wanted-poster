@@ -7,8 +7,7 @@ class Bounty extends Text {
   #isNumber = true
   #numberFormat = new Intl.NumberFormat()
   #bellySignImage: HTMLImageElement | null = null
-  #bellySignMarginRight = 10
-  #bellySignSize: { width: number; height: number } | null = null
+  #bellySignSize: WantedImageInfo['bellySignSize'] | null = null
 
   async init(wantedImageInfo: WantedImageInfo) {
     try {
@@ -60,14 +59,14 @@ class Bounty extends Text {
 
     const centerX = this.x + this.width / 2
     const bellySignWidth = this.#isNumber
-      ? width + this.#bellySignMarginRight
+      ? width + this.#bellySignSize.marginRight
       : 0
     const actualHeight = getTextActualHeight(this.ctx, this.formattedText)
     let topOffset = (this.height - actualHeight) / 2
 
-    // 0.78 is not a fixed constant for adjusting the top position, it should change depending on the font we used.
+    // topOffset is not a fixed constant for adjusting the top position, it should change depending on the font we used.
     if (this.#isNumber) {
-      topOffset *= 0.78
+      topOffset *= 0.818
     }
 
     const x = centerX + bellySignWidth / 2

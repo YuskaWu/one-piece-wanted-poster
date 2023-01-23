@@ -24,5 +24,6 @@ export type WantedImageInfo = {
   bellySignSize: {
     width: number
     height: number
+    marginRight: number
   }
 }
