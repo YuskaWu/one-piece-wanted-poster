@@ -7,8 +7,6 @@ export type Position = {
 
 export type WantedImageInfo = {
   url: string
-  width: number
-  height: number
   avatarPosition: Position
   namePosition: Position
   bountyPosition: Position
@@ -21,9 +19,5 @@ export type WantedImageInfo = {
     top: number
     bottom: number
   }
-  bellySignSize: {
-    width: number
-    height: number
-    marginRight: number
-  }
+  bellyMarginRight: number
 }

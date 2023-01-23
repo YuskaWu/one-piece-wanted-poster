@@ -22,8 +22,9 @@ class WantedImage {
   }
 
   async loadImage(info: WantedImageInfo) {
+    let image
     try {
-      const image = await loadImage(info.url)
+      image = await loadImage(info.url)
       this.#image = image
       this.#scaledWidth = image.width
       this.#scaledHeight = image.height
@@ -32,6 +33,8 @@ class WantedImage {
       console.error(error)
       throw new Error('Failed to load wanted image.')
     }
+
+    return image
   }
 
   setSize({
@@ -83,14 +86,12 @@ class WantedImage {
 
     const {
       url,
-      width,
-      height,
       avatarPosition,
       namePosition,
       bountyPosition,
       bountyFontSize,
       boundaryOffset,
-      bellySignSize
+      bellyMarginRight
     } = this.#wantedImageInfo
 
     const calculatePosition = (p: Position) => {
@@ -105,8 +106,6 @@ class WantedImage {
 
     return {
       url,
-      width,
-      height,
       avatarPosition: calculatePosition(avatarPosition),
       namePosition: calculatePosition(namePosition),
       bountyPosition: calculatePosition(bountyPosition),
@@ -117,11 +116,7 @@ class WantedImage {
         top: boundaryOffset.top * scale + padding,
         bottom: boundaryOffset.bottom * scale + padding
       },
-      bellySignSize: {
-        width: bellySignSize.width * scale,
-        height: bellySignSize.height * scale,
-        marginRight: bellySignSize.marginRight * scale
-      }
+      bellyMarginRight: bellyMarginRight * scale
     }
   }
 

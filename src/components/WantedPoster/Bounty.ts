@@ -7,7 +7,9 @@ class Bounty extends Text {
   #isNumber = true
   #numberFormat = new Intl.NumberFormat()
   #bellySignImage: HTMLImageElement | null = null
-  #bellySignSize: WantedImageInfo['bellySignSize'] | null = null
+  #bellyMarginRight = 0
+  #bellySignWidth = 0
+  #bellySignHeight = 0
 
   async init(wantedImageInfo: WantedImageInfo) {
     try {
@@ -17,18 +19,21 @@ class Bounty extends Text {
       throw new Error('Failed to init bounty.')
     }
 
-    this.setPosition(wantedImageInfo)
+    this.setPosition(wantedImageInfo, 1)
   }
 
-  setPosition(wantedImageInfo: WantedImageInfo) {
-    const { bountyPosition, bountyFontSize, bellySignSize } = wantedImageInfo
+  setPosition(wantedImageInfo: WantedImageInfo, scale: number) {
+    const { bountyPosition, bountyFontSize } = wantedImageInfo
     this.x = bountyPosition.x
     this.y = bountyPosition.y
     this.width = bountyPosition.width
     this.height = bountyPosition.height
     this.fontSize = bountyFontSize
-
-    this.#bellySignSize = { ...bellySignSize }
+    this.#bellyMarginRight = wantedImageInfo.bellyMarginRight
+    if (this.#bellySignImage) {
+      this.#bellySignWidth = this.#bellySignImage.width * scale
+      this.#bellySignHeight = this.#bellySignImage.height * scale
+    }
   }
 
   formatText(text: string, spacing: number = 0): string {
@@ -44,11 +49,9 @@ class Bounty extends Text {
   }
 
   beforeRenderText() {
-    if (!this.#bellySignImage || !this.#bellySignSize) {
+    if (!this.#bellySignImage) {
       return
     }
-
-    const { width, height } = this.#bellySignSize
 
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'top'
@@ -59,7 +62,7 @@ class Bounty extends Text {
 
     const centerX = this.x + this.width / 2
     const bellySignWidth = this.#isNumber
-      ? width + this.#bellySignSize.marginRight
+      ? this.#bellySignWidth + this.#bellyMarginRight
       : 0
     const actualHeight = getTextActualHeight(this.ctx, this.formattedText)
     let topOffset = (this.height - actualHeight) / 2
@@ -83,8 +86,8 @@ class Bounty extends Text {
         this.#bellySignImage,
         bellySignX,
         this.y,
-        width,
-        height
+        this.#bellySignWidth,
+        this.#bellySignHeight
       )
     }
 

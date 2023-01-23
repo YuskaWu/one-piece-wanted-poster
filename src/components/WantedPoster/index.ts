@@ -105,10 +105,10 @@ class WantedPoster extends HTMLElement {
     const name = new Name(ctx)
     const bounty = new Bounty(ctx)
 
-    await wantedImage.loadImage(ONE_PIECE_WANTED_IMAGE)
+    const image = await wantedImage.loadImage(ONE_PIECE_WANTED_IMAGE)
 
-    const exportWidth = ONE_PIECE_WANTED_IMAGE.width + shadow * 2
-    const exportHeight = ONE_PIECE_WANTED_IMAGE.height + shadow * 2
+    const exportWidth = image.width + shadow * 2
+    const exportHeight = image.height + shadow * 2
     const { wantedImageInfo } = wantedImage.setSize({
       width: exportWidth,
       height: exportHeight,
@@ -176,14 +176,14 @@ class WantedPoster extends HTMLElement {
       this.#canvas.width,
       this.#canvas.height
     )
-    const { wantedImageInfo } = this.#wantedImage.setSize({
+    const { wantedImageInfo, scale } = this.#wantedImage.setSize({
       width: rect.width,
       height: rect.height,
       shadowSize: shadow
     })
 
     this.#name.setPosition(wantedImageInfo.namePosition)
-    this.#bounty.setPosition(wantedImageInfo)
+    this.#bounty.setPosition(wantedImageInfo, scale)
 
     this.#avatar.setWantedImageInfo(wantedImageInfo)
     this.#avatar.scale(resizeScale)
