@@ -11,15 +11,13 @@ class Bounty extends Text {
   #bellySignWidth = 0
   #bellySignHeight = 0
 
-  async init(wantedImageInfo: WantedImageInfo) {
+  async init() {
     try {
       this.#bellySignImage = await loadImage(bellySignImageUrl)
     } catch (error) {
       console.error(error)
       throw new Error('Failed to init bounty.')
     }
-
-    this.setPosition(wantedImageInfo, 1)
   }
 
   setPosition(wantedImageInfo: WantedImageInfo, scale: number) {
