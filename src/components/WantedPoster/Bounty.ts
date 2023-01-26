@@ -80,6 +80,7 @@ class Bounty extends Text {
         maxWidth
       )
       const bellySignX = centerX - bellySignWidth / 2 - textWidth / 2
+      this.ctx.globalCompositeOperation = 'darken'
       this.ctx.drawImage(
         this.#bellySignImage,
         bellySignX,
