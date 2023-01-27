@@ -11,7 +11,7 @@ export default defineConfig({
     pwa({
       strategies: 'injectManifest',
       srcDir: '',
-      filename: 'service-worker.js',
+      filename: 'service-worker.ts',
       base: './',
       manifest
     })
