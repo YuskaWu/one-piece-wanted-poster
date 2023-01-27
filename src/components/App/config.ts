@@ -2,6 +2,10 @@ import { AppState } from '../../store'
 
 export const WARCRIMINAL_POSTER = {
   shadow: 5,
+  blur: 0,
+  brightness: 100,
+  contrast: 100,
+  hueRotate: 0,
   grayscale: 12,
   saturate: 80,
   sepia: 15,
