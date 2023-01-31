@@ -53,5 +53,35 @@
       "sizes": "512x512",
       "type": "image/png"
     }
+  ],
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": {
+        "image/*": [
+          ".png",
+          ".jpg",
+          ".jpeg",
+          ".jfif",
+          ".pjpeg",
+          ".pjp",
+          ".apng",
+          ".avif",
+          ".gif",
+          ".webp",
+          ".bmp",
+          ".tif",
+          ".tiff"
+        ]
+      },
+      "icons": [
+        {
+          "src": "./images/pwa/icon-128x128.png",
+          "sizes": "128x128",
+          "type": "image/png"
+        }
+      ],
+      "launch_type": "single-client"
+    }
   ]
 }
