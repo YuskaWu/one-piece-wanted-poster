@@ -3,6 +3,10 @@
   src: url('../font/Vertiky.ttf');
 }
 
+:root {
+  --dark-text-color: rgb(81, 55, 33);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -25,7 +29,7 @@ github-corner:not(.gc-ua) {
 }
 
 github-corner:not(.gc-ua)::part(banner) {
-  fill: #584034;
+  fill: var(--dark-text-color);
 }
 
 github-corner:not(.gc-ua):hover {

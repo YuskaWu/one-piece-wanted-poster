@@ -1,8 +1,4 @@
 :host {
-  --text-color: rgb(77, 50, 46);
-}
-
-:host {
   display: block;
   position: fixed;
   font-size: 0.8rem;
@@ -14,7 +10,7 @@
   transition: 0.2s;
   visibility: hidden;
   max-width: 100vw;
-  color: var(--text-color);
+  color: var(--dark-text-color);
   box-sizing: border-box;
   /* Resize to the size of background image */
   width: 17.62rem;
@@ -38,7 +34,7 @@
 }
 
 .content h3 {
-  border-bottom: 1px solid var(--text-color);
+  border-bottom: 1px solid var(--dark-text-color);
 }
 
 .content * {
@@ -82,7 +78,7 @@ a:visited {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--text-color);
+  background: var(--dark-text-color);
   border-radius: 0.1rem;
 }
 

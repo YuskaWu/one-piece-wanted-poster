@@ -1,4 +1,8 @@
 :host {
+  --slider-bg-color: #584034;
+}
+
+:host {
   --text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
   --element-filter: drop-shadow(2px 0 2px rgba(0, 0, 0, 0.4))
     drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.4)) contrast(100%) brightness(100%);
@@ -125,7 +129,7 @@
   font-family: serif;
   border: 0;
   outline: none;
-  color: #584034;
+  color: var(--dark-text-color);
   background-image: url('./images/input-frame.png');
   background-color: transparent;
   background-size: 100% 100%;
@@ -151,19 +155,20 @@
 }
 
 .slider__label {
-  color: #584034;
+  color: var(--dark-text-color);
   font-size: 0.75rem;
   background-image: url('./images/scroll-paper.png');
   background-color: transparent;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
-  width: 10.5rem;
+  width: 11rem;
   height: 2rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding-bottom: 0.1rem;
+  padding-left: 0.5rem;
   box-sizing: border-box;
   margin: 0;
   position: relative;
@@ -179,7 +184,7 @@
 
 .slider__input::-webkit-slider-runnable-track {
   height: 0.75rem;
-  background-color: #584034;
+  background-color: var(--slider-bg-color);
   border: 1px solid rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.8);
   border-radius: 0.1rem;
@@ -187,7 +192,7 @@
 
 .slider__input::-moz-range-track {
   height: 0.75rem;
-  background-color: #584034;
+  background-color: var(--slider-bg-color);
   border: 1px solid rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.8);
   border-radius: 0.1rem;
