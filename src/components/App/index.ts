@@ -257,9 +257,21 @@ class App extends HTMLElement {
       if (this.#exportButton.loading) {
         return
       }
+
       this.#exportButton.loading = true
-      await this.#wantedPoster.export()
-      this.#exportButton.loading = false
+      try {
+        await this.#wantedPoster.export()
+      } catch (e) {
+        console.error(e)
+        let message = ''
+        if (e instanceof Error) {
+          message = e.message
+        }
+        // TODO show error in dialog instead of alert
+        alert(`Oops! something went wrong. 😢 \n ${message}`)
+      } finally {
+        this.#exportButton.loading = false
+      }
     })
 
     this.#criminalButton.addEventListener('click', () => {

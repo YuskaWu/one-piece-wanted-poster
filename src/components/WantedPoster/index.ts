@@ -141,25 +141,26 @@ class WantedPoster extends HTMLElement {
     bounty.render()
     name.render()
 
+    let url = ''
     try {
-      const blob = await new Promise<Blob | null>((resolve) => {
-        canvas.toBlob((blob) => resolve(blob), 'image/png', 1)
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob(
+          (blob) => {
+            blob ? resolve(blob) : reject('Failed to create blob object.')
+          },
+          'image/png',
+          1
+        )
       })
-
-      if (!blob) {
-        throw new Error('blob is null')
-      }
-
-      const url = URL.createObjectURL(blob)
+      url = URL.createObjectURL(blob)
       downloadFile(url, 'wanted-poster.png')
-      URL.revokeObjectURL(url)
-      this.#container.removeChild(canvas)
     } catch (e) {
-      console.error(e)
-      // TODO catch event and show error message in parent component:
-      // Oops! Seems the avatar image is cross origin and not allow to export.
-      // You can right click on the canvas and save it by yourself.
-      this.dispatchEvent(new CustomEvent('ExportError', { bubbles: true }))
+      throw e
+    } finally {
+      if (url) {
+        URL.revokeObjectURL(url)
+      }
+      this.#container.removeChild(canvas)
     }
   }
 
