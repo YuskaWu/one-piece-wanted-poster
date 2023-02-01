@@ -1,8 +1,4 @@
 :host {
-  --slider-bg-color: #584034;
-}
-
-:host {
   --text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
   --element-filter: drop-shadow(2px 0 2px rgba(0, 0, 0, 0.4))
     drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.4)) contrast(100%) brightness(100%);
@@ -184,7 +180,7 @@
 
 .slider__input::-webkit-slider-runnable-track {
   height: 0.75rem;
-  background-color: var(--slider-bg-color);
+  background-color: var(--theme-color);
   border: 1px solid rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.8);
   border-radius: 0.1rem;
@@ -192,7 +188,7 @@
 
 .slider__input::-moz-range-track {
   height: 0.75rem;
-  background-color: var(--slider-bg-color);
+  background-color: var(--theme-color);
   border: 1px solid rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.8);
   border-radius: 0.1rem;

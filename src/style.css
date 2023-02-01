@@ -4,6 +4,7 @@
 }
 
 :root {
+  --theme-color: #584034;
   --dark-text-color: rgb(81, 55, 33);
 }
 
@@ -29,7 +30,7 @@ github-corner:not(.gc-ua) {
 }
 
 github-corner:not(.gc-ua)::part(banner) {
-  fill: var(--dark-text-color);
+  fill: var(--theme-color);
 }
 
 github-corner:not(.gc-ua):hover {
