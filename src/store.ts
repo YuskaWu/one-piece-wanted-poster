@@ -131,8 +131,8 @@ export function update(state: Partial<AppState> = {}) {
   })
 }
 
-export function reset() {
-  Object.assign(store, { ...DEFAULT_STATE })
+export function reset(state: Partial<AppState> = {}) {
+  Object.assign(store, { ...DEFAULT_STATE, ...state })
 }
 
 export default store
