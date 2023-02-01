@@ -4,9 +4,9 @@ import { WantedImageInfo } from './types'
 export const ONE_PIECE_WANTED_IMAGE: WantedImageInfo = {
   url: onePieceWantedImageUrl,
   avatarPosition: { x: 74, y: 252, width: 638, height: 484 },
-  namePosition: { x: 87, y: 826, width: 585, height: 114 },
+  namePosition: { x: 87, y: 826, width: 586, height: 114 },
   bountyPosition: {
-    x: 84,
+    x: 82,
     y: 958,
     width: 592,
     height: 85
