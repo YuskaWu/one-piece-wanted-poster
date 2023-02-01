@@ -1,5 +1,6 @@
 export interface PosterCanvasElement extends HTMLCanvasElement {
-  rect?: DOMRect
+  domWidth: number
+  domHeight: number
 }
 
 export interface PosterRenderingContext2D extends CanvasRenderingContext2D {

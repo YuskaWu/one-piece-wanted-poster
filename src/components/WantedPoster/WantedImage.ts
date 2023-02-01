@@ -72,7 +72,8 @@ class WantedImage {
 
     this.#canvas.style.width = this.#canvasDomWidth + 'px'
     this.#canvas.style.height = this.#canvasDomHeight + 'px'
-    this.#canvas.rect = this.#canvas.getBoundingClientRect()
+    this.#canvas.domWidth = this.#canvasDomWidth
+    this.#canvas.domHeight = this.#canvasDomHeight
 
     switch (quality) {
       case 'original':

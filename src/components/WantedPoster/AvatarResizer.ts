@@ -16,6 +16,9 @@ class AvatarResizer extends GraphicObject {
   #lineDash = LINE_DASH
   #resizeBorder: 'left' | 'right' | 'top' | 'bottom' | null = null
 
+  #rectTop = 0
+  #rectLeft = 0
+
   #trackingPointers: Map<number, PointerEvent> = new Map()
 
   #dashOffset = 0
@@ -28,6 +31,9 @@ class AvatarResizer extends GraphicObject {
     this.#avatar = avatar
 
     avatar.on('imageloaded', () => this.reset())
+    ctx.canvas.addEventListener('mouseover', this.#onMouseover.bind(this), {
+      passive: true
+    })
     ctx.canvas.addEventListener('mouseout', this.#onMouseout.bind(this), {
       passive: true
     })
@@ -80,17 +86,19 @@ class AvatarResizer extends GraphicObject {
     this.#zoom(scale)
   }
 
+  #onMouseover() {
+    const { left, top } = this.ctx.canvas.getBoundingClientRect()
+    this.#rectTop = top
+    this.#rectLeft = left
+  }
+
   #onMouseout() {
     this.#isHover = false
   }
 
   #onMousemove(e: MouseEvent) {
-    if (!this.ctx.canvas.rect) {
-      return
-    }
-    const { left, top } = this.ctx.canvas.rect
-    const canvasX = e.clientX - left
-    const canvasY = e.clientY - top
+    const canvasX = e.clientX - this.#rectLeft
+    const canvasY = e.clientY - this.#rectTop
 
     if (this.#isMousedown) {
       const diffX = e.clientX - this.#mouseClientX
@@ -132,11 +140,8 @@ class AvatarResizer extends GraphicObject {
     }
 
     this.#trackingPointers.set(e.pointerId, e)
-    if (!this.ctx.canvas.rect) {
-      return
-    }
 
-    const { left, top } = this.ctx.canvas.rect
+    const { left, top } = this.ctx.canvas.getBoundingClientRect()
     let isHover = false
     for (let pointer of this.#trackingPointers.values()) {
       const canvasX = pointer.clientX - left

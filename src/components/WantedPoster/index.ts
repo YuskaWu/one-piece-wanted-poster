@@ -48,7 +48,9 @@ class WantedPoster extends HTMLElement {
 
     const shadowRoot = this.attachShadow({ mode: 'open' }) // sets and returns 'this.shadowRoot'
 
-    const canvas = document.createElement('canvas')
+    const canvas = document.createElement('canvas') as PosterCanvasElement
+    canvas.domWidth = 0
+    canvas.domHeight = 0
     const container = document.createElement('div')
     container.className = 'container'
     container.appendChild(canvas)
@@ -58,7 +60,7 @@ class WantedPoster extends HTMLElement {
 
     shadowRoot.append(style, container)
 
-    const ctx = canvas.getContext('2d')!
+    const ctx = canvas.getContext('2d') as PosterRenderingContext2D
 
     this.#container = container
     this.#canvas = canvas
@@ -92,11 +94,13 @@ class WantedPoster extends HTMLElement {
   }
 
   async export() {
-    const canvas = document.createElement('canvas')
+    const canvas = document.createElement('canvas') as PosterCanvasElement
+    canvas.domWidth = 0
+    canvas.domHeight = 0
     canvas.style.display = 'none'
 
     this.#container.appendChild(canvas)
-    const ctx = canvas.getContext('2d')!
+    const ctx = canvas.getContext('2d') as PosterRenderingContext2D
 
     const shadow = this.#getShadow()
     const wantedImage = new WantedImage(ctx)
@@ -196,12 +200,7 @@ class WantedPoster extends HTMLElement {
   }
 
   #render() {
-    const rect = this.#canvas.rect
-    if (!rect) {
-      return
-    }
-
-    this.#ctx.clearRect(0, 0, rect.width, rect.height)
+    this.#ctx.clearRect(0, 0, this.#canvas.domWidth, this.#canvas.domHeight)
     this.#avatar.render()
     this.#wantedImage.render()
     this.#bounty.render()
