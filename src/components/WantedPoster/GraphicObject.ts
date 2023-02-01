@@ -1,11 +1,12 @@
+import type { PosterRenderingContext2D } from './types'
 abstract class GraphicObject {
   x: number = 0
   y: number = 0
   width: number = 0
   height: number = 0
-  protected ctx: CanvasRenderingContext2D
+  protected ctx: PosterRenderingContext2D
 
-  constructor(ctx: CanvasRenderingContext2D) {
+  constructor(ctx: PosterRenderingContext2D) {
     this.ctx = ctx
   }
 

@@ -129,6 +129,11 @@ class Avatar extends GraphicObject {
   }
 
   render(): void {
+    const rect = this.ctx.canvas.rect
+    if (!rect) {
+      return
+    }
+
     this.ctx.save()
     // render background for the transparent area of avatar
     this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
@@ -158,12 +163,12 @@ class Avatar extends GraphicObject {
     // clear top overflow
     y <= top && this.ctx.clearRect(x, 0, width, top)
     // claer right overflow
-    if (x + width > this.ctx.canvas.width - right) {
-      this.ctx.clearRect(this.ctx.canvas.width - right, y, right, height)
+    if (x + width > rect.width - right) {
+      this.ctx.clearRect(rect.width - right, y, right, height)
     }
     // clear bottom overflow
-    if (y + height > this.ctx.canvas.height - bottom) {
-      this.ctx.clearRect(x, this.ctx.canvas.height - bottom, width, bottom)
+    if (y + height > rect.height - bottom) {
+      this.ctx.clearRect(x, rect.height - bottom, width, bottom)
     }
 
     this.ctx.restore()

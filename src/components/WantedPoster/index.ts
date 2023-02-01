@@ -3,6 +3,8 @@ import { ONE_PIECE_WANTED_IMAGE } from './constants'
 import cssContent from './style.css?inline'
 import { downloadFile, getScale } from './utils'
 
+import type { PosterCanvasElement, PosterRenderingContext2D } from './types'
+
 import Avatar from './Avatar'
 import AvatarResizer from './AvatarResizer'
 import Bounty from './Bounty'
@@ -27,8 +29,8 @@ export type WantedPosterAttribute = {
 
 class WantedPoster extends HTMLElement {
   #container: HTMLDivElement
-  #canvas: HTMLCanvasElement
-  #ctx: CanvasRenderingContext2D
+  #canvas: PosterCanvasElement
+  #ctx: PosterRenderingContext2D
 
   #avatar: Avatar
   #avatarResizer: AvatarResizer
@@ -44,7 +46,6 @@ class WantedPoster extends HTMLElement {
     super()
     this.#status = 'init'
 
-    // Create a shadow root
     const shadowRoot = this.attachShadow({ mode: 'open' }) // sets and returns 'this.shadowRoot'
 
     const canvas = document.createElement('canvas')
@@ -52,11 +53,9 @@ class WantedPoster extends HTMLElement {
     container.className = 'container'
     container.appendChild(canvas)
 
-    // Create some CSS to apply to the shadow dom
     const style = document.createElement('style')
     style.textContent = cssContent
 
-    // attach the created elements to the shadow DOM
     shadowRoot.append(style, container)
 
     const ctx = canvas.getContext('2d')!
@@ -109,10 +108,12 @@ class WantedPoster extends HTMLElement {
 
     const exportWidth = image.width + shadow * 2
     const exportHeight = image.height + shadow * 2
+
     const { wantedImageInfo } = wantedImage.setSize({
       width: exportWidth,
       height: exportHeight,
-      shadowSize: shadow
+      shadowSize: shadow,
+      quality: 'original'
     })
 
     await bounty.init()
@@ -126,13 +127,12 @@ class WantedPoster extends HTMLElement {
     name.spacing = parseInt(this.getAttribute('name-spacing') ?? '0') || 0
     bounty.spacing = parseInt(this.getAttribute('bounty-spacing') ?? '0') || 0
 
-    // according to the avatar of displaying canvas to update render postion
+    // sync avatar position from current displaying canvas
     const { x, y, width, height, filter } = this.#avatar
-    const scale = this.#wantedImage.scale
-    avatar.x = x / scale
-    avatar.y = y / scale
-    avatar.width = width / scale
-    avatar.height = height / scale
+    avatar.x = x / this.#wantedImage.imageScale
+    avatar.y = y / this.#wantedImage.imageScale
+    avatar.width = width / this.#wantedImage.imageScale
+    avatar.height = height / this.#wantedImage.imageScale
     avatar.filter = filter
     avatar.updateRenderPosition()
 
@@ -170,30 +170,38 @@ class WantedPoster extends HTMLElement {
     }
 
     const shadow = this.#getShadow()
-    const rect = this.#container.getBoundingClientRect()
+    const containerRect = this.#container.getBoundingClientRect()
+    const canvasRect = this.#canvas.getBoundingClientRect()
 
     const resizeScale = getScale(
-      rect.width,
-      rect.height,
-      this.#canvas.width,
-      this.#canvas.height
+      containerRect.width,
+      containerRect.height,
+      canvasRect.width,
+      canvasRect.height
     )
-    const { wantedImageInfo, scale } = this.#wantedImage.setSize({
-      width: rect.width,
-      height: rect.height,
-      shadowSize: shadow
+    const { wantedImageInfo, imageScale } = this.#wantedImage.setSize({
+      width: containerRect.width,
+      height: containerRect.height,
+      shadowSize: shadow,
+      quality: 'half'
     })
 
     this.#name.setPosition(wantedImageInfo.namePosition)
-    this.#bounty.setPosition(wantedImageInfo, scale)
+    this.#bounty.setPosition(wantedImageInfo, imageScale)
 
     this.#avatar.setWantedImageInfo(wantedImageInfo)
     this.#avatar.scale(resizeScale)
     this.#avatarResizer.scale(resizeScale)
+    this.#avatarResizer.borderScale = imageScale
   }
 
   #render() {
-    this.#ctx.clearRect(0, 0, this.#canvas.width, this.#canvas.height)
+    const rect = this.#canvas.rect
+    if (!rect) {
+      return
+    }
+
+    this.#ctx.clearRect(0, 0, rect.width, rect.height)
     this.#avatar.render()
     this.#wantedImage.render()
     this.#bounty.render()
@@ -223,16 +231,18 @@ class WantedPoster extends HTMLElement {
 
     try {
       await this.#wantedImage.loadImage(ONE_PIECE_WANTED_IMAGE)
-      const { wantedImageInfo, scale } = this.#wantedImage.setSize({
+      const { wantedImageInfo, imageScale } = this.#wantedImage.setSize({
         width: rect.width,
         height: rect.height,
-        shadowSize: shadow
+        shadowSize: shadow,
+        quality: 'half'
       })
 
       await this.#bounty.init()
       await this.#avatar.init(wantedImageInfo)
       this.#name.setPosition(wantedImageInfo.namePosition)
-      this.#bounty.setPosition(wantedImageInfo, scale)
+      this.#bounty.setPosition(wantedImageInfo, imageScale)
+      this.#avatarResizer.borderScale = imageScale
 
       await this.#avatar.loadImage(this.getAttribute('avatar-url'))
     } catch (e) {

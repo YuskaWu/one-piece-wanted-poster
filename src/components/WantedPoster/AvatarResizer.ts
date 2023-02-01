@@ -1,6 +1,10 @@
 import Avatar from './Avatar'
 import GraphicObject from './GraphicObject'
+import type { PosterRenderingContext2D } from './types'
 import { getBorderHoverInfo, isInside } from './utils'
+
+const BORDER_WIDTH = 4
+const LINE_DASH = [10, 5]
 
 class AvatarResizer extends GraphicObject {
   #avatar: Avatar
@@ -8,7 +12,8 @@ class AvatarResizer extends GraphicObject {
   #isHover = false
   #isMousedown = false
   #isResizing = false
-  #borderWidth = 4
+  #borderWidth = BORDER_WIDTH
+  #lineDash = LINE_DASH
   #resizeBorder: 'left' | 'right' | 'top' | 'bottom' | null = null
 
   #trackingPointers: Map<number, PointerEvent> = new Map()
@@ -18,7 +23,7 @@ class AvatarResizer extends GraphicObject {
   #mouseClientX = 0
   #mouseClientY = 0
 
-  constructor(ctx: CanvasRenderingContext2D, avatar: Avatar) {
+  constructor(ctx: PosterRenderingContext2D, avatar: Avatar) {
     super(ctx)
     this.#avatar = avatar
 
@@ -51,6 +56,11 @@ class AvatarResizer extends GraphicObject {
     })
   }
 
+  set borderScale(scale: number) {
+    this.#borderWidth = BORDER_WIDTH * scale
+    this.#lineDash = LINE_DASH.map((n) => n * scale)
+  }
+
   set highlight(value: boolean) {
     this.#highlight = value
   }
@@ -75,7 +85,10 @@ class AvatarResizer extends GraphicObject {
   }
 
   #onMousemove(e: MouseEvent) {
-    const { left, top } = this.ctx.canvas.getBoundingClientRect()
+    if (!this.ctx.canvas.rect) {
+      return
+    }
+    const { left, top } = this.ctx.canvas.rect
     const canvasX = e.clientX - left
     const canvasY = e.clientY - top
 
@@ -119,7 +132,11 @@ class AvatarResizer extends GraphicObject {
     }
 
     this.#trackingPointers.set(e.pointerId, e)
-    const { left, top } = this.ctx.canvas.getBoundingClientRect()
+    if (!this.ctx.canvas.rect) {
+      return
+    }
+
+    const { left, top } = this.ctx.canvas.rect
     let isHover = false
     for (let pointer of this.#trackingPointers.values()) {
       const canvasX = pointer.clientX - left
@@ -328,14 +345,14 @@ class AvatarResizer extends GraphicObject {
     }
     this.ctx.save()
     this.#dashOffset++
-    if (this.#dashOffset > 16) {
+    if (this.#dashOffset >= this.#lineDash[0] + this.#lineDash[1]) {
       this.#dashOffset = 0
     }
     this.ctx.lineDashOffset = -this.#dashOffset
     this.ctx.fillStyle = 'rgba(255,255,255,0.5)'
     this.ctx.strokeStyle = 'red'
     this.ctx.lineWidth = this.#borderWidth
-    this.ctx.setLineDash([10, 5])
+    this.ctx.setLineDash(this.#lineDash)
 
     this.ctx.fillRect(this.x, this.y, this.width, this.height)
     this.ctx.strokeRect(this.x, this.y, this.width, this.height)

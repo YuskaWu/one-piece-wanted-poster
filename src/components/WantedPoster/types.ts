@@ -1,3 +1,11 @@
+export interface PosterCanvasElement extends HTMLCanvasElement {
+  rect?: DOMRect
+}
+
+export interface PosterRenderingContext2D extends CanvasRenderingContext2D {
+  canvas: PosterCanvasElement
+}
+
 export type Position = {
   x: number
   y: number

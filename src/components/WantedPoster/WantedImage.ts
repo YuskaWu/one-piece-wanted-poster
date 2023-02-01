@@ -1,24 +1,22 @@
+import type { PosterCanvasElement, PosterRenderingContext2D } from './types'
 import { Position, WantedImageInfo } from './types'
 import { getScale, loadImage } from './utils'
 
 class WantedImage {
-  #ctx: CanvasRenderingContext2D
-  #canvas: HTMLCanvasElement
-  #scale = 1
+  #ctx: PosterRenderingContext2D
+  #canvas: PosterCanvasElement
   #scaledShadowSize = 0
-  #shadowSize = 0
-  #scaledWidth = 0
-  #scaledHeight = 0
+  #canvasDomWidth = 0
+  #canvasDomHeight = 0
+
+  #imageScale = 1
+
   #image: HTMLImageElement | null = null
   #wantedImageInfo: WantedImageInfo | null = null
 
-  constructor(ctx: CanvasRenderingContext2D) {
+  constructor(ctx: PosterRenderingContext2D) {
     this.#ctx = ctx
     this.#canvas = ctx.canvas
-  }
-
-  get scale() {
-    return this.#scale
   }
 
   async loadImage(info: WantedImageInfo) {
@@ -26,8 +24,6 @@ class WantedImage {
     try {
       image = await loadImage(info.url)
       this.#image = image
-      this.#scaledWidth = image.width
-      this.#scaledHeight = image.height
       this.#wantedImageInfo = info
     } catch (error) {
       console.error(error)
@@ -37,44 +33,76 @@ class WantedImage {
     return image
   }
 
+  get imageScale() {
+    return this.#imageScale
+  }
+
   setSize({
-    width,
-    height,
-    shadowSize
+    width: containerWidth,
+    height: containerHeight,
+    shadowSize,
+    quality
   }: {
-    width?: number
-    height?: number
-    shadowSize?: number
+    width: number
+    height: number
+    shadowSize: number
+    // "quality" is the resolution of canvas, it will affect the rendering performance.
+    // For better user experience, use 'half' during editing, and use 'original' for exporting.
+    quality: 'high' | 'half' | 'original'
   }) {
     if (!this.#image) {
       throw new Error('Failed to set size: wanted image is null')
     }
 
-    this.#scaledWidth = width ?? this.#scaledWidth
-    this.#scaledHeight = height ?? this.#scaledHeight
-    this.#shadowSize = shadowSize ?? this.#shadowSize
+    const posterImageWidth = this.#image.width + shadowSize * 2
+    const posterImageHeight = this.#image.height + shadowSize * 2
 
-    const actualWidth = this.#image.width + this.#shadowSize * 2
-    const actualHeight = this.#image.height + this.#shadowSize * 2
-
-    const scale = getScale(
-      this.#scaledWidth,
-      this.#scaledHeight,
-      actualWidth,
-      actualHeight
+    const imageScale = getScale(
+      containerWidth,
+      containerHeight,
+      posterImageWidth,
+      posterImageHeight
     )
 
-    this.#scale = scale
-    this.#scaledShadowSize = this.#shadowSize * scale
-    this.#canvas.width = actualWidth * scale
-    this.#canvas.height = actualHeight * scale
+    this.#imageScale = imageScale
 
-    const wantedImageInfo = this.#calculateImageInfo(
-      scale,
-      this.#scaledShadowSize
-    )
+    this.#canvasDomWidth = posterImageWidth * imageScale
+    this.#canvasDomHeight = posterImageHeight * imageScale
+    this.#scaledShadowSize = shadowSize * imageScale
 
-    return { wantedImageInfo, scale, scaledShadowSize: this.#scaledShadowSize }
+    this.#canvas.style.width = this.#canvasDomWidth + 'px'
+    this.#canvas.style.height = this.#canvasDomHeight + 'px'
+    this.#canvas.rect = this.#canvas.getBoundingClientRect()
+
+    switch (quality) {
+      case 'original':
+        this.#canvas.width = posterImageWidth
+        this.#canvas.height = posterImageHeight
+        this.#ctx.scale(1 / imageScale, 1 / imageScale)
+        break
+
+      case 'high': {
+        // Set actual size in memory (scaled to account for extra pixel density).
+        let scale = window.devicePixelRatio
+        this.#canvas.width = this.#canvasDomWidth * scale
+        this.#canvas.height = this.#canvasDomHeight * scale
+        // Normalize coordinate system to use CSS pixels.
+        this.#ctx.scale(scale, scale)
+        break
+      }
+
+      case 'half': {
+        let scale = this.#image.height / this.#canvasDomHeight / 2
+        this.#canvas.width = this.#canvasDomWidth * scale
+        this.#canvas.height = this.#canvasDomHeight * scale
+        this.#ctx.scale(scale, scale)
+        break
+      }
+    }
+
+    const wantedImageInfo = this.#calculateImageInfo(imageScale, shadowSize)
+
+    return { wantedImageInfo, imageScale }
   }
 
   #calculateImageInfo(scale: number, padding: number): WantedImageInfo {
@@ -83,6 +111,8 @@ class WantedImage {
         'Failed to calculate wanted image info: WantedImageInfo object is null'
       )
     }
+
+    padding *= scale
 
     const {
       url,
@@ -126,13 +156,17 @@ class WantedImage {
     }
     this.#ctx.save()
     this.#ctx.shadowColor = 'rgba(0, 0, 0, 1)'
-    this.#ctx.shadowBlur = this.#scaledShadowSize
+    // shadowBlur value doesn't correspond to a number of pixels, and is
+    // not affected by the current transformation matrix.
+    // To make the size correct, we need to multiply the scale between canvas size and canvas DOM size
+    this.#ctx.shadowBlur =
+      this.#scaledShadowSize * (this.#canvas.width / this.#canvasDomWidth)
     this.#ctx.drawImage(
       this.#image,
       this.#scaledShadowSize,
       this.#scaledShadowSize,
-      this.#canvas.width - this.#scaledShadowSize * 2,
-      this.#canvas.height - this.#scaledShadowSize * 2
+      this.#canvasDomWidth - this.#scaledShadowSize * 2,
+      this.#canvasDomHeight - this.#scaledShadowSize * 2
     )
     this.#ctx.restore()
   }
