@@ -245,7 +245,7 @@ class App extends HTMLElement {
     })
 
     this.#editButton.addEventListener('click', () => {
-      this.#editPanel.toggle(true)
+      this.#editPanel.toggle()
     })
 
     this.#importButton.addEventListener('click', () => {

@@ -8,7 +8,6 @@ const template = document.createElement('template')
 template.innerHTML = templateContent
 
 class EditPanel extends HTMLElement {
-  #isOpening = false
   #nameInput: HTMLInputElement
   #bountyInput: HTMLInputElement
 
@@ -116,22 +115,12 @@ class EditPanel extends HTMLElement {
       if (e.target instanceof Node && this.contains(e.target)) {
         return
       }
-      this.toggle(false)
+      this.classList.contains('open') && this.toggle()
     }
   }
 
-  toggle(open: boolean) {
-    if (open) {
-      this.#isOpening = true
-      this.classList.add('open')
-      setTimeout(() => {
-        this.#isOpening = false
-      }, 200)
-
-      return
-    }
-
-    !this.#isOpening && this.classList.remove('open')
+  toggle() {
+    this.classList.toggle('open')
   }
 
   connectedCallback() {
@@ -214,7 +203,7 @@ class EditPanel extends HTMLElement {
       () => (store.sepia = parseInt(this.#sepiaSlider.value))
     )
 
-    this.#closeButton.addEventListener('click', () => this.toggle(false))
+    this.#closeButton.addEventListener('click', () => this.toggle())
     this.#resetButton.addEventListener('click', () =>
       reset({ avatarUrl: store.avatarUrl })
     )

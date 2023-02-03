@@ -20,13 +20,11 @@ class WantedButton extends HTMLElement {
   constructor() {
     super()
 
-    // Create a shadow root
     const shadowRoot = this.attachShadow({ mode: 'open' })
     this.#root = shadowRoot
     const style = document.createElement('style')
     style.textContent = cssContent
 
-    // attach the created elements to the shadow DOM
     shadowRoot.append(style, template.content.cloneNode(true))
 
     shadowRoot.querySelector('img')?.setAttribute('src', ButtonImageUrl)
@@ -40,10 +38,9 @@ class WantedButton extends HTMLElement {
   set loading(value: boolean) {
     const iconSlot =
       this.#root.querySelector<HTMLSlotElement>('slot[name=icon]')
-    const elm = iconSlot?.assignedNodes()[0] as undefined | HTMLElement
 
-    if (elm) {
-      elm.style.display = value ? 'none' : 'inline'
+    if (iconSlot) {
+      iconSlot.style.display = value ? 'none' : 'contents'
     }
 
     if (value) {
