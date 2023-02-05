@@ -137,7 +137,13 @@ class App extends HTMLElement {
       return
     }
 
-    document.querySelector('github-corner')?.classList.toggle('gc-ua', toggle)
+    const githubLink = toggle
+      ? 'https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md'
+      : 'https://github.com/YuskaWu/one-piece-wanted-poster'
+    const githubCorner = document.querySelector<HTMLElement>('github-corner')!
+    githubCorner.classList.toggle('gc-ua', toggle)
+    githubCorner.setAttribute('href', githubLink)
+
     this.classList.toggle('warcriminal')
     overlay.classList.toggle('blood-overlay--visible')
     this.#criminalButton.classList.toggle('criminal--stamp')
