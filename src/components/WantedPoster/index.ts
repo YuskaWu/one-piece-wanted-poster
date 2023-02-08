@@ -53,7 +53,6 @@ class WantedPoster extends HTMLElement {
     canvas.domHeight = 0
     const container = document.createElement('div')
     container.className = 'container'
-    container.appendChild(canvas)
 
     const style = document.createElement('style')
     style.textContent = cssContent
@@ -264,6 +263,8 @@ class WantedPoster extends HTMLElement {
     this.#status = 'success'
     this.#render()
     this.dispatchEvent(new CustomEvent('WantedPosterLoaded', { bubbles: true }))
+    // defer appending canvas here to avoid CLS(Cumulative Layout Shift)
+    this.#container.appendChild(this.#canvas)
   }
 
   disconnectedCallback() {
