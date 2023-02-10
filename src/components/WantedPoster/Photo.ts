@@ -5,38 +5,33 @@ import { getScale, loadImage } from './utils'
 
 type EventName = 'imageloaded'
 
-type RenderOffset = {
-  left: number
-  right: number
-  top: number
-  bottom: number
-}
-
 const DEFAULT_POSITION = { x: 0, y: 0, width: 0, height: 0 }
-
-class Avatar extends GraphicObject {
-  #wantedImageInfo?: WantedImageInfo
-
-  filter = 'grayscale(35%) sepia(40%) saturate(80%) contrast(105%)'
+class Photo extends GraphicObject {
+  filter = ''
   #listeners = new Map<EventName, Array<() => void>>()
   #image: HTMLImageElement | null = null
   #fillPattern: CanvasPattern | null = null
-  #transparentPosition: Position = { ...DEFAULT_POSITION }
+  #photoPosition: Position = { ...DEFAULT_POSITION }
   #renderPosition: Position = { ...DEFAULT_POSITION }
-  #renderOffset: RenderOffset = { left: 0, right: 0, top: 0, bottom: 0 }
+  #boundaryOffset: WantedImageInfo['boundaryOffset'] = {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0
+  }
 
-  async init(wantedImageInfo: WantedImageInfo) {
-    this.#wantedImageInfo = wantedImageInfo
-
+  async init(
+    photoPosition: Position,
+    boundaryOffset: WantedImageInfo['boundaryOffset']
+  ) {
     try {
+      this.setBoundary(photoPosition, boundaryOffset)
       const bgImage = await loadImage(backgroundImageUrl)
       this.#fillPattern = this.ctx.createPattern(bgImage, 'repeat')
     } catch (error) {
       console.error(error)
       throw new Error('Failed to create fill pattern.')
     }
-
-    this.#resetPosition()
   }
 
   async loadImage(url: string | null) {
@@ -50,24 +45,19 @@ class Avatar extends GraphicObject {
       this.#listeners.get('imageloaded')?.forEach((fn) => fn())
     } catch (error) {
       console.error(error)
-      throw new Error('Failed to load avatar image.')
+      throw new Error('Failed to load photo image.')
     }
   }
 
   #resetPosition() {
-    if (!this.#wantedImageInfo) {
-      return
-    }
+    this.x = this.#photoPosition.x
+    this.y = this.#photoPosition.y
+    this.width = this.#photoPosition.width
+    this.height = this.#photoPosition.height
 
-    const { avatarPosition, boundaryOffset } = this.#wantedImageInfo
-    this.x = avatarPosition.x
-    this.y = avatarPosition.y
-    this.width = avatarPosition.width
-    this.height = avatarPosition.height
+    this.#boundaryOffset = { ...this.#boundaryOffset }
 
-    this.#renderOffset = { ...boundaryOffset }
-
-    this.#transparentPosition = {
+    this.#photoPosition = {
       x: this.x,
       y: this.y,
       width: this.width,
@@ -82,10 +72,12 @@ class Avatar extends GraphicObject {
     this.updateRenderPosition()
   }
 
-  setWantedImageInfo(wantedImageInfo: WantedImageInfo) {
-    this.#wantedImageInfo = wantedImageInfo
-    this.#renderOffset = { ...wantedImageInfo.boundaryOffset }
-    this.#transparentPosition = { ...wantedImageInfo.avatarPosition }
+  setBoundary(
+    photoPosition: Position,
+    boundaryOffset: WantedImageInfo['boundaryOffset']
+  ) {
+    this.#photoPosition = { ...photoPosition }
+    this.#boundaryOffset = { ...boundaryOffset }
   }
 
   updateRenderPosition() {
@@ -100,8 +92,8 @@ class Avatar extends GraphicObject {
       this.#image.height
     )
 
-    // The size of scaled image may be smaller than avatar area, so here we
-    // calculate render position to put the scaled image to the center of avatar area.
+    // The size of scaled image may be smaller than photo area, so here we
+    // calculate render position to put the scaled image to the center of photo area.
     const width = this.#image.width * scale
     const height = this.#image.height * scale
 
@@ -130,13 +122,13 @@ class Avatar extends GraphicObject {
 
   render(): void {
     this.ctx.save()
-    // render background for the transparent area of avatar
+    // render background for the transparent area of photo
     this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
     this.ctx.fillRect(
-      this.#transparentPosition.x,
-      this.#transparentPosition.y,
-      this.#transparentPosition.width,
-      this.#transparentPosition.height
+      this.#photoPosition.x,
+      this.#photoPosition.y,
+      this.#photoPosition.width,
+      this.#photoPosition.height
     )
 
     if (!this.#image) {
@@ -150,8 +142,8 @@ class Avatar extends GraphicObject {
 
     // Following logic is to clear overflow parts which is outside the boundary of wanted image.
     // Since the wanted image has irregularly transparent edges, clearing overflow parts can prevent
-    // avatar to be rendered on transparent area.
-    const { left, right, top, bottom } = this.#renderOffset
+    // photo to be rendered on transparent area.
+    const { left, right, top, bottom } = this.#boundaryOffset
 
     // clear left overflow
     x <= left && this.ctx.clearRect(0, y, left, height)
@@ -170,4 +162,4 @@ class Avatar extends GraphicObject {
   }
 }
 
-export default Avatar
+export default Photo

@@ -205,7 +205,7 @@ class EditPanel extends HTMLElement {
 
     this.#closeButton.addEventListener('click', () => this.toggle())
     this.#resetButton.addEventListener('click', () =>
-      reset({ avatarUrl: store.avatarUrl })
+      reset({ photoUrl: store.photoUrl })
     )
   }
 

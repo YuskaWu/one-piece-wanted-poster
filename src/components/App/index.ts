@@ -75,8 +75,8 @@ class App extends HTMLElement {
 
     this.#storeListener = (key, value) => {
       switch (key) {
-        case 'avatarUrl':
-          this.#setWantedPosterAttributes({ 'avatar-url': value.toString() })
+        case 'photoUrl':
+          this.#setWantedPosterAttributes({ 'photo-url': value.toString() })
           break
         case 'nameSpacing':
           this.#setWantedPosterAttributes({
@@ -165,13 +165,13 @@ class App extends HTMLElement {
       return
     }
 
-    const length = WARCRIMINAL_POSTER.avatarUrls.length
+    const length = WARCRIMINAL_POSTER.photoUrls.length
     let index = Math.floor(length * Math.random())
 
-    update({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[index] })
+    update({ photoUrl: WARCRIMINAL_POSTER.photoUrls[index] })
     this.#carouselIntervalId = window.setInterval(() => {
       index = (index + 1) % length
-      update({ avatarUrl: WARCRIMINAL_POSTER.avatarUrls[index] })
+      update({ photoUrl: WARCRIMINAL_POSTER.photoUrls[index] })
     }, 5000)
   }
 
@@ -193,7 +193,7 @@ class App extends HTMLElement {
       filter: store.filter
     })
 
-    addListener('avatarUrl', this.#storeListener)
+    addListener('photoUrl', this.#storeListener)
     addListener('name', this.#storeListener)
     addListener('bounty', this.#storeListener)
     addListener('nameSpacing', this.#storeListener)
@@ -237,7 +237,7 @@ class App extends HTMLElement {
       }
 
       const objUrl = URL.createObjectURL(file)
-      store.avatarUrl = objUrl
+      store.photoUrl = objUrl
     })
 
     this.#uploadInput.addEventListener('input', () => {
@@ -247,7 +247,7 @@ class App extends HTMLElement {
       }
 
       const objUrl = URL.createObjectURL(file)
-      store.avatarUrl = objUrl
+      store.photoUrl = objUrl
     })
 
     this.#editButton.addEventListener('click', () => {
@@ -297,13 +297,13 @@ class App extends HTMLElement {
       }
       const blob = await fileHandle.getFile()
       const objUrl = URL.createObjectURL(blob)
-      store.avatarUrl = objUrl
+      store.photoUrl = objUrl
     })
   }
 
   disconnectedCallback() {
     window.removeEventListener('hashchange', this.#hashChangeListener)
-    removeListener('avatarUrl', this.#storeListener)
+    removeListener('photoUrl', this.#storeListener)
     removeListener('name', this.#storeListener)
     removeListener('bounty', this.#storeListener)
     removeListener('shadow', this.#storeListener)

@@ -1,6 +1,5 @@
 import Text from './Text'
 import { Position } from './types'
-import { getTextActualHeight } from './utils'
 
 class Name extends Text {
   // This is scale constant for specific font. It should be revised whenever font changes.
@@ -19,7 +18,7 @@ class Name extends Text {
     // characters which is not english alphabet, so here we need to calculate the actual height
     // and scale it before rendering
     this.ctx.font = `700 ${this.fontSize}px 'Scheherazade New', serif`
-    const actualHeight = getTextActualHeight(this.ctx, this.formattedText)
+    const actualHeight = this.getTextActualHeight(this.formattedText)
     const scale = this.height / actualHeight
     const offsetY = (actualHeight - this.height) / 2
     this.ctx.font = `700 ${Math.floor(

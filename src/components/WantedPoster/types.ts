@@ -7,26 +7,30 @@ export interface PosterRenderingContext2D extends CanvasRenderingContext2D {
   canvas: PosterCanvasElement
 }
 
-export type Position = {
+export interface Position {
   x: number
   y: number
   width: number
   height: number
 }
 
+export interface BountyInfo extends Position {
+  bellyMarginRight: number
+  fontSize: number
+}
+
 export type WantedImageInfo = {
-  url: string
-  avatarPosition: Position
+  imageUrl: string
+  bellyImageUrl: string
+  photoPosition: Position
   namePosition: Position
-  bountyPosition: Position
-  bountyFontSize: number
+  bountyInfo: BountyInfo
   // The wanted image has irregularly transparent edges, the boundaryOffset is used
-  // to prevent avatar to be rendered on thease parts.
+  // to prevent photo to be rendered on thease parts.
   boundaryOffset: {
     left: number
     right: number
     top: number
     bottom: number
   }
-  bellyMarginRight: number
 }

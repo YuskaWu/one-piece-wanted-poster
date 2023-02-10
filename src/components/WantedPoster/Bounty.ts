@@ -1,7 +1,6 @@
-import bellySignImageUrl from './images/belly.png'
 import Text from './Text'
-import { WantedImageInfo } from './types'
-import { getTextActualHeight, loadImage } from './utils'
+import { BountyInfo } from './types'
+import { loadImage } from './utils'
 
 class Bounty extends Text {
   #isNumber = true
@@ -11,26 +10,26 @@ class Bounty extends Text {
   #bellySignWidth = 0
   #bellySignHeight = 0
 
-  async init() {
+  async loadBellyImage(url: string) {
     try {
-      this.#bellySignImage = await loadImage(bellySignImageUrl)
+      this.#bellySignImage = await loadImage(url)
     } catch (error) {
       console.error(error)
       throw new Error('Failed to init bounty.')
     }
   }
 
-  setPosition(wantedImageInfo: WantedImageInfo, scale: number) {
-    const { bountyPosition, bountyFontSize } = wantedImageInfo
-    this.x = bountyPosition.x
-    this.y = bountyPosition.y
-    this.width = bountyPosition.width
-    this.height = bountyPosition.height
-    this.fontSize = bountyFontSize
-    this.#bellyMarginRight = wantedImageInfo.bellyMarginRight
+  setBountyInfo(bountyInfo: BountyInfo, bellyImageScale: number) {
+    const { x, y, width, height, bellyMarginRight, fontSize } = bountyInfo
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+    this.fontSize = fontSize
+    this.#bellyMarginRight = bellyMarginRight
     if (this.#bellySignImage) {
-      this.#bellySignWidth = this.#bellySignImage.width * scale
-      this.#bellySignHeight = this.#bellySignImage.height * scale
+      this.#bellySignWidth = this.#bellySignImage.width * bellyImageScale
+      this.#bellySignHeight = this.#bellySignImage.height * bellyImageScale
     }
   }
 
@@ -62,7 +61,7 @@ class Bounty extends Text {
     const bellySignWidth = this.#isNumber
       ? this.#bellySignWidth + this.#bellyMarginRight
       : 0
-    const actualHeight = getTextActualHeight(this.ctx, this.formattedText)
+    const actualHeight = this.getTextActualHeight(this.formattedText)
     let topOffset = (this.height - actualHeight) / 2
 
     // topOffset is not a fixed constant for adjusting the top position, it should change depending on the font we used.

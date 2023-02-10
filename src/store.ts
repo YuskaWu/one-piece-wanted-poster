@@ -9,7 +9,7 @@ interface FilterState {
 }
 
 export interface AppState extends FilterState {
-  avatarUrl: string
+  photoUrl: string
   name: string
   bounty: string | number
   filter: string
@@ -29,7 +29,7 @@ type Listener<T extends AppStateKey> = (
 const LISTENERS: Map<AppStateKey, Array<Listener<any>>> = new Map()
 
 const DEFAULT_STATE: AppState = {
-  avatarUrl: '',
+  photoUrl: '',
   name: '',
   bounty: '',
   nameSpacing: 0,

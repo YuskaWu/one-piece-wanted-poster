@@ -38,6 +38,14 @@ abstract class Text extends GraphicObject {
     return this.formatSpacing(text, spacing)
   }
 
+  // calculate actual height of text
+  // see https://stackoverflow.com/a/46950087
+  getTextActualHeight(text: string) {
+    const { actualBoundingBoxAscent, actualBoundingBoxDescent } =
+      this.ctx.measureText(text)
+    return actualBoundingBoxAscent + actualBoundingBoxDescent
+  }
+
   beforeRenderText(): { x?: number; y?: number; maxWidth?: number } | void {}
 
   #renderText(

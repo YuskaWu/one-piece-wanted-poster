@@ -1,13 +1,12 @@
-import Avatar from './Avatar'
 import GraphicObject from './GraphicObject'
+import Photo from './Photo'
 import type { PosterRenderingContext2D } from './types'
-import { getBorderHoverInfo, isInside } from './utils'
 
 const BORDER_WIDTH = 4
 const LINE_DASH = [10, 5]
 
-class AvatarResizer extends GraphicObject {
-  #avatar: Avatar
+class PhotoResizer extends GraphicObject {
+  #photo: Photo
   #highlight = false
   #isHover = false
   #isMousedown = false
@@ -26,11 +25,11 @@ class AvatarResizer extends GraphicObject {
   #mouseClientX = 0
   #mouseClientY = 0
 
-  constructor(ctx: PosterRenderingContext2D, avatar: Avatar) {
+  constructor(ctx: PosterRenderingContext2D, photo: Photo) {
     super(ctx)
-    this.#avatar = avatar
+    this.#photo = photo
 
-    avatar.on('imageloaded', () => this.reset())
+    photo.on('imageloaded', () => this.reset())
     ctx.canvas.addEventListener('mouseover', this.#onMouseover.bind(this), {
       passive: true
     })
@@ -71,11 +70,16 @@ class AvatarResizer extends GraphicObject {
     this.#highlight = value
   }
 
+  scale(s: number) {
+    super.scale(s)
+    this.#photo.scale(s)
+  }
+
   reset() {
-    this.x = this.#avatar.x
-    this.y = this.#avatar.y
-    this.width = this.#avatar.width
-    this.height = this.#avatar.height
+    this.x = this.#photo.x
+    this.y = this.#photo.y
+    this.width = this.#photo.width
+    this.height = this.#photo.height
     this.#isHover = false
     this.#isMousedown = false
     this.#isResizing = false
@@ -111,7 +115,7 @@ class AvatarResizer extends GraphicObject {
     }
 
     if (
-      isInside(
+      this.#isInside(
         canvasX,
         canvasY,
         this.x,
@@ -148,7 +152,7 @@ class AvatarResizer extends GraphicObject {
       const canvasY = pointer.clientY - top
 
       if (
-        isInside(
+        this.#isInside(
           canvasX,
           canvasY,
           this.x,
@@ -207,9 +211,9 @@ class AvatarResizer extends GraphicObject {
         this.x += diffX
         this.y += diffY
 
-        this.#avatar.x += diffX
-        this.#avatar.y += diffY
-        this.#avatar.updateRenderPosition()
+        this.#photo.x += diffX
+        this.#photo.y += diffY
+        this.#photo.updateRenderPosition()
       }
     }
 
@@ -237,6 +241,27 @@ class AvatarResizer extends GraphicObject {
     }
   }
 
+  #isInside(
+    x: number,
+    y: number,
+    areaX: number,
+    areaY: number,
+    areaWidth: number,
+    areaHeight: number,
+    borderWidth = 0
+  ) {
+    const offset = borderWidth / 2
+    const outerBeginX = areaX - offset
+    const outerBeginY = areaY - offset
+    const outerEndX = areaX + areaWidth + offset
+    const outerEndY = areaY + areaHeight + offset
+
+    const isInsideX = x >= outerBeginX && x <= outerEndX
+    const isInsideY = y >= outerBeginY && y <= outerEndY
+
+    return isInsideX && isInsideY
+  }
+
   #removeTrackingPointer(pointerEvent: PointerEvent) {
     this.#trackingPointers.delete(pointerEvent.pointerId)
 
@@ -259,15 +284,15 @@ class AvatarResizer extends GraphicObject {
     this.y = this.y - heightDiff / 2
     this.height = this.height + heightDiff
 
-    this.#avatar.x = this.x
-    this.#avatar.y = this.y
-    this.#avatar.width = this.width
-    this.#avatar.height = this.height
-    this.#avatar.updateRenderPosition()
+    this.#photo.x = this.x
+    this.#photo.y = this.y
+    this.#photo.width = this.width
+    this.#photo.height = this.height
+    this.#photo.updateRenderPosition()
   }
 
   #setCursor(canvasX: number, canvasY: number) {
-    const borderHoverInfo = getBorderHoverInfo(
+    const borderHoverInfo = this.#getBorderHoverInfo(
       canvasX,
       canvasY,
       this.x,
@@ -290,15 +315,43 @@ class AvatarResizer extends GraphicObject {
     }
   }
 
+  #getBorderHoverInfo(
+    x: number,
+    y: number,
+    areaX: number,
+    areaY: number,
+    areaWidth: number,
+    areaHeight: number,
+    borderWidth = 0
+  ) {
+    const offset = borderWidth / 2
+    const outerBeginX = areaX - offset
+    const outerBeginY = areaY - offset
+    const outerEndX = areaX + areaWidth + offset
+    const outerEndY = areaY + areaHeight + offset
+
+    const innerBeginX = areaX + offset
+    const innerBeginY = areaY + offset
+    const innerEndX = areaX + areaWidth - offset
+    const innerEndY = areaY + areaHeight - offset
+
+    return {
+      left: x >= outerBeginX && x <= innerBeginX ? true : false,
+      right: x >= innerEndX && x <= outerEndX ? true : false,
+      top: y >= outerBeginY && y <= innerBeginY ? true : false,
+      bottom: y >= innerEndY && y <= outerEndY ? true : false
+    }
+  }
+
   #resize(diffX: number, diffY: number) {
     switch (this.ctx.canvas.style.cursor) {
       case 'move':
         this.x += diffX
         this.y += diffY
 
-        this.#avatar.x += diffX
-        this.#avatar.y += diffY
-        this.#avatar.updateRenderPosition()
+        this.#photo.x += diffX
+        this.#photo.y += diffY
+        this.#photo.updateRenderPosition()
         break
 
       case 'ew-resize': {
@@ -306,7 +359,7 @@ class AvatarResizer extends GraphicObject {
         if (this.#resizeBorder === 'right') {
           const newWidth = Math.max(this.width + diffX, 1)
           this.width = newWidth
-          this.#avatar.width = newWidth
+          this.#photo.width = newWidth
         } else {
           const newX = this.x + diffX
           if (newX >= this.x + this.width) {
@@ -314,11 +367,11 @@ class AvatarResizer extends GraphicObject {
           }
           const newWidth = this.width - diffX
           this.x = newX
-          this.#avatar.x = newX
+          this.#photo.x = newX
           this.width = newWidth
-          this.#avatar.width = newWidth
+          this.#photo.width = newWidth
         }
-        this.#avatar.updateRenderPosition()
+        this.#photo.updateRenderPosition()
         break
       }
 
@@ -327,7 +380,7 @@ class AvatarResizer extends GraphicObject {
         if (this.#resizeBorder === 'bottom') {
           const newHeight = Math.max(this.height + diffY, 1)
           this.height = newHeight
-          this.#avatar.height = newHeight
+          this.#photo.height = newHeight
         } else {
           const newY = this.y + diffY
           if (newY >= this.y + this.height) {
@@ -335,11 +388,11 @@ class AvatarResizer extends GraphicObject {
           }
           const newHeight = this.height - diffY
           this.y = newY
-          this.#avatar.y = newY
+          this.#photo.y = newY
           this.height = newHeight
-          this.#avatar.height = newHeight
+          this.#photo.height = newHeight
         }
-        this.#avatar.updateRenderPosition()
+        this.#photo.updateRenderPosition()
       }
     }
   }
@@ -366,4 +419,4 @@ class AvatarResizer extends GraphicObject {
   }
 }
 
-export default AvatarResizer
+export default PhotoResizer

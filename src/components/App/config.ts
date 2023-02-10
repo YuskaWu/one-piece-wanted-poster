@@ -13,9 +13,9 @@ export const WARCRIMINAL_POSTER = {
   bounty: 'War Criminal',
   nameSpacing: 0,
   bountySpacing: 1,
-  avatarUrls: [
+  photoUrls: [
     './images/war-criminal/photo-01.png',
     './images/war-criminal/photo-02.png',
     './images/war-criminal/photo-03.png'
   ]
-} satisfies Partial<AppState> & { avatarUrls: string[] }
+} satisfies Partial<AppState> & { photoUrls: string[] }

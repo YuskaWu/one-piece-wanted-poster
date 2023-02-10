@@ -10,19 +10,19 @@ class WantedImage {
   #imageScale = 1
 
   #image: HTMLImageElement | null = null
-  #wantedImageInfo: WantedImageInfo | null = null
+  #wantedImageInfo: WantedImageInfo
 
-  constructor(ctx: PosterRenderingContext2D) {
+  constructor(ctx: PosterRenderingContext2D, info: WantedImageInfo) {
     this.#ctx = ctx
     this.#canvas = ctx.canvas
+    this.#wantedImageInfo = info
   }
 
-  async loadImage(info: WantedImageInfo) {
+  async loadImage() {
     let image
     try {
-      image = await loadImage(info.url)
+      image = await loadImage(this.#wantedImageInfo.imageUrl)
       this.#image = image
-      this.#wantedImageInfo = info
     } catch (error) {
       console.error(error)
       throw new Error('Failed to load wanted image.')
@@ -101,7 +101,7 @@ class WantedImage {
 
     const wantedImageInfo = this.#calculateImageInfo(imageScale, shadowSize)
 
-    return { wantedImageInfo, imageScale }
+    return wantedImageInfo
   }
 
   #calculateImageInfo(scale: number, padding: number): WantedImageInfo {
@@ -114,13 +114,12 @@ class WantedImage {
     padding *= scale
 
     const {
-      url,
-      avatarPosition,
+      imageUrl,
+      bellyImageUrl,
+      photoPosition,
       namePosition,
-      bountyPosition,
-      bountyFontSize,
-      boundaryOffset,
-      bellyMarginRight
+      bountyInfo,
+      boundaryOffset
     } = this.#wantedImageInfo
 
     const calculatePosition = (p: Position) => {
@@ -133,19 +132,24 @@ class WantedImage {
       }
     }
 
+    const newBountyInfo = {
+      ...calculatePosition(bountyInfo),
+      bellyMarginRight: bountyInfo.bellyMarginRight * scale,
+      fontSize: bountyInfo.fontSize * scale
+    }
+
     return {
-      url,
-      avatarPosition: calculatePosition(avatarPosition),
+      imageUrl,
+      bellyImageUrl,
+      photoPosition: calculatePosition(photoPosition),
       namePosition: calculatePosition(namePosition),
-      bountyPosition: calculatePosition(bountyPosition),
-      bountyFontSize: bountyFontSize * scale,
+      bountyInfo: newBountyInfo,
       boundaryOffset: {
         left: boundaryOffset.left * scale + padding,
         right: boundaryOffset.right * scale + padding,
         top: boundaryOffset.top * scale + padding,
         bottom: boundaryOffset.bottom * scale + padding
-      },
-      bellyMarginRight: bellyMarginRight * scale
+      }
     }
   }
 
