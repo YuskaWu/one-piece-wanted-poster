@@ -98,7 +98,6 @@ class WantedPoster extends HTMLElement {
     canvas.domHeight = 0
     canvas.style.display = 'none'
 
-    this.#container.appendChild(canvas)
     const ctx = canvas.getContext('2d') as PosterRenderingContext2D
 
     const shadow = this.#getShadow()
@@ -163,7 +162,6 @@ class WantedPoster extends HTMLElement {
       if (url) {
         URL.revokeObjectURL(url)
       }
-      this.#container.removeChild(canvas)
     }
   }
 
