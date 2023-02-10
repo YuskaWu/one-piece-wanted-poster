@@ -6,8 +6,6 @@ class WantedImage {
   #ctx: PosterRenderingContext2D
   #canvas: PosterCanvasElement
   #scaledShadowSize = 0
-  #canvasDomWidth = 0
-  #canvasDomHeight = 0
 
   #imageScale = 1
 
@@ -66,14 +64,14 @@ class WantedImage {
 
     this.#imageScale = imageScale
 
-    this.#canvasDomWidth = posterImageWidth * imageScale
-    this.#canvasDomHeight = posterImageHeight * imageScale
+    const canvasDomWidth = posterImageWidth * imageScale
+    const canvasDomHeight = posterImageHeight * imageScale
     this.#scaledShadowSize = shadowSize * imageScale
 
-    this.#canvas.style.width = this.#canvasDomWidth + 'px'
-    this.#canvas.style.height = this.#canvasDomHeight + 'px'
-    this.#canvas.domWidth = this.#canvasDomWidth
-    this.#canvas.domHeight = this.#canvasDomHeight
+    this.#canvas.style.width = canvasDomWidth + 'px'
+    this.#canvas.style.height = canvasDomHeight + 'px'
+    this.#canvas.domWidth = canvasDomWidth
+    this.#canvas.domHeight = canvasDomHeight
 
     switch (quality) {
       case 'original':
@@ -85,17 +83,17 @@ class WantedImage {
       case 'high': {
         // Set actual size in memory (scaled to account for extra pixel density).
         let scale = window.devicePixelRatio
-        this.#canvas.width = this.#canvasDomWidth * scale
-        this.#canvas.height = this.#canvasDomHeight * scale
+        this.#canvas.width = canvasDomWidth * scale
+        this.#canvas.height = canvasDomHeight * scale
         // Normalize coordinate system to use CSS pixels.
         this.#ctx.scale(scale, scale)
         break
       }
 
       case 'half': {
-        let scale = this.#image.height / this.#canvasDomHeight / 2
-        this.#canvas.width = this.#canvasDomWidth * scale
-        this.#canvas.height = this.#canvasDomHeight * scale
+        let scale = this.#image.height / canvasDomHeight / 2
+        this.#canvas.width = canvasDomWidth * scale
+        this.#canvas.height = canvasDomHeight * scale
         this.#ctx.scale(scale, scale)
         break
       }
@@ -161,13 +159,14 @@ class WantedImage {
     // not affected by the current transformation matrix.
     // To make the size correct, we need to multiply the scale between canvas size and canvas DOM size
     this.#ctx.shadowBlur =
-      this.#scaledShadowSize * (this.#canvas.width / this.#canvasDomWidth)
+      this.#scaledShadowSize * (this.#canvas.width / this.#canvas.domWidth)
+
     this.#ctx.drawImage(
       this.#image,
       this.#scaledShadowSize,
       this.#scaledShadowSize,
-      this.#canvasDomWidth - this.#scaledShadowSize * 2,
-      this.#canvasDomHeight - this.#scaledShadowSize * 2
+      this.#canvas.domWidth - this.#scaledShadowSize * 2,
+      this.#canvas.domHeight - this.#scaledShadowSize * 2
     )
     this.#ctx.restore()
   }
