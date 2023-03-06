@@ -1,8 +1,10 @@
 interface LaunchQueue {
-  setConsumer(comsumer: LaunchConsumer): void
+  setConsumer(consumer: LaunchConsumer): void
 }
 
-interface LaunchParams extends Function {
+// spec:
+// https://wicg.github.io/web-app-launch/#script-interfaces-to-app-launches
+interface LaunchParams {
   readonly targetURL?: string
   readonly files?: FileSystemHandle[]
 }
@@ -19,16 +21,14 @@ declare global {
 }
 
 const isSupported =
-  'launchQueue' in window &&
-  window.LaunchParams &&
-  'files' in window.LaunchParams.prototype
+  window.launchQueue && window.LaunchParams && window.LaunchParams.files
 
-function consume(
+function setConsumer(
   callback: (fileHandles: NonNullable<LaunchParams['files']>) => void
 ) {
   if (!isSupported) {
     console.warn(
-      '[FileHandlingAPI] browser does not support File Handling API, ignoring consumption.'
+      '[Launch Handler API] browser does not support Launch Handler API, ignoring consumption.'
     )
     return
   }
@@ -42,10 +42,10 @@ function consume(
   })
 }
 
-function isFileSystemFileHandle(
-  fileHandle: FileSystemHandle | FileSystemDirectoryHandle
+function isFileHandle(
+  fileHandle: FileSystemHandle
 ): fileHandle is FileSystemFileHandle {
   return fileHandle.kind === 'file'
 }
 
-export default { consume, isSupported, isFileSystemFileHandle }
+export default { setConsumer, isSupported, isFileHandle }

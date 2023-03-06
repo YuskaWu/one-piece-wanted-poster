@@ -4,7 +4,7 @@ import type TipsDialog from '../TipsDialog'
 import type WantedButton from '../WantedButton'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
 import { WARCRIMINAL_POSTER } from './config'
-import FileHandler from './file-handler'
+import LaunchHandler from './launch-handler'
 import cssContent from './style.css?inline'
 import templateContent from './template.html?raw'
 
@@ -289,13 +289,13 @@ class App extends HTMLElement {
       this.#tipsDialog.toggle()
     })
 
-    // setup hander for file handling
-    FileHandler.consume(async (fileHandles) => {
-      const fileHandle = fileHandles[0]
-      if (!FileHandler.isFileSystemFileHandle(fileHandle)) {
+    // set handler for launched file
+    LaunchHandler.setConsumer(async (handles) => {
+      const handle = handles[0]
+      if (!LaunchHandler.isFileHandle(handle)) {
         return
       }
-      const blob = await fileHandle.getFile()
+      const blob = await handle.getFile()
       const objUrl = URL.createObjectURL(blob)
       store.photoUrl = objUrl
     })
