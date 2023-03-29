@@ -6,9 +6,8 @@ class Bounty extends Text {
   #isNumber = true
   #numberFormat = new Intl.NumberFormat()
   #bellySignImage: HTMLImageElement | null = null
+  #bellyImageScale = 1
   #bellyMarginRight = 0
-  #bellySignWidth = 0
-  #bellySignHeight = 0
 
   async loadBellyImage(url: string) {
     try {
@@ -27,10 +26,7 @@ class Bounty extends Text {
     this.height = height
     this.fontSize = fontSize
     this.#bellyMarginRight = bellyMarginRight
-    if (this.#bellySignImage) {
-      this.#bellySignWidth = this.#bellySignImage.width * bellyImageScale
-      this.#bellySignHeight = this.#bellySignImage.height * bellyImageScale
-    }
+    this.#bellyImageScale = bellyImageScale
   }
 
   formatText(text: string, spacing: number = 0): string {
@@ -50,6 +46,11 @@ class Bounty extends Text {
       return
     }
 
+    const scaledBellySignWidth =
+      this.#bellySignImage.width * this.#bellyImageScale
+    const scaledBellySignHeight =
+      this.#bellySignImage.height * this.#bellyImageScale
+
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'top'
 
@@ -58,8 +59,8 @@ class Bounty extends Text {
       : `900 ${this.fontSize}px 'Scheherazade New', serif`
 
     const centerX = this.x + this.width / 2
-    const bellySignWidth = this.#isNumber
-      ? this.#bellySignWidth + this.#bellyMarginRight
+    const bellySignAreaWidth = this.#isNumber
+      ? scaledBellySignWidth + this.#bellyMarginRight
       : 0
     const actualHeight = this.getTextActualHeight(this.formattedText)
     let topOffset = (this.height - actualHeight) / 2
@@ -69,23 +70,23 @@ class Bounty extends Text {
       topOffset *= 0.818
     }
 
-    const x = centerX + bellySignWidth / 2
+    const x = centerX + bellySignAreaWidth / 2
     const y = this.y + topOffset
-    const maxWidth = this.width - bellySignWidth
+    const maxWidth = this.width - bellySignAreaWidth
 
     if (this.#isNumber) {
       const textWidth = Math.min(
         this.ctx.measureText(this.formattedText).width,
         maxWidth
       )
-      const bellySignX = centerX - bellySignWidth / 2 - textWidth / 2
+      const bellySignX = centerX - bellySignAreaWidth / 2 - textWidth / 2
       this.ctx.globalCompositeOperation = 'darken'
       this.ctx.drawImage(
         this.#bellySignImage,
         bellySignX,
         this.y,
-        this.#bellySignWidth,
-        this.#bellySignHeight
+        scaledBellySignWidth,
+        scaledBellySignHeight
       )
     }
 
