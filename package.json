@@ -1,32 +1,29 @@
 {
   "name": "one-piece-wanted-poster",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.58.0",
-    "@typescript-eslint/parser": "^5.58.0",
-    "eslint": "^8.38.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "prettier": "2.8.7",
-    "prettier-config-standard": "^5.0.0",
-    "typescript": "^5.0.4",
-    "vite": "^4.2.1",
-    "vite-plugin-checker": "^0.5.6",
-    "vite-plugin-full-reload": "^1.0.5",
-    "vite-plugin-pwa": "^0.14.7"
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "prettier": "3.0.3",
+    "prettier-config-standard": "^7.0.0",
+    "prettier-plugin-css-order": "^2.0.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vite-plugin-checker": "^0.6.2",
+    "vite-plugin-pwa": "^0.16.5"
   },
   "dependencies": {
-    "iconify-icon": "^1.0.7",
-    "workbox-recipes": "^6.5.4",
-    "workbox-routing": "^6.5.4",
-    "workbox-strategies": "^6.5.4"
+    "iconify-icon": "^1.0.8",
+    "workbox-recipes": "^7.0.0",
+    "workbox-routing": "^7.0.0",
+    "workbox-strategies": "^7.0.0"
   }
 }
