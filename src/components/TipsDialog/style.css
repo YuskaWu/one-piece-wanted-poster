@@ -1,26 +1,26 @@
 :host {
   display: block;
   position: fixed;
-  font-size: 0.8rem;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgb(0 0 0 / 60%));
+  transition: 0.2s;
+  box-sizing: border-box;
   margin-top: 3rem;
   margin-left: 0.5rem;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  transition: 0.2s;
-  visibility: hidden;
-  max-width: 100vw;
-  color: var(--dark-text-color);
-  box-sizing: border-box;
-  /* Resize to the size of background image */
-  width: 17.62rem;
-  height: 26.33rem;
-  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.6));
+  background-image: url('./images/tips-paper.png');
+  background-size: contain;
+  background-repeat: no-repeat;
   padding: 1rem 0.8rem 1rem 1rem;
 
-  background-image: url('./images/tips-paper.png');
-  background-repeat: no-repeat;
-  background-size: contain;
+  /* Resize to the size of background image */
+  width: 17.62rem;
+  max-width: 100vw;
+  height: 26.33rem;
+  color: var(--dark-text-color);
+  font-size: 0.8rem;
 }
 
 :host([open]) {
@@ -29,8 +29,8 @@
 }
 
 .content {
-  overflow: auto;
   height: 100%;
+  overflow: auto;
 }
 
 .content h3 {
@@ -49,13 +49,13 @@ a {
 }
 
 a::after {
-  content: ' ';
   position: absolute;
-  border-bottom: 0.2rem solid rgba(211, 255, 77, 0.5);
-  height: 1px;
-  width: 100%;
   bottom: 0;
   left: 0;
+  border-bottom: 0.2rem solid rgb(211 255 77 / 50%);
+  width: 100%;
+  height: 1px;
+  content: ' ';
 }
 
 a:link {
@@ -78,8 +78,8 @@ a:visited {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--dark-text-color);
   border-radius: 0.1rem;
+  background: var(--dark-text-color);
 }
 
 ::-webkit-scrollbar-corner {

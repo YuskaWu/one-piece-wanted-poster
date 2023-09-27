@@ -1,29 +1,29 @@
 :host {
-  outline: none;
   display: inline-flex;
   position: relative;
-  cursor: pointer;
-  width: 4.25rem;
-  height: 5rem;
-  background-color: transparent;
-  transition: 0.05s;
   justify-content: center;
   filter: contrast(100%) brightness(100%)
-    drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5))
-    drop-shadow(-1px -1px 1px rgba(0, 0, 0, 0.5));
+    drop-shadow(1px 1px 1px rgb(0 0 0 / 50%))
+    drop-shadow(-1px -1px 1px rgb(0 0 0 / 50%));
+  transition: 0.05s;
+  cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  width: 4.25rem;
+  height: 5rem;
 }
 
 :host(:hover:not([loading])) {
   filter: contrast(105%) brightness(105%)
-    drop-shadow(1px 4px 3px rgba(0, 0, 0, 0.5))
-    drop-shadow(-1px 0px 3px rgba(0, 0, 0, 0.5));
+    drop-shadow(1px 4px 3px rgb(0 0 0 / 50%))
+    drop-shadow(-1px 0 3px rgb(0 0 0 / 50%));
 }
 
 :host(:active:not([loading])) {
   transform: translateY(1px);
   filter: contrast(105%) brightness(105%)
-    drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.6))
-    drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.6));
+    drop-shadow(1px 2px 1px rgb(0 0 0 / 60%))
+    drop-shadow(-1px 0 1px rgb(0 0 0 / 60%));
 }
 
 .img {
@@ -33,16 +33,16 @@
 }
 
 .icon {
-  position: absolute;
-  font-size: 1.5rem;
-  color: rgb(81, 55, 33);
   display: flex;
+  position: absolute;
+  top: 21%;
   justify-content: center;
   align-items: center;
-  top: 21%;
+  box-sizing: border-box;
   width: 82%;
   height: 44%;
-  box-sizing: border-box;
+  color: rgb(81 55 33);
+  font-size: 1.5rem;
 }
 
 iconify-icon {
@@ -58,19 +58,19 @@ iconify-icon {
 }
 
 .text {
-  font-size: 0.9rem;
-  position: absolute;
   display: flex;
+  position: absolute;
+  bottom: 12%;
   justify-content: center;
   align-items: center;
-  font-family: 'Scheherazade New', serif;
-  color: rgb(81, 55, 33);
-  bottom: 12%;
+  box-sizing: border-box;
   width: 85%;
   height: 20%;
-  white-space: nowrap;
   overflow: hidden;
+  color: rgb(81 55 33);
   font-weight: 900;
+  font-size: 0.9rem;
+  font-family: 'Scheherazade New', serif;
   text-align: justify;
-  box-sizing: border-box;
+  white-space: nowrap;
 }

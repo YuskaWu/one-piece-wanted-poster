@@ -19,6 +19,7 @@
 - And....special mode?
 
 [Demo](https://yuskawu.github.io/one-piece-wanted-poster/dist)
+
 ## License
 
 **This license applies only to the code in this repository. Images and other assets are explicitly excluded.**

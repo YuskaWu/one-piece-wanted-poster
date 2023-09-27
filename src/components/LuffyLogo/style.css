@@ -1,68 +1,52 @@
 :host {
-  position: relative;
-  width: 317px;
-  height: 298px;
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
+  width: 317px;
+  height: 298px;
 }
 
 .bottom-img {
   display: block;
+  aspect-ratio: 317/298;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  aspect-ratio: 317/298;
 }
 
 .top-img {
   /* center it both vertically and horizontally */
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-
-  max-width: 100%;
-  max-height: 100%;
-
-  animation-name: flicker;
-  animation-duration: 4s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-
-  filter: brightness(1.8);
-
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0) 35%,
-    rgba(255, 255, 255, 1) 50%,
-    rgba(0, 0, 0, 0) 65%
-  );
   mask-image: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0) 35%,
-    rgba(255, 255, 255, 1) 50%,
-    rgba(0, 0, 0, 0) 65%
+    rgb(0 0 0 / 0%) 35%,
+    rgb(255 255 255 / 100%) 50%,
+    rgb(0 0 0 / 0%) 65%
   );
-  -webkit-mask-size: 300% 100%;
   mask-size: 300% 100%;
-  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+  filter: brightness(1.8);
+  animation-duration: 4s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-name: flicker;
+  margin: auto;
+  inset: 0;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 @keyframes flicker {
   0% {
-    -webkit-mask-position: 150% 0%;
     mask-position: 150% 0%;
   }
+
   30% {
-    -webkit-mask-position: -150% 0%;
     mask-position: -150% 0%;
   }
+
   100% {
-    -webkit-mask-position: -150% 0%;
     mask-position: -150% 0%;
   }
 }
