@@ -1,3 +1,4 @@
+import autoprefixer from 'autoprefixer'
 import { defineConfig } from 'vite'
 import checker from 'vite-plugin-checker'
 
@@ -19,5 +20,10 @@ export default defineConfig({
   base: '',
   server: {
     host: true
+  },
+  css: {
+    postcss: {
+      plugins: [autoprefixer]
+    }
   }
 })
