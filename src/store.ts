@@ -26,7 +26,7 @@ type Listener<T extends AppStateKey> = (
   store: AppState
 ) => void
 
-const LISTENERS: Map<AppStateKey, Array<Listener<any>>> = new Map()
+const LISTENERS: Map<AppStateKey, Array<Listener<AppStateKey>>> = new Map()
 
 const DEFAULT_STATE: AppState = {
   photoUrl: '',
@@ -45,6 +45,10 @@ const DEFAULT_STATE: AppState = {
   sepia: 0
 }
 
+function assertIsAppStateKey(key: string | symbol): key is AppStateKey {
+  return key in DEFAULT_STATE === false
+}
+
 function getFilter({
   blur,
   brightness,
@@ -61,7 +65,7 @@ const store = new Proxy<AppState>(
   { ...DEFAULT_STATE, filter: getFilter(DEFAULT_STATE) },
   {
     set(target, prop, value, receiver) {
-      if (prop in DEFAULT_STATE === false) {
+      if (!assertIsAppStateKey(prop)) {
         // ignroe unknown property
         return true
       }
@@ -73,7 +77,7 @@ const store = new Proxy<AppState>(
         case 'grayscale':
         case 'hueRotate':
         case 'saturate':
-        case 'sepia':
+        case 'sepia': {
           const filterValue = getFilter({ ...target, [prop]: value })
           if (filterValue === target.filter) {
             break
@@ -85,10 +89,11 @@ const store = new Proxy<AppState>(
               listener('filter', filterValue, target)
             )
           })
+        }
       }
 
       setTimeout(() => {
-        const listeners = LISTENERS.get(prop as AppStateKey) ?? []
+        const listeners = LISTENERS.get(prop) ?? []
         listeners.forEach((listener) => listener(prop, value, target))
       })
 
@@ -97,23 +102,20 @@ const store = new Proxy<AppState>(
   }
 )
 
-export function addListener<T extends keyof AppState>(
-  key: T,
-  listener: Listener<T>
-) {
+export function addListener(key: AppStateKey, listener: Listener<AppStateKey>) {
   let listeners = LISTENERS.get(key)
   if (!listeners) {
     listeners = []
+    LISTENERS.set(key, listeners)
   }
   listeners.push(listener)
-  LISTENERS.set(key, listeners)
 }
 
-export function removeListener<T extends keyof AppState>(
+export function removeListener<T extends AppStateKey>(
   key: T,
   listener: Listener<T>
 ) {
-  let listeners = LISTENERS.get(key)
+  const listeners = LISTENERS.get(key)
   if (!listeners) {
     return
   }
