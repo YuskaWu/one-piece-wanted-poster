@@ -153,15 +153,9 @@ class OptcGalleryPanel extends HTMLElement {
       this.#totalPage,
       this.#currentPage
     ])
-    console.log(
-      'pageNumberSet.size',
-      pageNumberSet.size,
-      'totalPage',
-      this.#totalPage
-    )
+
     const max = Math.min(this.#totalPage, 5)
     while (pageNumberSet.size < max) {
-      console.log(1)
       const offsetBefore = Math.max(this.#currentPage - offset, 1)
       const offsetAfter = Math.min(this.#currentPage + offset, this.#totalPage)
       pageNumberSet.add(offsetBefore)
@@ -229,7 +223,7 @@ class OptcGalleryPanel extends HTMLElement {
         .toString()
         .padStart(3, '0')
       const fileName = idNumber.toString().padStart(4, '0') + '.png'
-      const url = `http://optc-db.github.io/api/images/full/transparent/${groupNumber}/${subGroupNumber}/${fileName}`
+      const url = `https://optc-db.github.io/api/images/full/transparent/${groupNumber}/${subGroupNumber}/${fileName}`
       const names = this.#characterFamily
         ? this.#characterFamily[id].join(', ').toUpperCase()
         : ''
