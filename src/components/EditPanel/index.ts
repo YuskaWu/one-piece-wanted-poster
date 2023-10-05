@@ -112,7 +112,8 @@ class EditPanel extends HTMLElement {
 
     // close when user click outside of edit-panel
     this.#pointerdownListener = (e: PointerEvent) => {
-      if (e.target instanceof Node && this.contains(e.target)) {
+      const target = e.composedPath()[0]
+      if (target instanceof Node && this.shadowRoot?.contains(target)) {
         return
       }
       this.classList.contains('open') && this.toggle()

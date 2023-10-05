@@ -1,5 +1,6 @@
 import store, { addListener, removeListener, update } from '../../store'
 import EditPanel from '../EditPanel'
+import type OptcGalleryPanel from '../OptcGalleryPanel'
 import type TipsDialog from '../TipsDialog'
 import type WantedButton from '../WantedButton'
 import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
@@ -17,6 +18,7 @@ template.innerHTML = templateContent
 
 class App extends HTMLElement {
   #editPanel: EditPanel
+  #optcGalleryPanel: OptcGalleryPanel
   #tipsDialog: TipsDialog
   #wantedPoster: WantedPoster
   #uploadInput: HTMLInputElement
@@ -25,6 +27,7 @@ class App extends HTMLElement {
   #exportButton: WantedButton
   #criminalButton: HTMLButtonElement
   #tipsButton: HTMLButtonElement
+  #optcButton: HTMLButtonElement
 
   #carouselIntervalId: number = 0
 
@@ -53,10 +56,9 @@ class App extends HTMLElement {
       this.#root.querySelector<HTMLSlotElement>('slot[name=poster]')
     this.#wantedPoster = posterSlot?.assignedNodes()[0] as WantedPoster
 
-    const editPanelSlot = this.#root.querySelector<HTMLSlotElement>(
-      'slot[name=editPanel]'
-    )
-    this.#editPanel = editPanelSlot?.assignedNodes()[0] as EditPanel
+    this.#editPanel = this.#root.querySelector<EditPanel>('edit-panel')!
+    this.#optcGalleryPanel =
+      this.#root.querySelector<OptcGalleryPanel>('optc-gallery-panel')!
     this.#tipsDialog = this.#root.querySelector<TipsDialog>('tips-dialog')!
 
     this.#uploadInput =
@@ -70,6 +72,8 @@ class App extends HTMLElement {
       this.#root.querySelector<HTMLButtonElement>('#criminalButton')!
     this.#tipsButton =
       this.#root.querySelector<HTMLButtonElement>('#tipsButton')!
+    this.#optcButton =
+      this.#root.querySelector<HTMLButtonElement>('#optcButton')!
 
     this.#hashChangeListener = this.#onHashtagChange.bind(this)
 
@@ -102,8 +106,8 @@ class App extends HTMLElement {
     const loadingOverlay =
       this.#root.querySelector<HTMLElement>('.loading-overlay')!
 
-    let minLoadingTime = 1000
-    let intervalId = setInterval(() => {
+    const minLoadingTime = 1000
+    const intervalId = setInterval(() => {
       const time = new Date().getTime()
       if (time - this.#startTime < minLoadingTime) {
         return
@@ -148,6 +152,7 @@ class App extends HTMLElement {
     overlay.classList.toggle('blood-overlay--visible')
     this.#criminalButton.classList.toggle('criminal--stamp')
     this.#tipsButton.classList.toggle('tips-button--hidden')
+    this.#optcButton.classList.toggle('optc-button--hidden')
     this.#root
       .querySelector<HTMLDivElement>('.button-container')
       ?.classList.toggle('button-container--hidden')
@@ -177,7 +182,7 @@ class App extends HTMLElement {
 
   #setWantedPosterAttributes(attributes: WantedPosterAttribute) {
     const keys = Object.keys(attributes) as Array<keyof WantedPosterAttribute>
-    for (let key of keys) {
+    for (const key of keys) {
       const value = attributes[key] ?? ''
       this.#wantedPoster.setAttribute(key, value)
     }
@@ -287,6 +292,10 @@ class App extends HTMLElement {
 
     this.#tipsButton.addEventListener('click', () => {
       this.#tipsDialog.toggle()
+    })
+
+    this.#optcButton.addEventListener('click', () => {
+      this.#optcGalleryPanel.toggle()
     })
 
     // set handler for launched file

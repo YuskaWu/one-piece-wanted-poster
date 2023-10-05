@@ -58,6 +58,10 @@ class Bounty extends Text {
       ? `600 ${this.fontSize * 0.75}px 'Vertiky'`
       : `900 ${this.fontSize}px 'Scheherazade New', serif`
 
+    // this.ctx.letterSpacing = '10px'
+    // this.ctx.fontStretch = 'expanded'
+    // this.ctx.fontVariantCaps = 'all-petite-caps'
+
     const centerX = this.x + this.width / 2
     const bellySignAreaWidth = this.#isNumber
       ? scaledBellySignWidth + this.#bellyMarginRight

@@ -46,7 +46,7 @@ const DEFAULT_STATE: AppState = {
 }
 
 function assertIsAppStateKey(key: string | symbol): key is AppStateKey {
-  return key in DEFAULT_STATE === false
+  return key in DEFAULT_STATE
 }
 
 function getFilter({

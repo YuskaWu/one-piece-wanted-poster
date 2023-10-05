@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="content">
+    <div class="header">
+      <input id="searchInput" type="text" class="search-input" placeholder="Name or ID">
+      <icon-button id="orderButton" icon="tdesign:order-ascending"></icon-button>
+      <icon-button id="closeButton" icon="ep:close-bold"></icon-button>
+    </div>
+    <div id="imageGrid" class="image-grid"></div>
+    <div class="pagination">
+      <button id="preButton" class="navigate-button">
+        <iconify-icon icon="ic:round-navigate-before"></iconify-icon>
+      </button>
+      <div id="pageNumberWrapper" class="page-number-wrapper"></div>
+      <button id="nextButton" class="navigate-button">
+        <iconify-icon icon="ic:round-navigate-next"></iconify-icon>
+      </button>
+    </div>
+  </div>
+  <div class="loading"><iconify-icon icon="eos-icons:loading"></iconify-icon></div>
+  <div id="error" class="error">Error</div>
+</div>

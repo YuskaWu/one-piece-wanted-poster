@@ -82,7 +82,7 @@ class WantedImage {
 
       case 'high': {
         // Set actual size in memory (scaled to account for extra pixel density).
-        let scale = window.devicePixelRatio
+        const scale = window.devicePixelRatio
         this.#canvas.width = canvasDomWidth * scale
         this.#canvas.height = canvasDomHeight * scale
         // Normalize coordinate system to use CSS pixels.
@@ -91,7 +91,7 @@ class WantedImage {
       }
 
       case 'half': {
-        let scale = this.#image.height / canvasDomHeight / 2
+        const scale = this.#image.height / canvasDomHeight / 2
         this.#canvas.width = canvasDomWidth * scale
         this.#canvas.height = canvasDomHeight * scale
         this.#ctx.scale(scale, scale)

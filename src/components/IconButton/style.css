@@ -1,0 +1,43 @@
+:host {
+  --filter: drop-shadow(0.125rem 0 0.125rem rgb(0 0 0 / 40%))
+    drop-shadow(-0.125rem 0 0.125rem rgb(0 0 0 / 40%)) contrast(100%)
+    brightness(100%);
+  --hover-filter: drop-shadow(0.1875rem 0 0.1875rem rgb(0 0 0 / 40%))
+    drop-shadow(-0.1875rem 0 0.1875rem rgb(0 0 0 / 50%)) contrast(105%)
+    brightness(105%);
+  --active-filter: drop-shadow(0.0625rem 0 0.125rem rgb(0 0 0 / 60%))
+    drop-shadow(-0.0625rem 0 0.125rem rgb(0 0 0 / 70%)) contrast(105%)
+    brightness(105%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: var(--filter);
+  transition: 0.1s;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+
+:host(:hover) {
+  filter: var(--hover-filter);
+}
+
+:host(:active) {
+  transform: translateY(0.0625rem);
+  filter: var(--active-filter);
+}
+
+iconify-icon {
+  /* fix svg not be considered to be contained inside the panel */
+
+  /* https://stackoverflow.com/a/68939209 */
+  pointer-events: none;
+}

@@ -87,6 +87,33 @@
   display: none;
 }
 
+.optc-button {
+  position: fixed;
+  top: 0.5rem;
+  right: 5rem;
+  filter: drop-shadow(0 0 0.125rem rgb(0 0 0));
+  transition: filter 0.2s;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  background-image: url('./images/tavern-button.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  padding: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.optc-button--hidden {
+  display: none;
+}
+
+.optc-button:hover {
+  filter: drop-shadow(0 0 0.18rem rgba(0 0 0));
+}
+
 .button-container {
   display: flex;
   position: absolute;
@@ -107,7 +134,9 @@
   bottom: 1.2rem;
   visibility: hidden;
   opacity: 0;
-  transition: 2s;
+  transition:
+    visiblity 2s,
+    opacity 2s;
   cursor: pointer;
   margin-left: auto;
   outline: none;

@@ -279,8 +279,6 @@ class WantedPoster extends HTMLElement {
       })
       url = URL.createObjectURL(blob)
       this.#downloadFile(url, 'wanted-poster.png')
-    } catch (e) {
-      throw e
     } finally {
       if (url) {
         URL.revokeObjectURL(url)
@@ -289,7 +287,7 @@ class WantedPoster extends HTMLElement {
   }
 
   #downloadFile(uri: string, fileName: string) {
-    let anchor = document.createElement('a')
+    const anchor = document.createElement('a')
     anchor.setAttribute('href', uri)
     anchor.setAttribute('download', fileName)
     anchor.style.display = 'none'
