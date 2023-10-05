@@ -19,8 +19,8 @@
  */
 
 import { offlineFallback } from 'workbox-recipes'
-import { setDefaultHandler } from 'workbox-routing'
-import { StaleWhileRevalidate } from 'workbox-strategies'
+import { registerRoute, setDefaultHandler } from 'workbox-routing'
+import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies'
 
 // convert the type of "self" to the type of service worker context
 const sw: ServiceWorkerGlobalScope = self as any
@@ -31,6 +31,8 @@ console.log(assetHashes)
 
 // Cache first if available, and always make a revalidation request to update cache, regardless of the age of the cached response.
 setDefaultHandler(new StaleWhileRevalidate())
+
+registerRoute(({ url }) => url.host === 'optc-db.github.io', new NetworkFirst())
 
 // HTML to serve when the site is offline
 offlineFallback({
