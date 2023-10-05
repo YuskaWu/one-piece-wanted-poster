@@ -39,7 +39,7 @@
   box-sizing: border-box;
   box-shadow: inset 0 0 0.2rem 0.2rem rgb(0 0 0 / 50%);
   border: 0.0625rem solid rgb(180 150 81);
-  background: url('./images/wood-bg.png') repeat-y center top;
+  background: url('/images/wood-bg.png') repeat-y center top;
   background-size: 100% auto;
   width: 100%;
   height: 100%;
@@ -72,7 +72,7 @@
   cursor: pointer;
   outline: none;
   border: 0;
-  background-image: url('./images/wood-button.png');
+  background-image: url('/images/wood-button.png');
   background-position: center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -95,7 +95,7 @@
   cursor: pointer;
   outline: none;
   border: 0;
-  background-image: url('./images/close-button.png');
+  background-image: url('/images/close-button.png');
   background-position: center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -118,7 +118,7 @@
   filter: var(--element-filter);
   outline: none;
   border: 0;
-  background-image: url('./images/input-frame.png');
+  background-image: url('/images/input-frame.png');
   background-position: center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -150,7 +150,7 @@
   align-items: center;
   box-sizing: border-box;
   margin: 0;
-  background-image: url('./images/scroll-paper.png');
+  background-image: url('/images/scroll-paper.png');
   background-position: center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -195,7 +195,7 @@
   transition: filter 0.05s;
   cursor: pointer;
   border: 0;
-  background: url('./images/slider-thumb.png');
+  background: url('/images/slider-thumb.png');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -214,7 +214,7 @@
   filter: var(--element-filter);
   cursor: pointer;
   border: 0;
-  background: url('./images/slider-thumb.png');
+  background: url('/images/slider-thumb.png');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

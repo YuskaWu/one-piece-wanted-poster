@@ -3,7 +3,7 @@
   position: relative;
   transition: background-color 0.2s;
   box-sizing: border-box;
-  background-image: url('./images/cement-wall.jpg');
+  background-image: url('/images/cement-wall.jpg');
   background-position: center;
   background-size: cover;
   background-blend-mode: multiply;
@@ -13,8 +13,8 @@
 }
 
 :host(.warcriminal) {
-  background-image: url('./images/cement-wall.jpg'),
-    url('./images/blood-stains-0.png');
+  background-image: url('/images/cement-wall.jpg'),
+    url('/images/blood-stains-0.png');
 }
 
 :host(.dragin) {
@@ -34,7 +34,7 @@
   mix-blend-mode: multiply;
   animation-duration: 4s;
   animation-name: fade-in;
-  background-image: url('./images/blood-stains-1.png');
+  background-image: url('/images/blood-stains-1.png');
   background-position: center;
   background-size: cover;
   width: 100%;
@@ -96,7 +96,7 @@
   cursor: pointer;
   outline: none;
   border: 0;
-  background-image: url('./images/tavern-button.png');
+  background-image: url('/images/tavern-button.png');
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -166,7 +166,7 @@
   filter: contrast(85%) brightness(0%) drop-shadow(1px 1px 0.5rem crimson)
     drop-shadow(-1px -1px 0.5rem crimson);
   transition: filter 0.5s;
-  background-image: url('./images/war-criminal/criminal-avatar.png');
+  background-image: url('/images/war-criminal/criminal-avatar.png');
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -179,8 +179,8 @@
   filter: contrast(85%) brightness(110%)
     drop-shadow(1px 1px 0.1rem rgb(0 0 0 / 50%))
     drop-shadow(-1px -1px 0.1rem rgb(0 0 0 / 50%));
-  background-image: url('./images/war-criminal/criminal-stamp.png'),
-    url('./images/war-criminal/criminal-avatar.png');
+  background-image: url('/images/war-criminal/criminal-stamp.png'),
+    url('/images/war-criminal/criminal-avatar.png');
 }
 
 .criminal::after {

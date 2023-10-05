@@ -38,7 +38,7 @@
   container: panel / inline-size;
   box-shadow: inset 0 0 0.2rem 0.2rem rgb(0 0 0 / 50%);
   border: 0.0625rem solid rgb(180 150 81);
-  background: url('./images/wood-bg.png') repeat-y center top;
+  background: url('/images/wood-bg.png') repeat-y center top;
   background-size: 100% auto;
   width: 100%;
   height: 100%;
@@ -173,7 +173,7 @@
   margin-right: auto;
   outline: none;
   border: 0;
-  background-image: url('./images/input-frame.png');
+  background-image: url('/images/input-frame.png');
   background-position: center;
   background-size: 100% 100%;
   background-repeat: no-repeat;

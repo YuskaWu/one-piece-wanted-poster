@@ -10,7 +10,7 @@
   box-sizing: border-box;
   margin-top: 3rem;
   margin-left: 0.5rem;
-  background-image: url('./images/tips-paper.png');
+  background-image: url('/images/tips-paper.png');
   background-size: contain;
   background-repeat: no-repeat;
   padding: 1rem 0.8rem 1rem 1rem;
