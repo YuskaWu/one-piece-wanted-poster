@@ -92,9 +92,13 @@ class App extends HTMLElement {
             'bounty-spacing': value.toString()
           })
           break
+        case 'posterShadow':
+          this.#setWantedPosterAttributes({
+            'poster-shadow': value.toString()
+          })
+          break
         case 'name':
         case 'bounty':
-        case 'shadow':
         case 'filter':
           this.#setWantedPosterAttributes({ [key]: value.toString() })
       }
@@ -194,7 +198,7 @@ class App extends HTMLElement {
     this.#setWantedPosterAttributes({
       'name-spacing': store.nameSpacing.toString(),
       'bounty-spacing': store.bountySpacing.toString(),
-      shadow: store.shadow.toString(),
+      'poster-shadow': store.posterShadow.toString(),
       filter: store.filter
     })
 
@@ -203,7 +207,7 @@ class App extends HTMLElement {
     addListener('bounty', this.#storeListener)
     addListener('nameSpacing', this.#storeListener)
     addListener('bountySpacing', this.#storeListener)
-    addListener('shadow', this.#storeListener)
+    addListener('posterShadow', this.#storeListener)
     addListener('filter', this.#storeListener)
 
     if (location.hash === WARCRIMINAL_HASH) {
@@ -315,7 +319,7 @@ class App extends HTMLElement {
     removeListener('photoUrl', this.#storeListener)
     removeListener('name', this.#storeListener)
     removeListener('bounty', this.#storeListener)
-    removeListener('shadow', this.#storeListener)
+    removeListener('posterShadow', this.#storeListener)
     removeListener('filter', this.#storeListener)
   }
 }

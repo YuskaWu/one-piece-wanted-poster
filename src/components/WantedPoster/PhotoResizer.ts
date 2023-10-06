@@ -147,7 +147,7 @@ class PhotoResizer extends GraphicObject {
 
     const { left, top } = this.ctx.canvas.getBoundingClientRect()
     let isHover = false
-    for (let pointer of this.#trackingPointers.values()) {
+    for (const pointer of this.#trackingPointers.values()) {
       const canvasX = pointer.clientX - left
       const canvasY = pointer.clientY - top
 
@@ -218,14 +218,14 @@ class PhotoResizer extends GraphicObject {
     }
 
     if (pointers.length === 2 && this.#isHover) {
-      let oldPointerA = this.#trackingPointers.get(pointers[0].pointerId)
-      let oldPointerB = this.#trackingPointers.get(pointers[1].pointerId)
+      const oldPointerA = this.#trackingPointers.get(pointers[0].pointerId)
+      const oldPointerB = this.#trackingPointers.get(pointers[1].pointerId)
       if (oldPointerA && oldPointerB) {
         const datumPointer =
           pointers[0].pointerId === e.pointerId ? pointers[1] : pointers[0]
-        let newDistance = this.#getDistance(datumPointer, e)
-        let oldDistance = this.#getDistance(oldPointerA, oldPointerB)
-        let scale = newDistance > oldDistance ? 1.02 : 0.98
+        const newDistance = this.#getDistance(datumPointer, e)
+        const oldDistance = this.#getDistance(oldPointerA, oldPointerB)
+        const scale = newDistance > oldDistance ? 1.02 : 0.98
         this.#zoom(scale)
       }
     }

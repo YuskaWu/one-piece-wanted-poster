@@ -20,7 +20,7 @@ export function getScale(
 }
 
 export function downloadFile(uri: string, fileName: string) {
-  let anchor = document.createElement('a')
+  const anchor = document.createElement('a')
   anchor.setAttribute('href', uri)
   anchor.setAttribute('download', fileName)
   anchor.style.display = 'none'

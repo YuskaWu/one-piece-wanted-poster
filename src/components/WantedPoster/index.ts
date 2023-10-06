@@ -19,7 +19,8 @@ const ATTRIBUTES = [
   'bounty-spacing',
   'photo-url',
   'filter',
-  'shadow'
+  'poster-shadow',
+  'photo-shadow'
 ] as const
 
 type Attributes = typeof ATTRIBUTES
@@ -94,7 +95,7 @@ class WantedPoster extends HTMLElement {
 
     this.#status = 'loading'
 
-    const shadow = this.#getShadow()
+    const shadow = this.#getPosterShadow()
     const rect = this.#container.getBoundingClientRect()
 
     try {
@@ -190,25 +191,26 @@ class WantedPoster extends HTMLElement {
         break
       }
 
-      case 'shadow': {
+      case 'poster-shadow': {
         this.#resize()
         break
       }
     }
   }
 
-  #getShadow() {
-    const shadowAttr = this.getAttribute('shadow')
-    if (!shadowAttr) {
+  #getPosterShadow() {
+    const attrValue = this.getAttribute('poster-shadow')
+
+    if (!attrValue) {
       return 0
     }
 
-    const shadow = Number.parseInt(shadowAttr)
-    if (Number.isNaN(shadow)) {
+    const shadowSize = Number.parseInt(attrValue)
+    if (Number.isNaN(shadowSize)) {
       return 0
     }
 
-    return shadow
+    return shadowSize
   }
 
   async export() {
@@ -219,7 +221,7 @@ class WantedPoster extends HTMLElement {
 
     const ctx = canvas.getContext('2d') as PosterRenderingContext2D
 
-    const shadow = this.#getShadow()
+    const posterShadow = this.#getPosterShadow()
     const wantedImage = new WantedImage(ctx, ONE_PIECE_WANTED_IMAGE)
     const photo = new Photo(ctx)
     const name = new Name(ctx)
@@ -227,13 +229,13 @@ class WantedPoster extends HTMLElement {
 
     const image = await wantedImage.loadImage()
 
-    const exportWidth = image.width + shadow * 2
-    const exportHeight = image.height + shadow * 2
+    const exportWidth = image.width + posterShadow * 2
+    const exportHeight = image.height + posterShadow * 2
 
     const wantedImageInfo = wantedImage.setSize({
       width: exportWidth,
       height: exportHeight,
-      shadowSize: shadow,
+      shadowSize: posterShadow,
       quality: 'original'
     })
 
@@ -303,7 +305,7 @@ class WantedPoster extends HTMLElement {
       return
     }
 
-    const shadow = this.#getShadow()
+    const posterShadow = this.#getPosterShadow()
     const containerRect = this.#container.getBoundingClientRect()
     const canvasRect = this.#canvas.getBoundingClientRect()
 
@@ -316,7 +318,7 @@ class WantedPoster extends HTMLElement {
     const wantedImageInfo = this.#wantedImage.setSize({
       width: containerRect.width,
       height: containerRect.height,
-      shadowSize: shadow,
+      shadowSize: posterShadow,
       quality: 'half'
     })
 
