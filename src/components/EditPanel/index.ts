@@ -14,6 +14,7 @@ class EditPanel extends HTMLElement {
   #nameSpacingSlider: HTMLInputElement
   #bountySpacingSlider: HTMLInputElement
   #posterShadowSlider: HTMLInputElement
+  #photoShadowSlider: HTMLInputElement
   #blurSlider: HTMLInputElement
   #brightnessSlider: HTMLInputElement
   #contrastSlider: HTMLInputElement
@@ -49,6 +50,8 @@ class EditPanel extends HTMLElement {
     this.#posterShadowSlider = shadowRoot.querySelector<HTMLInputElement>(
       '#posterShadowSlider'
     )!
+    this.#photoShadowSlider =
+      shadowRoot.querySelector<HTMLInputElement>('#photoShadowSlider')!
     this.#blurSlider =
       shadowRoot.querySelector<HTMLInputElement>('#blurSlider')!
     this.#brightnessSlider =
@@ -86,6 +89,9 @@ class EditPanel extends HTMLElement {
           break
         case 'posterShadow':
           this.#posterShadowSlider.value = value
+          break
+        case 'photoShadow':
+          this.#photoShadowSlider.value = value
           break
         case 'blur':
           this.#blurSlider.value = value
@@ -133,6 +139,7 @@ class EditPanel extends HTMLElement {
     addListener('nameSpacing', this.#storeListener)
     addListener('bountySpacing', this.#storeListener)
     addListener('posterShadow', this.#storeListener)
+    addListener('photoShadow', this.#storeListener)
     addListener('blur', this.#storeListener)
     addListener('saturate', this.#storeListener)
     addListener('contrast', this.#storeListener)
@@ -147,6 +154,7 @@ class EditPanel extends HTMLElement {
     this.#nameSpacingSlider.value = store.nameSpacing.toString()
     this.#bountySpacingSlider.value = store.bountySpacing.toString()
     this.#posterShadowSlider.value = store.posterShadow.toString()
+    this.#photoShadowSlider.value = store.photoShadow.toString()
     this.#blurSlider.value = store.blur.toString()
     this.#brightnessSlider.value = store.brightness.toString()
     this.#contrastSlider.value = store.contrast.toString()
@@ -175,6 +183,10 @@ class EditPanel extends HTMLElement {
     this.#posterShadowSlider.addEventListener(
       'input',
       () => (store.posterShadow = parseInt(this.#posterShadowSlider.value))
+    )
+    this.#photoShadowSlider.addEventListener(
+      'input',
+      () => (store.photoShadow = parseInt(this.#photoShadowSlider.value))
     )
     this.#blurSlider.addEventListener(
       'input',

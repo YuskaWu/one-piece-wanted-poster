@@ -8,7 +8,7 @@ export function loadImage(url: string): Promise<HTMLImageElement> {
   })
 }
 
-export function getScale(
+export function getFitScale(
   destinationWidth: number,
   destinationHeight: number,
   sourceWidth: number,

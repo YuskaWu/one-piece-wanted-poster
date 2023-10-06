@@ -97,6 +97,11 @@ class App extends HTMLElement {
             'poster-shadow': value.toString()
           })
           break
+        case 'photoShadow':
+          this.#setWantedPosterAttributes({
+            'photo-shadow': value.toString()
+          })
+          break
         case 'name':
         case 'bounty':
         case 'filter':
@@ -208,6 +213,7 @@ class App extends HTMLElement {
     addListener('nameSpacing', this.#storeListener)
     addListener('bountySpacing', this.#storeListener)
     addListener('posterShadow', this.#storeListener)
+    addListener('photoShadow', this.#storeListener)
     addListener('filter', this.#storeListener)
 
     if (location.hash === WARCRIMINAL_HASH) {
@@ -320,6 +326,7 @@ class App extends HTMLElement {
     removeListener('name', this.#storeListener)
     removeListener('bounty', this.#storeListener)
     removeListener('posterShadow', this.#storeListener)
+    removeListener('photoShadow', this.#storeListener)
     removeListener('filter', this.#storeListener)
   }
 }

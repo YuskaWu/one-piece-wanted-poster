@@ -1,13 +1,15 @@
 import GraphicObject from './GraphicObject'
 import backgroundImageUrl from './images/paper.png'
 import { Position, WantedImageInfo } from './types'
-import { getScale, loadImage } from './utils'
+import { getFitScale, loadImage } from './utils'
 
 type EventName = 'imageloaded'
 
 const DEFAULT_POSITION = { x: 0, y: 0, width: 0, height: 0 }
 class Photo extends GraphicObject {
   filter = ''
+  shadow = 0
+  #photoScale = 1
   #listeners = new Map<EventName, Array<() => void>>()
   #image: HTMLImageElement | null = null
   #fillPattern: CanvasPattern | null = null
@@ -85,7 +87,7 @@ class Photo extends GraphicObject {
       return
     }
 
-    const scale = getScale(
+    const scale = getFitScale(
       this.width,
       this.height,
       this.#image.width,
@@ -101,6 +103,7 @@ class Photo extends GraphicObject {
     const y = this.y + (this.height - height) / 2
 
     this.#renderPosition = { x, y, width, height }
+    this.#photoScale = scale
   }
 
   on(eventName: EventName, fn: () => void) {
@@ -122,6 +125,10 @@ class Photo extends GraphicObject {
 
   render(): void {
     this.ctx.save()
+
+    this.ctx.shadowColor = 'rgba(0, 0, 0, 1)'
+    this.ctx.shadowBlur = this.shadow * this.#photoScale
+
     // render background for the transparent area of photo
     this.ctx.fillStyle = this.#fillPattern ? this.#fillPattern : 'none'
     this.ctx.fillRect(

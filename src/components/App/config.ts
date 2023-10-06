@@ -2,6 +2,7 @@ import { AppState } from '../../store'
 
 export const WARCRIMINAL_POSTER = {
   posterShadow: 5,
+  photoShadow: 4,
   blur: 0,
   brightness: 100,
   contrast: 100,

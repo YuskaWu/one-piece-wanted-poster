@@ -1,6 +1,6 @@
 import type { PosterCanvasElement, PosterRenderingContext2D } from './types'
 import { Position, WantedImageInfo } from './types'
-import { getScale, loadImage } from './utils'
+import { getFitScale, loadImage } from './utils'
 
 class WantedImage {
   #ctx: PosterRenderingContext2D
@@ -55,7 +55,7 @@ class WantedImage {
     const posterImageWidth = this.#image.width + shadowSize * 2
     const posterImageHeight = this.#image.height + shadowSize * 2
 
-    const imageScale = getScale(
+    const imageScale = getFitScale(
       containerWidth,
       containerHeight,
       posterImageWidth,

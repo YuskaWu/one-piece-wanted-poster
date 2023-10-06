@@ -14,6 +14,7 @@ export interface AppState extends FilterState {
   bounty: string | number
   filter: string
   posterShadow: number
+  photoShadow: number
   nameSpacing: number
   bountySpacing: number
 }
@@ -36,6 +37,7 @@ const DEFAULT_STATE: AppState = {
   bountySpacing: 1,
   filter: '',
   posterShadow: 0,
+  photoShadow: 0,
   blur: 0,
   brightness: 100,
   contrast: 100,

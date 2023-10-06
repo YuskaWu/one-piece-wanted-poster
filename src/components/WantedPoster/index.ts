@@ -1,7 +1,7 @@
 import { WARCRIMINAL_POSTER } from '../App/config'
 import { ONE_PIECE_WANTED_IMAGE } from './constants'
 import cssContent from './style.css?inline'
-import { getScale } from './utils'
+import { getFitScale } from './utils'
 
 import type { PosterCanvasElement, PosterRenderingContext2D } from './types'
 
@@ -95,7 +95,7 @@ class WantedPoster extends HTMLElement {
 
     this.#status = 'loading'
 
-    const shadow = this.#getPosterShadow()
+    const posterShadow = this.#getAttrNumberValue('poster-shadow')
     const rect = this.#container.getBoundingClientRect()
 
     try {
@@ -104,7 +104,7 @@ class WantedPoster extends HTMLElement {
       const wantedImageInfo = this.#wantedImage.setSize({
         width: rect.width,
         height: rect.height,
-        shadowSize: shadow,
+        shadowSize: posterShadow,
         quality: 'half'
       })
 
@@ -128,10 +128,10 @@ class WantedPoster extends HTMLElement {
 
     this.#name.text = this.getAttribute('name') ?? ''
     this.#bounty.text = this.getAttribute('bounty') ?? ''
-    this.#name.spacing = parseInt(this.getAttribute('name-spacing') ?? '0') || 0
-    this.#bounty.spacing =
-      parseInt(this.getAttribute('bounty-spacing') ?? '0') || 0
+    this.#name.spacing = this.#getAttrNumberValue('name-spacing')
+    this.#bounty.spacing = this.#getAttrNumberValue('bounty-spacing')
 
+    this.#photo.shadow = this.#getAttrNumberValue('photo-shadow')
     this.#photo.filter = this.getAttribute('filter') ?? ''
 
     this.#status = 'success'
@@ -195,22 +195,16 @@ class WantedPoster extends HTMLElement {
         this.#resize()
         break
       }
+
+      case 'photo-shadow': {
+        this.#photo.shadow = parseInt(newValue) || 0
+      }
     }
   }
 
-  #getPosterShadow() {
-    const attrValue = this.getAttribute('poster-shadow')
-
-    if (!attrValue) {
-      return 0
-    }
-
-    const shadowSize = Number.parseInt(attrValue)
-    if (Number.isNaN(shadowSize)) {
-      return 0
-    }
-
-    return shadowSize
+  #getAttrNumberValue(attr: Attributes[number]): number {
+    const value = this.getAttribute(attr) || '0'
+    return parseInt(value) || 0
   }
 
   async export() {
@@ -221,7 +215,7 @@ class WantedPoster extends HTMLElement {
 
     const ctx = canvas.getContext('2d') as PosterRenderingContext2D
 
-    const posterShadow = this.#getPosterShadow()
+    const posterShadow = this.#getAttrNumberValue('poster-shadow')
     const wantedImage = new WantedImage(ctx, ONE_PIECE_WANTED_IMAGE)
     const photo = new Photo(ctx)
     const name = new Name(ctx)
@@ -244,8 +238,8 @@ class WantedPoster extends HTMLElement {
     bounty.setBountyInfo(wantedImageInfo.bountyInfo, 1)
     name.text = this.getAttribute('name') ?? ''
     bounty.text = this.getAttribute('bounty') ?? ''
-    name.spacing = parseInt(this.getAttribute('name-spacing') ?? '0') || 0
-    bounty.spacing = parseInt(this.getAttribute('bounty-spacing') ?? '0') || 0
+    name.spacing = this.#getAttrNumberValue('name-spacing')
+    bounty.spacing = this.#getAttrNumberValue('bounty-spacing')
 
     await photo.init(
       wantedImageInfo.photoPosition,
@@ -253,6 +247,7 @@ class WantedPoster extends HTMLElement {
     )
     await photo.loadImage(this.getAttribute('photo-url'))
 
+    photo.shadow = this.#getAttrNumberValue('photo-shadow')
     // sync photo position from current displaying canvas
     const { x, y, width, height, filter } = this.#photo
     photo.x = x / this.#wantedImage.imageScale
@@ -305,11 +300,11 @@ class WantedPoster extends HTMLElement {
       return
     }
 
-    const posterShadow = this.#getPosterShadow()
+    const posterShadow = this.#getAttrNumberValue('poster-shadow')
     const containerRect = this.#container.getBoundingClientRect()
     const canvasRect = this.#canvas.getBoundingClientRect()
 
-    const resizeScale = getScale(
+    const resizeScale = getFitScale(
       containerRect.width,
       containerRect.height,
       canvasRect.width,
