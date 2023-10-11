@@ -52,8 +52,8 @@ class OptcGalleryPanel extends HTMLElement {
     this.#error = shadowRoot.querySelector<HTMLDivElement>('#error')!
 
     this.#pointerdownListener = (e: PointerEvent) => {
-      const target = e.composedPath()[0]
-      if (target instanceof Node && this.shadowRoot?.contains(target)) {
+      const isInside = e.composedPath().includes(this)
+      if (isInside) {
         return
       }
       this.classList.contains('open') && this.toggle()
