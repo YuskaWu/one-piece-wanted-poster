@@ -1,12 +1,12 @@
 :host {
-  --filter: drop-shadow(0.125rem 0 0.125rem rgb(0 0 0 / 40%))
-    drop-shadow(-0.125rem 0 0.125rem rgb(0 0 0 / 40%)) contrast(100%)
+  --filter: drop-shadow(0.125em 0 0.125em rgb(0 0 0 / 40%))
+    drop-shadow(-0.125em 0 0.125em rgb(0 0 0 / 40%)) contrast(100%)
     brightness(100%);
-  --hover-filter: drop-shadow(0.1875rem 0 0.1875rem rgb(0 0 0 / 40%))
-    drop-shadow(-0.1875rem 0 0.1875rem rgb(0 0 0 / 50%)) contrast(105%)
+  --hover-filter: drop-shadow(0.1875em 0 0.1875em rgb(0 0 0 / 40%))
+    drop-shadow(-0.1875em 0 0.1875em rgb(0 0 0 / 50%)) contrast(105%)
     brightness(105%);
-  --active-filter: drop-shadow(0.0625rem 0 0.125rem rgb(0 0 0 / 60%))
-    drop-shadow(-0.0625rem 0 0.125rem rgb(0 0 0 / 70%)) contrast(105%)
+  --active-filter: drop-shadow(0.0625em 0 0.125em rgb(0 0 0 / 60%))
+    drop-shadow(-0.0625em 0 0.125em rgb(0 0 0 / 70%)) contrast(105%)
     brightness(105%);
 
   display: flex;
@@ -21,8 +21,9 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-color: transparent;
-  width: 2rem;
-  height: 2rem;
+  padding-bottom: 0.05em;
+  width: 2em;
+  height: 2em;
   color: white;
 }
 
@@ -31,7 +32,7 @@
 }
 
 :host(:active) {
-  transform: translateY(0.0625rem);
+  transform: translateY(0.0625em);
   filter: var(--active-filter);
 }
 
