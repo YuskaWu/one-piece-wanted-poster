@@ -55,27 +55,18 @@ class Bounty extends Text {
     this.ctx.textBaseline = 'top'
 
     this.ctx.font = this.#isNumber
-      ? `600 ${this.fontSize * 0.75}px 'Vertiky'`
-      : `900 ${this.fontSize}px 'Scheherazade New', serif`
-
-    // this.ctx.letterSpacing = '10px'
-    // this.ctx.fontStretch = 'expanded'
-    // this.ctx.fontVariantCaps = 'all-petite-caps'
+      ? `600 ${this.fontSize}px 'Vertiky'`
+      : `900 ${this.fontSize * 1.35}px 'Scheherazade New', serif`
 
     const centerX = this.x + this.width / 2
     const bellySignAreaWidth = this.#isNumber
       ? scaledBellySignWidth + this.#bellyMarginRight
       : 0
     const actualHeight = this.getTextActualHeight(this.formattedText)
-    let topOffset = (this.height - actualHeight) / 2
-
-    // topOffset is not a fixed constant for adjusting the top position, it should change depending on the font we used.
-    if (this.#isNumber) {
-      topOffset *= 0.818
-    }
+    const verticalCenterOffset = (this.height - actualHeight) / 2
 
     const x = centerX + bellySignAreaWidth / 2
-    const y = this.y + topOffset
+    const y = this.y + verticalCenterOffset
     const maxWidth = this.width - bellySignAreaWidth
 
     if (this.#isNumber) {

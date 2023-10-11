@@ -13,7 +13,7 @@ export const ONE_PIECE_WANTED_IMAGE: WantedImageInfo = {
     width: 592,
     height: 85,
     bellyMarginRight: 18,
-    fontSize: 70
+    fontSize: 52.5
   },
   boundaryOffset: {
     left: 10,
