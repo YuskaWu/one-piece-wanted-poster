@@ -1,4 +1,3 @@
-import { WARCRIMINAL_POSTER } from '../App/config'
 import { ONE_PIECE_WANTED_IMAGE } from './constants'
 import cssContent from './style.css?inline'
 import { getFitScale } from './utils'
@@ -126,14 +125,6 @@ class WantedPoster extends HTMLElement {
       return
     }
 
-    this.#name.text = this.getAttribute('name') ?? ''
-    this.#bounty.text = this.getAttribute('bounty') ?? ''
-    this.#name.spacing = this.#getAttrNumberValue('name-spacing')
-    this.#bounty.spacing = this.#getAttrNumberValue('bounty-spacing')
-
-    this.#photo.shadow = this.#getAttrNumberValue('photo-shadow')
-    this.#photo.filter = this.getAttribute('filter') ?? ''
-
     this.#status = 'success'
 
     this.#render()
@@ -156,9 +147,6 @@ class WantedPoster extends HTMLElement {
     _: string,
     newValue: string
   ) {
-    if (this.#status !== 'success') {
-      return
-    }
     switch (attributeName) {
       case 'name':
         this.#name.text = newValue
@@ -178,9 +166,7 @@ class WantedPoster extends HTMLElement {
 
       case 'photo-url': {
         await this.#photo.loadImage(newValue)
-        this.#photoResizer.highlight = WARCRIMINAL_POSTER.photoUrls.includes(
-          newValue
-        )
+        this.#photoResizer.highlight = newValue.endsWith('#nohighlight')
           ? false
           : true
         break
