@@ -5,6 +5,7 @@ import 'iconify-icon'
 // will not work
 // https://stackoverflow.com/a/73870508
 import './components/LuffyLogo'
+import './components/RangeSlider'
 import './components/FontSelect'
 import './components/WantedButton'
 import './components/IconButton'

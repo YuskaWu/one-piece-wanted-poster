@@ -3,60 +3,53 @@
     <input id="nameInput" class="text-input" placeholder="Name" />
     <input id="bountyInput" class="text-input" placeholder="Bounty" />
 
-    <div class="slider">
-      <label for="nameSpacingSlider" class="slider__label">Name Text Spacing</label>
-      <input id="nameSpacingSlider" class="slider__input" type="range" min="0" max="3">
+    <div>
+      <h4 class="header">Name Text Spacing</h4>
+      <range-slider id="nameSpacingSlider" min="0" max="3"></range-slider>
     </div>
 
-    <div class="slider">
-      <label for="bountySpacingSlider" class="slider__label">Bounty Text Spacing</label>
-      <input id="bountySpacingSlider" class="slider__input" type="range" min="0" max="3">
+    <div>
+      <h4 class="header">Bounty Text Spacing</h4>
+      <range-slider id="bountySpacingSlider" min="0" max="3"></range-slider>
     </div>
 
-    <div class="slider">
-      <label for="posterShadowSlider" class="slider__label">Poster Shadow</label>
-      <input id="posterShadowSlider" class="slider__input" type="range" min="0" max="20">
+    <div>
+      <h4 class="header">Poster Shadow</h4>
+      <range-slider id="posterShadowSlider" min="0" max="20"></range-slider>
     </div>
 
-    <div class="slider">
-      <label for="photoShadowSlider" class="slider__label">Photo Shadow</label>
-      <input id="photoShadowSlider" class="slider__input" type="range" min="0" max="20">
+    <div>
+      <h4 class="header">Photo Filter</h4>
+
+      <div class="slider-group">
+        <label>Shadow</label>
+        <range-slider id="photoShadowSlider" min="0" max="20"></range-slider>
+
+        <label>Blur</label>
+        <range-slider id="blurSlider" min="0" max="10"></range-slider>
+
+        <label>Brightness</label>
+        <range-slider id="brightnessSlider" min="0" max="200"></range-slider>
+
+        <label>Contrast</label>
+        <range-slider id="contrastSlider" min="0" max="200"></range-slider>
+
+        <label>Grayscale</label>
+        <range-slider id="grayscaleSlider" min="0" max="100"></range-slider>
+
+        <label>Hue Rotate</label>
+        <range-slider id="hueRotateSlider" min="0" max="360"></range-slider>
+
+        <label>Saturate</label>
+        <range-slider id="saturateSlider" min="0" max="200"></range-slider>
+
+        <label>Sepia</label>
+        <range-slider id="sepiaSlider" min="0" max="100"></range-slider>
+      </div>
+
+
     </div>
 
-    <div class="slider">
-      <label for="blurSlider" class="slider__label">Blur</label>
-      <input id="blurSlider" class="slider__input" type="range" min="0" max="10">
-    </div>
-
-    <div class="slider">
-      <label for="brightnessSlider" class="slider__label">Brightness</label>
-      <input id="brightnessSlider" class="slider__input" type="range" min="0" max="200">
-    </div>
-
-    <div class="slider">
-      <label for="contrastSlider" class="slider__label">Contrast</label>
-      <input id="contrastSlider" class="slider__input" type="range" min="0" max="200">
-    </div>
-
-    <div class="slider">
-      <label for="grayscaleSlider" class="slider__label">Grayscale</label>
-      <input id="grayscaleSlider" class="slider__input" type="range" min="0" max="100">
-    </div>
-
-    <div class="slider">
-      <label for="hueRotateSlider" class="slider__label">Hue Rotate</label>
-      <input id="hueRotateSlider" class="slider__input" type="range" min="0" max="360">
-    </div>
-
-    <div class="slider">
-      <label for="saturateSlider" class="slider__label">Saturate</label>
-      <input id="saturateSlider" class="slider__input" type="range" min="0" max="200">
-    </div>
-
-    <div class="slider">
-      <label for="sepiaSlider" class="slider__label">Sepia</label>
-      <input id="sepiaSlider" class="slider__input" type="range" min="0" max="100">
-    </div>
   </div>
   <div class="action-container">
     <button id="closeButton" class="close-button" aria-label="Close edit panel button" title="Close"></button>

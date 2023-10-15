@@ -1,11 +1,4 @@
 :host {
-  --text-shadow: 0.1rem 0.1rem 0.1rem rgb(0 0 0 / 50%);
-  --element-filter: drop-shadow(2px 0 2px rgb(0 0 0 / 40%))
-    drop-shadow(-2px 0 2px rgb(0 0 0 / 40%)) contrast(100%) brightness(100%);
-  --element-hover-filter: drop-shadow(3px 0 3px rgb(0 0 0 / 40%))
-    drop-shadow(-3px 0 3px rgb(0 0 0 / 50%)) contrast(105%) brightness(105%);
-  --element-active-filter: drop-shadow(1px 0 2px rgb(0 0 0 / 60%))
-    drop-shadow(-1px 0 2px rgb(0 0 0 / 70%)) contrast(105%) brightness(105%);
   --slider-thumb-size: 2rem;
 
   display: block;
@@ -49,7 +42,7 @@
   display: flex;
   flex: 1 0;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.25rem;
   padding: 1rem;
   overflow-x: hidden;
   overflow-y: auto;
@@ -137,19 +130,14 @@
   text-shadow: none;
 }
 
-.slider {
+.header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.slider__label {
-  display: inline-flex;
   position: relative;
+  flex-shrink: 0;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  margin: 0;
+  margin: 0 auto 0.75em;
   background-image: url('/images/scroll-paper.png');
   background-position: center;
   background-size: 100% 100%;
@@ -163,64 +151,21 @@
   font-size: 0.75rem;
 }
 
-.slider__input {
-  appearance: none;
-  outline: none;
-  background: transparent;
-  width: 100%;
-  height: 2.5rem;
+.slider-group {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+  row-gap: rem;
+  align-content: right;
+  align-items: center;
+  color: white;
+  text-align: right;
 }
 
-.slider__input::-webkit-slider-runnable-track {
-  box-shadow: 0 0 3px 1px rgb(0 0 0 / 80%);
-  border: 1px solid rgb(0 0 0 / 80%);
-  border-radius: 0.1rem;
-  background-color: var(--theme-color);
-  height: 0.75rem;
-}
-
-.slider__input::-moz-range-track {
-  box-shadow: 0 0 3px 1px rgb(0 0 0 / 80%);
-  border: 1px solid rgb(0 0 0 / 80%);
-  border-radius: 0.1rem;
-  background-color: var(--theme-color);
-  height: 0.75rem;
-}
-
-.slider__input::-webkit-slider-thumb {
-  position: relative;
-  top: -0.75rem;
-  appearance: none;
-  filter: var(--element-filter);
-  transition: filter 0.05s;
-  cursor: pointer;
-  border: 0;
-  background: url('/images/slider-thumb.png');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  width: var(--slider-thumb-size);
-  height: var(--slider-thumb-size);
-}
-
-.slider__input::-webkit-slider-thumb:hover {
-  filter: var(--element-hover-filter);
-}
-
-.slider__input::-moz-range-thumb {
-  position: relative;
-  top: -0.75rem;
-  filter: var(--element-filter);
-  cursor: pointer;
-  border: 0;
-  background: url('/images/slider-thumb.png');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  width: var(--slider-thumb-size);
-  height: var(--slider-thumb-size);
+.slider-group label {
+  text-shadow:
+    0 0 0.25rem black,
+    0 0 0.5rem rgb(57 42 34);
 }
 
 ::selection {

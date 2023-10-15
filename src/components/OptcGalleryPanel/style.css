@@ -1,12 +1,4 @@
 :host {
-  --text-shadow: 0.1rem 0.1rem 0.1rem rgb(0 0 0 / 50%);
-  --element-filter: drop-shadow(2px 0 2px rgb(0 0 0 / 40%))
-    drop-shadow(-2px 0 2px rgb(0 0 0 / 40%)) contrast(100%) brightness(100%);
-  --element-hover-filter: drop-shadow(3px 0 3px rgb(0 0 0 / 40%))
-    drop-shadow(-3px 0 3px rgb(0 0 0 / 50%)) contrast(105%) brightness(105%);
-  --element-active-filter: drop-shadow(1px 0 2px rgb(0 0 0 / 60%))
-    drop-shadow(-1px 0 2px rgb(0 0 0 / 70%)) contrast(105%) brightness(105%);
-
   display: block;
   position: fixed;
   top: 0;
