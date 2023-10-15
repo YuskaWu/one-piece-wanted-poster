@@ -73,6 +73,7 @@ class FontSelect extends HTMLElement {
         document.fonts.add(fontFace)
         this.#addFontFamily(fontName)
         this.value = fontName
+        this.dispatchEvent(new CustomEvent('input'))
       } catch (e) {
         // TODO show message toast
       }
