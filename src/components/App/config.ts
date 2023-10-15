@@ -14,6 +14,9 @@ export const WARCRIMINAL_POSTER = {
   bounty: 'War Criminal',
   nameSpacing: 0,
   bountySpacing: 1,
+  bountyFontFamily: 'Scheherazade New',
+  bountyFontScale: 1.35,
+  bountyVerticalOffset: 0,
   photoUrls: [
     './images/war-criminal/photo-01.png',
     './images/war-criminal/photo-02.png',

@@ -1,27 +1,46 @@
 <div class="container">
   <div class="field-container">
-    <input id="nameInput" class="text-input" placeholder="Name" />
-    <input id="bountyInput" class="text-input" placeholder="Bounty" />
-
     <div>
-      <h4 class="header">Name Text Spacing</h4>
-      <range-slider id="nameSpacingSlider" min="0" max="3"></range-slider>
+      <h4 class="header">Name</h4>
+      <div class="field-group">
+        <label>Text</label>
+        <input id="nameInput" class="text-input" placeholder="Name" />
+
+        <label>Spacing</label>
+        <range-slider id="nameSpacingSlider" min="0" max="3"></range-slider>
+      </div>
     </div>
 
     <div>
-      <h4 class="header">Bounty Text Spacing</h4>
-      <range-slider id="bountySpacingSlider" min="0" max="3"></range-slider>
+      <h4 class="header">Bounty</h4>
+
+      <div class="field-group">
+        <label>Text</label>
+        <input id="bountyInput" class="text-input" placeholder="Bounty" />
+
+        <label>Spacing</label>
+        <range-slider id="bountySpacingSlider" min="0" max="3"></range-slider>
+
+        <label>Font</label>
+        <font-select id="bountyFontFamilySelect"></font-select>
+
+        <label>Size</label>
+        <range-slider id="bountyFontScaleSlider" min="0.5" max="2" step="0.01"></range-slider>
+
+        <label>Weight</label>
+        <range-slider id="bountyFontWeightSlider" min="100" max="900" step="100"></range-slider>
+
+        <label>Position</label>
+        <range-slider id="bountyOffsetSlider" min="-20" max="20" step="0.5"></range-slider>
+      </div>
     </div>
 
-    <div>
-      <h4 class="header">Poster Shadow</h4>
-      <range-slider id="posterShadowSlider" min="0" max="20"></range-slider>
-    </div>
+
 
     <div>
       <h4 class="header">Photo Filter</h4>
 
-      <div class="slider-group">
+      <div class="field-group">
         <label>Shadow</label>
         <range-slider id="photoShadowSlider" min="0" max="20"></range-slider>
 
@@ -46,8 +65,11 @@
         <label>Sepia</label>
         <range-slider id="sepiaSlider" min="0" max="100"></range-slider>
       </div>
+    </div>
 
-
+    <div>
+      <h4 class="header">Poster Shadow</h4>
+      <range-slider id="posterShadowSlider" min="0" max="20"></range-slider>
     </div>
 
   </div>

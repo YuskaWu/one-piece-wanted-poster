@@ -7,6 +7,8 @@ abstract class Text extends GraphicObject {
   align: CanvasTextAlign = 'center'
   baseline: CanvasTextBaseline = 'top'
   fontSize = 0
+  fontWeight = 400
+  fontFamily = 'serif'
 
   set text(value: string) {
     this.#text = value

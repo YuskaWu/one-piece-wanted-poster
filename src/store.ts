@@ -17,6 +17,10 @@ export interface AppState extends FilterState {
   photoShadow: number
   nameSpacing: number
   bountySpacing: number
+  bountyFontFamily: string
+  bountyFontScale: number
+  bountyFontWeight: number
+  bountyVerticalOffset: number
 }
 
 type AppStateKey = keyof AppState
@@ -35,6 +39,10 @@ const DEFAULT_STATE: AppState = {
   bounty: '',
   nameSpacing: 0,
   bountySpacing: 1,
+  bountyFontFamily: 'Vertiky',
+  bountyFontScale: 1,
+  bountyFontWeight: 600,
+  bountyVerticalOffset: -4,
   filter: '',
   posterShadow: 0,
   photoShadow: 0,
