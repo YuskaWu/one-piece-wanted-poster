@@ -1,11 +1,29 @@
 {
   "id": "one-piece-wanted-poster-maker",
+  "start_url": "./",
   "name": "One Piece Wanted Poster Maker",
   "short_name": "One Piece Wanted Poster Maker",
   "description": "Free online web application for creating One Piece wanted poster.",
   "background_color": "#584034",
   "theme_color": "#584034",
   "display": "standalone",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "screenshots": [
+    {
+      "src": "./images/pwa/screenshot-narrow.jpg",
+      "type": "image/jpg",
+      "sizes": "1080x2163",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "./images/pwa/screenshot-wide.jpg",
+      "type": "image/jpg",
+      "sizes": "2561x1217",
+      "form_factor": "wide"
+    }
+  ],
   "icons": [
     {
       "src": "./images/pwa/icon-maskable.png",
