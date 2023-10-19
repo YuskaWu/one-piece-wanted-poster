@@ -16,6 +16,10 @@ const ATTRIBUTES = [
   'bounty',
   'name-spacing',
   'bounty-spacing',
+  'bounty-font-family',
+  'bounty-font-scale',
+  'bounty-font-weight',
+  'bounty-vertical-offset',
   'photo-url',
   'filter',
   'poster-shadow',
@@ -157,11 +161,27 @@ class WantedPoster extends HTMLElement {
         break
 
       case 'name-spacing':
-        this.#name.spacing = parseInt(newValue) || 0
+        this.#name.spacing = parseFloat(newValue) || 0
         break
 
       case 'bounty-spacing':
-        this.#bounty.spacing = parseInt(newValue) || 0
+        this.#bounty.spacing = parseFloat(newValue) || 0
+        break
+
+      case 'bounty-font-family':
+        this.#bounty.fontFamily = newValue
+        break
+
+      case 'bounty-font-scale':
+        this.#bounty.fontScale = parseFloat(newValue) || 1
+        break
+
+      case 'bounty-font-weight':
+        this.#bounty.fontWeight = parseFloat(newValue) || 600
+        break
+
+      case 'bounty-vertical-offset':
+        this.#bounty.verticalOffset = parseFloat(newValue) || 0
         break
 
       case 'photo-url': {
@@ -183,14 +203,17 @@ class WantedPoster extends HTMLElement {
       }
 
       case 'photo-shadow': {
-        this.#photo.shadow = parseInt(newValue) || 0
+        this.#photo.shadow = parseFloat(newValue) || 0
       }
     }
   }
 
-  #getAttrNumberValue(attr: Attributes[number]): number {
-    const value = this.getAttribute(attr) || '0'
-    return parseInt(value) || 0
+  #getAttrNumberValue(
+    attr: Attributes[number],
+    defaultValue: number = 0
+  ): number {
+    const value = this.getAttribute(attr) || ''
+    return parseFloat(value) || defaultValue
   }
 
   async export() {
@@ -226,6 +249,10 @@ class WantedPoster extends HTMLElement {
     bounty.text = this.getAttribute('bounty') ?? ''
     name.spacing = this.#getAttrNumberValue('name-spacing')
     bounty.spacing = this.#getAttrNumberValue('bounty-spacing')
+    bounty.fontFamily = this.getAttribute('bounty-font-family') ?? ''
+    bounty.fontScale = this.#getAttrNumberValue('bounty-font-scale', 1)
+    bounty.fontWeight = this.#getAttrNumberValue('bounty-font-weight')
+    bounty.verticalOffset = this.#getAttrNumberValue('bounty-vertical-offset')
 
     await photo.init(
       wantedImageInfo.photoPosition,

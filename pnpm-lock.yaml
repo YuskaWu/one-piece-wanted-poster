@@ -24,6 +24,9 @@ devDependencies:
   '@typescript-eslint/parser':
     specifier: ^6.7.3
     version: 6.7.3(eslint@8.50.0)(typescript@5.2.2)
+  '@vitejs/plugin-basic-ssl':
+    specifier: ^1.0.1
+    version: 1.0.1(vite@4.4.9)
   autoprefixer:
     specifier: ^10.4.16
     version: 10.4.16(postcss@8.4.30)
@@ -1825,6 +1828,15 @@ packages:
     dependencies:
       '@typescript-eslint/types': 6.7.3
       eslint-visitor-keys: 3.4.3
+    dev: true
+
+  /@vitejs/plugin-basic-ssl@1.0.1(vite@4.4.9):
+    resolution: {integrity: sha512-pcub+YbFtFhaGRTo1832FQHQSHvMrlb43974e2eS8EKleR3p1cDdkJFPci1UhwkEf1J9Bz+wKBSzqpKp7nNj2A==}
+    engines: {node: '>=14.6.0'}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0
+    dependencies:
+      vite: 4.4.9
     dev: true
 
   /acorn-jsx@5.3.2(acorn@8.10.0):

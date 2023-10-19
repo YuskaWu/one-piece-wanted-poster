@@ -9,8 +9,8 @@ const ATTRIBUTES = ['value', 'max', 'min', 'step'] as const
 const template = document.createElement('template')
 template.innerHTML = templateContent
 
-const thumbOffsetStart = 5.5
-const thumbOffsetRange = 12.5
+const thumbOffsetStart = 6.5
+const thumbOffsetRange = 13
 
 class RangeSlider extends HTMLElement {
   #input: HTMLInputElement

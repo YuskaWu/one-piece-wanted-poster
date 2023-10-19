@@ -1,0 +1,56 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+select {
+  flex-grow: 1;
+  box-shadow: 0 0 0.25em rgba(0 0 0 / 50%);
+  border: 0;
+  border: 1px solid #3b230e;
+  background: linear-gradient(
+    120deg,
+    rgb(245 198 95),
+    rgb(245 218 158),
+    rgb(245 198 96)
+  );
+  padding: 0.25em;
+  width: 100%;
+  color: #3b230e;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+select:focus-visible {
+  outline: none;
+}
+
+option {
+  background-color: rgb(245 218 158);
+}
+
+#fileInput {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 0.2rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 0.1rem;
+  background: #3b230e;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

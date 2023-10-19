@@ -1,4 +1,6 @@
-import store, { addListener, removeListener, reset } from '../../store'
+import store, { addListener, reset } from '../../store'
+import type FontSelect from '../FontSelect'
+import type RangeSlider from '../RangeSlider'
 import cssContent from './style.css?inline'
 import templateContent from './template.html?raw'
 
@@ -11,17 +13,21 @@ class EditPanel extends HTMLElement {
   #nameInput: HTMLInputElement
   #bountyInput: HTMLInputElement
 
-  #nameSpacingSlider: HTMLInputElement
-  #bountySpacingSlider: HTMLInputElement
-  #posterShadowSlider: HTMLInputElement
-  #photoShadowSlider: HTMLInputElement
-  #blurSlider: HTMLInputElement
-  #brightnessSlider: HTMLInputElement
-  #contrastSlider: HTMLInputElement
-  #grayscaleSlider: HTMLInputElement
-  #hueRotateSlider: HTMLInputElement
-  #saturateSlider: HTMLInputElement
-  #sepiaSlider: HTMLInputElement
+  #nameSpacingSlider: RangeSlider
+  #bountyFontFamilySelect: FontSelect
+  #bountySpacingSlider: RangeSlider
+  #bountyFontScaleSlider: RangeSlider
+  #bountyFontWeightSlider: RangeSlider
+  #bountyOffsetSlider: RangeSlider
+  #posterShadowSlider: RangeSlider
+  #photoShadowSlider: RangeSlider
+  #blurSlider: RangeSlider
+  #brightnessSlider: RangeSlider
+  #contrastSlider: RangeSlider
+  #grayscaleSlider: RangeSlider
+  #hueRotateSlider: RangeSlider
+  #saturateSlider: RangeSlider
+  #sepiaSlider: RangeSlider
 
   #closeButton: HTMLButtonElement
   #resetButton: HTMLButtonElement
@@ -43,29 +49,40 @@ class EditPanel extends HTMLElement {
       shadowRoot.querySelector<HTMLInputElement>('#bountyInput')!
 
     this.#nameSpacingSlider =
-      shadowRoot.querySelector<HTMLInputElement>('#nameSpacingSlider')!
-    this.#bountySpacingSlider = shadowRoot.querySelector<HTMLInputElement>(
+      shadowRoot.querySelector<RangeSlider>('#nameSpacingSlider')!
+
+    this.#bountyFontFamilySelect = shadowRoot.querySelector<FontSelect>(
+      '#bountyFontFamilySelect'
+    )!
+    this.#bountySpacingSlider = shadowRoot.querySelector<RangeSlider>(
       '#bountySpacingSlider'
     )!
-    this.#posterShadowSlider = shadowRoot.querySelector<HTMLInputElement>(
+    this.#bountyFontScaleSlider = shadowRoot.querySelector<RangeSlider>(
+      '#bountyFontScaleSlider'
+    )!
+    this.#bountyFontWeightSlider = shadowRoot.querySelector<RangeSlider>(
+      '#bountyFontWeightSlider'
+    )!
+    this.#bountyOffsetSlider = shadowRoot.querySelector<RangeSlider>(
+      '#bountyOffsetSlider'
+    )!
+    this.#posterShadowSlider = shadowRoot.querySelector<RangeSlider>(
       '#posterShadowSlider'
     )!
     this.#photoShadowSlider =
-      shadowRoot.querySelector<HTMLInputElement>('#photoShadowSlider')!
-    this.#blurSlider =
-      shadowRoot.querySelector<HTMLInputElement>('#blurSlider')!
+      shadowRoot.querySelector<RangeSlider>('#photoShadowSlider')!
+    this.#blurSlider = shadowRoot.querySelector<RangeSlider>('#blurSlider')!
     this.#brightnessSlider =
-      shadowRoot.querySelector<HTMLInputElement>('#brightnessSlider')!
+      shadowRoot.querySelector<RangeSlider>('#brightnessSlider')!
     this.#contrastSlider =
-      shadowRoot.querySelector<HTMLInputElement>('#contrastSlider')!
+      shadowRoot.querySelector<RangeSlider>('#contrastSlider')!
     this.#grayscaleSlider =
-      shadowRoot.querySelector<HTMLInputElement>('#grayscaleSlider')!
+      shadowRoot.querySelector<RangeSlider>('#grayscaleSlider')!
     this.#hueRotateSlider =
-      shadowRoot.querySelector<HTMLInputElement>('#hueRotateSlider')!
+      shadowRoot.querySelector<RangeSlider>('#hueRotateSlider')!
     this.#saturateSlider =
-      shadowRoot.querySelector<HTMLInputElement>('#saturateSlider')!
-    this.#sepiaSlider =
-      shadowRoot.querySelector<HTMLInputElement>('#sepiaSlider')!
+      shadowRoot.querySelector<RangeSlider>('#saturateSlider')!
+    this.#sepiaSlider = shadowRoot.querySelector<RangeSlider>('#sepiaSlider')!
 
     this.#closeButton =
       shadowRoot.querySelector<HTMLButtonElement>('#closeButton')!
@@ -86,6 +103,18 @@ class EditPanel extends HTMLElement {
           break
         case 'bountySpacing':
           this.#bountySpacingSlider.value = value
+          break
+        case 'bountyFontFamily':
+          this.#bountyFontFamilySelect.value = value
+          break
+        case 'bountyFontScale':
+          this.#bountyFontScaleSlider.value = value
+          break
+        case 'bountyFontWeight':
+          this.#bountyFontWeightSlider.value = value
+          break
+        case 'bountyVerticalOffset':
+          this.#bountyOffsetSlider.value = value
           break
         case 'posterShadow':
           this.#posterShadowSlider.value = value
@@ -138,6 +167,10 @@ class EditPanel extends HTMLElement {
     addListener('bounty', this.#storeListener)
     addListener('nameSpacing', this.#storeListener)
     addListener('bountySpacing', this.#storeListener)
+    addListener('bountyFontFamily', this.#storeListener)
+    addListener('bountyFontScale', this.#storeListener)
+    addListener('bountyFontWeight', this.#storeListener)
+    addListener('bountyVerticalOffset', this.#storeListener)
     addListener('posterShadow', this.#storeListener)
     addListener('photoShadow', this.#storeListener)
     addListener('blur', this.#storeListener)
@@ -153,6 +186,10 @@ class EditPanel extends HTMLElement {
 
     this.#nameSpacingSlider.value = store.nameSpacing.toString()
     this.#bountySpacingSlider.value = store.bountySpacing.toString()
+    this.#bountyFontFamilySelect.value = store.bountyFontFamily.toString()
+    this.#bountyFontScaleSlider.value = store.bountyFontScale.toString()
+    this.#bountyFontWeightSlider.value = store.bountyFontWeight.toString()
+    this.#bountyOffsetSlider.value = store.bountyVerticalOffset.toString()
     this.#posterShadowSlider.value = store.posterShadow.toString()
     this.#photoShadowSlider.value = store.photoShadow.toString()
     this.#blurSlider.value = store.blur.toString()
@@ -163,78 +200,81 @@ class EditPanel extends HTMLElement {
     this.#saturateSlider.value = store.saturate.toString()
     this.#sepiaSlider.value = store.sepia.toString()
 
+    // name
     this.#nameInput.addEventListener(
       'input',
       () => (store.name = this.#nameInput.value)
     )
+    this.#nameSpacingSlider.addEventListener(
+      'input',
+      () => (store.nameSpacing = parseFloat(this.#nameSpacingSlider.value))
+    )
+
+    // bounty
     this.#bountyInput.addEventListener(
       'input',
       () => (store.bounty = this.#bountyInput.value)
     )
+    this.#bountyFontFamilySelect.addEventListener('input', () => {
+      store.bountyFontFamily = this.#bountyFontFamilySelect.value
+    })
+    this.#bountySpacingSlider.addEventListener('input', () => {
+      store.bountySpacing = parseFloat(this.#bountySpacingSlider.value)
+    })
+    this.#bountyFontScaleSlider.addEventListener('input', () => {
+      store.bountyFontScale = parseFloat(this.#bountyFontScaleSlider.value)
+    })
+    this.#bountyFontWeightSlider.addEventListener('input', () => {
+      store.bountyFontWeight = parseFloat(this.#bountyFontWeightSlider.value)
+    })
+    this.#bountyOffsetSlider.addEventListener('input', () => {
+      store.bountyVerticalOffset = parseFloat(this.#bountyOffsetSlider.value)
+    })
 
-    this.#nameSpacingSlider.addEventListener(
-      'input',
-      () => (store.nameSpacing = parseInt(this.#nameSpacingSlider.value))
-    )
-    this.#bountySpacingSlider.addEventListener(
-      'input',
-      () => (store.bountySpacing = parseInt(this.#bountySpacingSlider.value))
-    )
-    this.#posterShadowSlider.addEventListener(
-      'input',
-      () => (store.posterShadow = parseInt(this.#posterShadowSlider.value))
-    )
+    // filter
     this.#photoShadowSlider.addEventListener(
       'input',
-      () => (store.photoShadow = parseInt(this.#photoShadowSlider.value))
+      () => (store.photoShadow = parseFloat(this.#photoShadowSlider.value))
     )
     this.#blurSlider.addEventListener(
       'input',
-      () => (store.blur = parseInt(this.#blurSlider.value))
+      () => (store.blur = parseFloat(this.#blurSlider.value))
     )
     this.#brightnessSlider.addEventListener(
       'input',
-      () => (store.brightness = parseInt(this.#brightnessSlider.value))
+      () => (store.brightness = parseFloat(this.#brightnessSlider.value))
     )
     this.#contrastSlider.addEventListener(
       'input',
-      () => (store.contrast = parseInt(this.#contrastSlider.value))
+      () => (store.contrast = parseFloat(this.#contrastSlider.value))
     )
     this.#grayscaleSlider.addEventListener(
       'input',
-      () => (store.grayscale = parseInt(this.#grayscaleSlider.value))
+      () => (store.grayscale = parseFloat(this.#grayscaleSlider.value))
     )
     this.#hueRotateSlider.addEventListener(
       'input',
-      () => (store.hueRotate = parseInt(this.#hueRotateSlider.value))
+      () => (store.hueRotate = parseFloat(this.#hueRotateSlider.value))
     )
     this.#saturateSlider.addEventListener(
       'input',
-      () => (store.saturate = parseInt(this.#saturateSlider.value))
+      () => (store.saturate = parseFloat(this.#saturateSlider.value))
     )
     this.#sepiaSlider.addEventListener(
       'input',
-      () => (store.sepia = parseInt(this.#sepiaSlider.value))
+      () => (store.sepia = parseFloat(this.#sepiaSlider.value))
+    )
+
+    // other
+    this.#posterShadowSlider.addEventListener(
+      'input',
+      () => (store.posterShadow = parseFloat(this.#posterShadowSlider.value))
     )
 
     this.#closeButton.addEventListener('click', () => this.toggle())
     this.#resetButton.addEventListener('click', () =>
       reset({ photoUrl: store.photoUrl })
     )
-  }
-
-  disconnectedCallback() {
-    window.removeEventListener('pointerdown', this.#pointerdownListener)
-    removeListener('name', this.#storeListener)
-    removeListener('bounty', this.#storeListener)
-    removeListener('posterShadow', this.#storeListener)
-    removeListener('blur', this.#storeListener)
-    removeListener('saturate', this.#storeListener)
-    removeListener('contrast', this.#storeListener)
-    removeListener('grayscale', this.#storeListener)
-    removeListener('hueRotate', this.#storeListener)
-    removeListener('hueRotate', this.#storeListener)
-    removeListener('sepia', this.#storeListener)
   }
 }
 

@@ -1,4 +1,4 @@
-import store, { addListener, removeListener, update } from '../../store'
+import store, { addListener, update } from '../../store'
 import EditPanel from '../EditPanel'
 import type OptcGalleryPanel from '../OptcGalleryPanel'
 import type TipsDialog from '../TipsDialog'
@@ -90,6 +90,27 @@ class App extends HTMLElement {
         case 'bountySpacing':
           this.#setWantedPosterAttributes({
             'bounty-spacing': value.toString()
+          })
+          break
+        case 'bountyFontFamily':
+          this.#setWantedPosterAttributes({
+            'bounty-font-family': value.toString()
+          })
+          break
+
+        case 'bountyFontScale':
+          this.#setWantedPosterAttributes({
+            'bounty-font-scale': value.toString()
+          })
+          break
+        case 'bountyFontWeight':
+          this.#setWantedPosterAttributes({
+            'bounty-font-weight': value.toString()
+          })
+          break
+        case 'bountyVerticalOffset':
+          this.#setWantedPosterAttributes({
+            'bounty-vertical-offset': value.toString()
           })
           break
         case 'posterShadow':
@@ -201,9 +222,14 @@ class App extends HTMLElement {
     this.#startTime = new Date().getTime()
 
     this.#setWantedPosterAttributes({
+      name: store.name,
+      bounty: store.bounty.toString(),
       'name-spacing': store.nameSpacing.toString(),
       'bounty-spacing': store.bountySpacing.toString(),
       'poster-shadow': store.posterShadow.toString(),
+      'bounty-font-family': store.bountyFontFamily,
+      'bounty-font-weight': store.bountyFontWeight.toString(),
+      'bounty-vertical-offset': store.bountyVerticalOffset.toString(),
       filter: store.filter
     })
 
@@ -211,7 +237,11 @@ class App extends HTMLElement {
     addListener('name', this.#storeListener)
     addListener('bounty', this.#storeListener)
     addListener('nameSpacing', this.#storeListener)
+    addListener('bountyFontFamily', this.#storeListener)
     addListener('bountySpacing', this.#storeListener)
+    addListener('bountyFontScale', this.#storeListener)
+    addListener('bountyFontWeight', this.#storeListener)
+    addListener('bountyVerticalOffset', this.#storeListener)
     addListener('posterShadow', this.#storeListener)
     addListener('photoShadow', this.#storeListener)
     addListener('filter', this.#storeListener)
@@ -318,16 +348,6 @@ class App extends HTMLElement {
       const objUrl = URL.createObjectURL(blob)
       store.photoUrl = objUrl
     })
-  }
-
-  disconnectedCallback() {
-    window.removeEventListener('hashchange', this.#hashChangeListener)
-    removeListener('photoUrl', this.#storeListener)
-    removeListener('name', this.#storeListener)
-    removeListener('bounty', this.#storeListener)
-    removeListener('posterShadow', this.#storeListener)
-    removeListener('photoShadow', this.#storeListener)
-    removeListener('filter', this.#storeListener)
   }
 }
 

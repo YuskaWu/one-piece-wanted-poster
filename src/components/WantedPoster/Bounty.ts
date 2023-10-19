@@ -8,6 +8,8 @@ class Bounty extends Text {
   #bellySignImage: HTMLImageElement | null = null
   #bellyImageScale = 1
   #bellyMarginRight = 0
+  fontScale = 1
+  verticalOffset = 0
 
   async loadBellyImage(url: string) {
     try {
@@ -54,16 +56,18 @@ class Bounty extends Text {
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'top'
 
-    this.ctx.font = this.#isNumber
-      ? `600 ${this.fontSize}px 'Vertiky'`
-      : `900 ${this.fontSize * 1.35}px 'Scheherazade New', serif`
+    this.ctx.font = `${this.fontWeight} ${this.fontSize * this.fontScale}px ${
+      this.fontFamily
+    }, serif`
 
     const centerX = this.x + this.width / 2
     const bellySignAreaWidth = this.#isNumber
       ? scaledBellySignWidth + this.#bellyMarginRight
       : 0
     const actualHeight = this.getTextActualHeight(this.formattedText)
-    const verticalCenterOffset = (this.height - actualHeight) / 2
+    const verticalCenterOffset =
+      (this.height - actualHeight) / 2 +
+      this.verticalOffset * this.#bellyImageScale
 
     const x = centerX + bellySignAreaWidth / 2
     const y = this.y + verticalCenterOffset

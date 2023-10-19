@@ -59,7 +59,8 @@
 }
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
   align-items: center;
   gap: 1rem;
   padding: 0.5rem 1rem;
@@ -162,6 +163,7 @@
 
 .search-input {
   filter: var(--element-filter);
+  box-sizing: border-box;
   margin-right: auto;
   outline: none;
   border: 0;
@@ -171,10 +173,12 @@
   background-repeat: no-repeat;
   background-color: transparent;
   padding: 0 1rem;
-  width: 50%;
+  width: 100%;
+  max-width: 14rem;
+  height: 2.75rem;
   color: var(--dark-text-color);
-  font-size: 1.6rem;
-  line-height: 2em;
+  font-size: 1.4rem;
+  line-height: 2rem;
   font-family: serif;
   text-align: center;
 }
