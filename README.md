@@ -20,7 +20,7 @@
 
 [![Try with Replit Badge](https://replit.com/badge?caption=Try%20with%20Replit)](https://docs.replit.com/)
 
-[Demo](https://yuskawu.github.io/one-piece-wanted-poster/dist)
+[Repl.it](https://one-piece-wanted-poster-elitegreyit67.replit.app/)
 
 ## License
 
