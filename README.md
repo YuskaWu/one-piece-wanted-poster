@@ -18,6 +18,8 @@
 - Support [PWA](https://support.google.com/chrome/answer/9658361)
 - And....special mode?
 
+[![Try with Replit Badge](https://replit.com/badge?caption=Try%20with%20Replit)](https://docs.replit.com/)
+
 [Demo](https://yuskawu.github.io/one-piece-wanted-poster/dist)
 
 ## License
