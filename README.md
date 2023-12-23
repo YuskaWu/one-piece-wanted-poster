@@ -18,9 +18,7 @@
 - Support [PWA](https://support.google.com/chrome/answer/9658361)
 - And....special mode?
 
-[![Try with Replit Badge](https://replit.com/badge?caption=Try%20with%20Replit)](https://docs.replit.com/)
-
-[Repl.it](https://one-piece-wanted-poster-elitegreyit67.replit.app/)
+[![Run on Repl.it](https://replit.com/badge/github/EliteGreyIT67/one-piece-wanted-poster)](https://replit.com/new/github/EliteGreyIT67/one-piece-wanted-poster)
 
 ## License
 
