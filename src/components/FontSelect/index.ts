@@ -47,7 +47,7 @@ class FontSelect extends HTMLElement {
       this.#select.style.fontFamily = this.#select.value
     })
     this.#select.addEventListener('click', () => {
-      this.#addLocalFontFamilies()
+      this.#renderLocalFontOptions()
     })
 
     this.#addButton = shadowRoot.querySelector<IconButton>('icon-button')!
@@ -97,7 +97,7 @@ class FontSelect extends HTMLElement {
     })
   }
 
-  async #addLocalFontFamilies() {
+  async #renderLocalFontOptions() {
     if (!window.queryLocalFonts || this.#isLocalFontAdded) {
       return
     }
@@ -108,7 +108,7 @@ class FontSelect extends HTMLElement {
         fontSet.add(fontData.family)
       }
 
-      this.#addFontFamilies(fontSet)
+      await this.#addFontFamilies(fontSet)
       this.#isLocalFontAdded = true
     } catch (e) {
       // TODO show message toast
@@ -122,17 +122,33 @@ class FontSelect extends HTMLElement {
     this.#select.appendChild(option)
   }
 
-  #addFontFamilies(fontSet: Set<string>) {
-    const fragment = new DocumentFragment()
-    Array.from(fontSet).forEach((f) => {
-      if (this.#fontFamilies.has(f)) {
-        return
+  async #addFontFamilies(fontSet: Set<string>) {
+    const fonts = Array.from(fontSet)
+
+    const pageSize = 5
+    const totalPages = Math.ceil(fonts.length / pageSize)
+
+    for (let page = 0; page < totalPages; page++) {
+      const fragment = new DocumentFragment()
+      const start = page * pageSize
+      const end = Math.min((page + 1) * pageSize, fonts.length)
+
+      for (let index = start; index < end; index++) {
+        const font = fonts[index]
+        if (this.#fontFamilies.has(font)) {
+          continue
+        }
+        this.#fontFamilies.add(font)
+        const option = this.#createOption(font)
+        fragment.appendChild(option)
       }
-      this.#fontFamilies.add(f)
-      const option = this.#createOption(f)
-      fragment.appendChild(option)
-    })
-    this.#select.appendChild(fragment)
+
+      this.#select.appendChild(fragment)
+
+      await new Promise<void>((resolve) => {
+        setTimeout(() => resolve(), 20)
+      })
+    }
   }
 
   #createOption(fontFamily: string) {
