@@ -18,7 +18,7 @@
 - Support [PWA](https://support.google.com/chrome/answer/9658361)
 - And....special mode?
 
-[Demo](https://yuskawu.github.io/one-piece-wanted-poster/dist)
+[![Run on Repl.it](https://replit.com/badge/github/EliteGreyIT67/one-piece-wanted-poster)](https://replit.com/new/github/EliteGreyIT67/one-piece-wanted-poster)
 
 ## License
 
