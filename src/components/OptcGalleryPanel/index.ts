@@ -4,6 +4,7 @@ import cssContent from './style.css?inline'
 import templateContent from './template.html?raw'
 
 type CharacterFamily = Record<string, string[]>
+type Units = Array<[string, ...unknown[]]>
 
 const TAG_NAME = 'optc-gallery-panel'
 
@@ -64,27 +65,21 @@ class OptcGalleryPanel extends HTMLElement {
     this.setAttribute('loading', '')
 
     try {
-      const response = await fetch(
-        'https://raw.githubusercontent.com/optc-db/optc-db.github.io/master/common/data/families.js'
-      )
+      const [families, units] = await Promise.all([
+        this.#fetchFamilies(),
+        this.#fetchUnits()
+      ])
 
-      let text = await response.text()
+      for (let index = units.length - 1; index > 0; index--) {
+        const unitId = index + 1
+        if (unitId in families) {
+          continue
+        }
 
-      text = text
-        .replace('(function () {', '')
-        .replace('window.families =', 'const families = ')
-        .replace('const calcGhostStartIDStart = 5000;', '')
-        .replace(/const ghostFamilies(.|\n)*\}\);/, '')
-        .replace('})();', 'export default families')
-
-      const blob = new Blob([text], { type: 'text/javascript' })
-      const familiesModuleUrl = URL.createObjectURL(blob)
-
-      const { default: families } = (await import(
-        /* @vite-ignore */ familiesModuleUrl
-      )) as {
-        default: CharacterFamily
+        const unitName = units[index][0]
+        families[unitId] = [unitName]
       }
+
       this.#characterFamily = families
 
       this.#render()
@@ -98,6 +93,62 @@ class OptcGalleryPanel extends HTMLElement {
     } finally {
       this.removeAttribute('loading')
     }
+  }
+
+  async #fetchFamilies() {
+    const response = await fetch(
+      'https://raw.githubusercontent.com/optc-db/optc-db.github.io/master/common/data/families.js'
+    )
+
+    let text = await response.text()
+
+    text = text
+      .replace('(function () {', '')
+      .replace('window.families =', 'const families = ')
+      .replace('const calcGhostStartIDStart = 5000;', '')
+      .replace(/const ghostFamilies(.|\n)*\}\);/, '')
+      .replace('})();', 'export default families')
+
+    const blob = new Blob([text], { type: 'text/javascript' })
+    const familiesModuleUrl = URL.createObjectURL(blob)
+
+    const { default: families } = (await import(
+      /* @vite-ignore */ familiesModuleUrl
+    )) as {
+      default: CharacterFamily
+    }
+
+    return families
+  }
+
+  async #fetchUnits() {
+    const response = await fetch(
+      'https://raw.githubusercontent.com/optc-db/optc-db.github.io/master/common/data/units.js'
+    )
+
+    let text = await response.text()
+
+    text = text
+      .replace('window.units =', 'const units = ')
+      .replace('for(var i = 0; window.units.length', 'for(var i = 0; Infinity')
+      .replace('window.units.push', 'units.push')
+      .replace('window.units = window.units.concat(globalExUnits);', '')
+      .replace(
+        'window.units = window.units.concat(ghostsUnits);',
+        'export default units'
+      )
+      .replaceAll('var ', 'let ')
+
+    const blob = new Blob([text], { type: 'text/javascript' })
+    const unitsModuleUrl = URL.createObjectURL(blob)
+
+    const { default: units } = (await import(
+      /* @vite-ignore */ unitsModuleUrl
+    )) as {
+      default: Units
+    }
+
+    return units
   }
 
   get ids() {
