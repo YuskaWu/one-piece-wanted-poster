@@ -1,4 +1,8 @@
-import { IconifyIconAttributes, IconifyIconHTMLElement } from 'iconify-icon'
+import type {
+  IconifyIconAttributes,
+  IconifyIconHTMLElement
+} from 'iconify-icon'
+
 import ButtonImageUrl from './circle-button.png'
 import cssContent from './style.css?inline'
 import templateContent from './template.html?raw'

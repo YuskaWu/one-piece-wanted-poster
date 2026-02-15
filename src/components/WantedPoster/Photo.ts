@@ -1,6 +1,7 @@
+import type { Position, WantedImageInfo } from './types'
+
 import GraphicObject from './GraphicObject'
 import backgroundImageUrl from './images/paper.png'
-import { Position, WantedImageInfo } from './types'
 import { getFitScale, loadImage } from './utils'
 
 type EventName = 'imageloaded'
@@ -153,9 +154,13 @@ class Photo extends GraphicObject {
     const { left, right, top, bottom } = this.#boundaryOffset
 
     // clear left overflow
-    x <= left && this.ctx.clearRect(0, y, left, height)
+    if (x <= left) {
+      this.ctx.clearRect(0, y, left, height)
+    }
     // clear top overflow
-    y <= top && this.ctx.clearRect(x, 0, width, top)
+    if (y <= top) {
+      this.ctx.clearRect(x, 0, width, top)
+    }
     // claer right overflow
     if (x + width > this.ctx.canvas.domWidth - right) {
       this.ctx.clearRect(this.ctx.canvas.domWidth - right, y, right, height)

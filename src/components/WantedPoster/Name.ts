@@ -1,5 +1,6 @@
+import type { Position } from './types'
+
 import Text from './Text'
-import { Position } from './types'
 
 class Name extends Text {
   // This is scale constant for specific font. It should be revised whenever font changes.

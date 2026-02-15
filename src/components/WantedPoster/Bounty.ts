@@ -1,5 +1,6 @@
+import type { BountyInfo } from './types'
+
 import Text from './Text'
-import { BountyInfo } from './types'
 import { loadImage } from './utils'
 
 class Bounty extends Text {

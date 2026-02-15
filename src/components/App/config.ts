@@ -1,4 +1,4 @@
-import { AppState } from '../../store'
+import type { AppState } from '../../store'
 
 export const WARCRIMINAL_POSTER = {
   posterShadow: 5,

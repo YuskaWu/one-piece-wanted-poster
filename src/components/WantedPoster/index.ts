@@ -280,9 +280,8 @@ class WantedPoster extends HTMLElement {
     try {
       const blob = await new Promise<Blob>((resolve, reject) => {
         canvas.toBlob(
-          (blob) => {
-            blob ? resolve(blob) : reject('Failed to create blob object.')
-          },
+          (blob) =>
+            blob ? resolve(blob) : reject('Failed to create blob object.'),
           'image/png',
           1
         )

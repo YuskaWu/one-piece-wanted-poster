@@ -76,7 +76,7 @@
 }
 
 .image-grid > img {
-  filter: drop-shadow(0 0 0.15rem rgba(0 0 0 / 80%));
+  filter: drop-shadow(0 0 0.15rem rgb(0 0 0 / 80%));
   cursor: pointer;
   background-color: white;
   max-width: 100%;
@@ -125,7 +125,7 @@
 }
 
 .navigate-button[disabled] {
-  color: rgba(59 35 14 / 50%);
+  color: rgb(59 35 14 / 50%);
 }
 
 .navigate-button iconify-icon {
@@ -140,7 +140,7 @@
 
 .page-button:not([disabled]):hover,
 .navigate-button:not([disabled]):hover {
-  background-color: rgba(59 35 14 / 20%);
+  background-color: rgb(59 35 14 / 20%);
 }
 
 .page-button--active {
@@ -155,7 +155,7 @@
   }
 } */
 
-@media (min-width: 430px) {
+@media (width >= 430px) {
   .pagination {
     gap: 0.5rem;
     font-size: 1.25rem;
@@ -189,11 +189,11 @@
   text-shadow: none;
 }
 
-#orderButton::part(icon) {
+#order-button::part(icon) {
   transition: 0.2s transform;
 }
 
-#orderButton[descending]::part(icon) {
+#order-button[descending]::part(icon) {
   transform: scaleX(-1) rotate(180deg);
 }
 

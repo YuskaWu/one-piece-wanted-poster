@@ -1,9 +1,11 @@
-import store, { addListener, update } from '../../store'
-import EditPanel from '../EditPanel'
 import type OptcGalleryPanel from '../OptcGalleryPanel'
 import type TipsDialog from '../TipsDialog'
 import type WantedButton from '../WantedButton'
-import WantedPoster, { WantedPosterAttribute } from '../WantedPoster'
+import type { WantedPosterAttribute } from '../WantedPoster'
+
+import store, { addListener, update } from '../../store'
+import EditPanel from '../EditPanel'
+import WantedPoster from '../WantedPoster'
 import { WARCRIMINAL_POSTER } from './config'
 import LaunchHandler from './launch-handler'
 import cssContent from './style.css?inline'
@@ -62,7 +64,7 @@ class App extends HTMLElement {
     this.#tipsDialog = this.#root.querySelector<TipsDialog>('tips-dialog')!
 
     this.#uploadInput =
-      this.#root.querySelector<HTMLInputElement>('#uploadInput')!
+      this.#root.querySelector<HTMLInputElement>('#upload-input')!
     this.#editButton = this.#root.querySelector<WantedButton>('#editButton')!
     this.#importButton =
       this.#root.querySelector<WantedButton>('#importButton')!

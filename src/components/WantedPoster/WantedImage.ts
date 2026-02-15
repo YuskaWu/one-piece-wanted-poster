@@ -1,5 +1,6 @@
 import type { PosterCanvasElement, PosterRenderingContext2D } from './types'
-import { Position, WantedImageInfo } from './types'
+import type { Position, WantedImageInfo } from './types'
+
 import { getFitScale, loadImage } from './utils'
 
 class WantedImage {

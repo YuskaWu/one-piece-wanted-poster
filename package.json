@@ -1,34 +1,36 @@
 {
-  "name": "one-piece-wanted-poster",
-  "version": "1.0.0",
+  "name": "opwp",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "eslint . && stylelint \"**/*.css\" && tsc && vite build",
+    "preview": "vite preview",
+    "check": "prettier . --check"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "@vitejs/plugin-basic-ssl": "^1.1.0",
-    "autoprefixer": "^10.4.19",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard": "^17.1.0",
-    "prettier": "3.0.3",
-    "prettier-plugin-css-order": "^2.1.2",
-    "stylelint": "^15.11.0",
-    "stylelint-config-standard": "^34.0.0",
-    "stylelint-prettier": "^4.1.0",
-    "typescript": "^5.4.5",
-    "vite": "^4.5.3",
-    "vite-plugin-checker": "^0.6.4",
-    "vite-plugin-pwa": "^0.16.7"
+    "@eslint/js": "^9",
+    "@vitejs/plugin-basic-ssl": "^2.1.4",
+    "autoprefixer": "^10.4.24",
+    "eslint": "^9",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "prettier-plugin-css-order": "^2.2.0",
+    "stylelint": "^17.3.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.55.0",
+    "vite": "^7.3.1",
+    "vite-plugin-checker": "^0.12.0",
+    "vite-plugin-pwa": "^1.2.0",
+    "workbox-core": "^7.4.0",
+    "workbox-precaching": "^7.4.0",
+    "workbox-routing": "^7.4.0",
+    "workbox-strategies": "^7.4.0",
+    "workbox-window": "^7.4.0"
   },
   "dependencies": {
-    "iconify-icon": "^1.0.8",
-    "workbox-recipes": "^7.1.0",
-    "workbox-routing": "^7.1.0",
-    "workbox-strategies": "^7.1.0",
-    "workbox-window": "^7.1.0"
+    "iconify-icon": "^3.0.2"
   }
 }

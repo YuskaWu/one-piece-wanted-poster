@@ -25,17 +25,30 @@
         <font-select id="bountyFontFamilySelect"></font-select>
 
         <label>Size</label>
-        <range-slider id="bountyFontScaleSlider" min="0.5" max="2" step="0.01"></range-slider>
+        <range-slider
+          id="bountyFontScaleSlider"
+          min="0.5"
+          max="2"
+          step="0.01"
+        ></range-slider>
 
         <label>Weight</label>
-        <range-slider id="bountyFontWeightSlider" min="100" max="900" step="100"></range-slider>
+        <range-slider
+          id="bountyFontWeightSlider"
+          min="100"
+          max="900"
+          step="100"
+        ></range-slider>
 
         <label>Position</label>
-        <range-slider id="bountyOffsetSlider" min="-20" max="20" step="0.5"></range-slider>
+        <range-slider
+          id="bountyOffsetSlider"
+          min="-20"
+          max="20"
+          step="0.5"
+        ></range-slider>
       </div>
     </div>
-
-
 
     <div>
       <h4 class="header">Photo Filter</h4>
@@ -71,11 +84,21 @@
       <h4 class="header">Poster Shadow</h4>
       <range-slider id="posterShadowSlider" min="0" max="20"></range-slider>
     </div>
-
   </div>
   <div class="action-container">
-    <button id="closeButton" class="close-button" aria-label="Close edit panel button" title="Close"></button>
-    <button id="resetButton" class="wood-button" aria-label="Reset button"
-      title="Reset to default settings.">RESET</button>
+    <button
+      id="closeButton"
+      class="close-button"
+      aria-label="Close edit panel button"
+      title="Close"
+    ></button>
+    <button
+      id="resetButton"
+      class="wood-button"
+      aria-label="Reset button"
+      title="Reset to default settings."
+    >
+      RESET
+    </button>
   </div>
 </div>

@@ -1,22 +1,48 @@
 <div class="container">
   <div class="content">
     <div class="header">
-      <input id="searchInput" type="text" class="search-input" placeholder="Name or ID">
-      <icon-button id="orderButton" icon="tdesign:order-ascending" title="Change order"
-        aria-label="Change order"></icon-button>
-      <icon-button id="closeButton" icon="ep:close-bold" title="Close" aria-label="Close"></icon-button>
+      <input
+        id="searchInput"
+        type="text"
+        class="search-input"
+        placeholder="Name or ID"
+      />
+      <icon-button
+        id="order-button"
+        icon="tdesign:order-ascending"
+        title="Change order"
+        aria-label="Change order"
+      ></icon-button>
+      <icon-button
+        id="close-button"
+        icon="ep:close-bold"
+        title="Close"
+        aria-label="Close"
+      ></icon-button>
     </div>
     <div id="imageGrid" class="image-grid"></div>
     <div class="pagination">
-      <button id="preButton" class="navigate-button" title="Previous page" aria-label="Previous page">
+      <button
+        id="preButton"
+        class="navigate-button"
+        title="Previous page"
+        aria-label="Previous page"
+      >
         <iconify-icon icon="ic:round-navigate-before"></iconify-icon>
       </button>
       <div id="pageNumberWrapper" class="page-number-wrapper"></div>
-      <button id="nextButton" class="navigate-button" title="Next page" aria-label="Next page">
+      <button
+        id="nextButton"
+        class="navigate-button"
+        title="Next page"
+        aria-label="Next page"
+      >
         <iconify-icon icon="ic:round-navigate-next"></iconify-icon>
       </button>
     </div>
   </div>
-  <div class="loading"><iconify-icon icon="eos-icons:loading"></iconify-icon></div>
+  <div class="loading">
+    <iconify-icon icon="eos-icons:loading"></iconify-icon>
+  </div>
   <div id="error" class="error">Error</div>
 </div>

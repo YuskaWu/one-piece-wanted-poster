@@ -7,7 +7,7 @@
 
 select {
   flex-grow: 1;
-  box-shadow: 0 0 0.25em rgba(0 0 0 / 50%);
+  box-shadow: 0 0 0.25em rgb(0 0 0 / 50%);
   border: 0;
   border: 1px solid #3b230e;
   background: linear-gradient(
@@ -32,7 +32,7 @@ option {
   background-color: rgb(245 218 158);
 }
 
-#fileInput {
+#file-input {
   display: none;
 }
 

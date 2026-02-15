@@ -152,7 +152,9 @@ class EditPanel extends HTMLElement {
       if (isInside) {
         return
       }
-      this.classList.contains('open') && this.toggle()
+      if (this.classList.contains('open')) {
+        this.toggle()
+      }
     }
   }
 

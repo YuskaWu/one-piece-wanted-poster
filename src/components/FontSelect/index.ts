@@ -3,7 +3,6 @@ import cssContent from './style.css?inline'
 import templateContent from './template.html?raw'
 
 declare global {
-  interface FontFaceSet extends Set<FontFace> {}
   interface FontData {
     family: string
     fullName: string
@@ -51,7 +50,7 @@ class FontSelect extends HTMLElement {
     })
 
     this.#addButton = shadowRoot.querySelector<IconButton>('icon-button')!
-    this.#fileInput = shadowRoot.querySelector<HTMLInputElement>('#fileInput')!
+    this.#fileInput = shadowRoot.querySelector<HTMLInputElement>('#file-input')!
 
     this.#addButton.addEventListener('click', () => {
       this.#fileInput.click()
@@ -74,7 +73,7 @@ class FontSelect extends HTMLElement {
         this.#addFontFamily(fontName)
         this.value = fontName
         this.dispatchEvent(new CustomEvent('input'))
-      } catch (e) {
+      } catch {
         // TODO show message toast
       }
     })

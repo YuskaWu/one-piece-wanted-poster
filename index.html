@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
   <title>One Piece Wanted Poster Maker</title>
 
-  <meta charset="UTF-8">
-  <meta name="author" content="Yuska Wu, yuska@msn.com">
+  <meta charset="UTF-8" />
+  <meta name="author" content="Yuska Wu, yuska@msn.com" />
   <meta name="theme-color" content="#584034" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="description"
-    content="Free online web application for creating One Piece wanted poster. You can import any image as the wanted photo to edit, and export the poster as an image whenever you want.">
+    content="Free online web application for creating One Piece wanted poster. You can import any image as the wanted photo to edit, and export the poster as an image whenever you want." />
 
   <!-- FB sharing meta data -->
   <meta property="og:url" content="https://yuskawu.github.io/one-piece-wanted-poster/dist/" />
@@ -17,44 +17,44 @@
   <meta property="og:title" content="One Piece Wanted Poster Maker" />
   <meta property="og:description"
     content="Free online web application for creating One Piece wanted poster. You can import any image as the wanted photo to edit, and export the poster as an image whenever you want." />
-  <meta property="og:image" content="https://yuskawu.github.io/one-piece-wanted-poster/dist/images/share-preview.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="600">
-  <meta property="og:image:height" content="600">
+  <meta property="og:image" content="https://yuskawu.github.io/one-piece-wanted-poster/dist/images/share-preview.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="600" />
+  <meta property="og:image:height" content="600" />
 
   <!-- Twitter sharing meta data -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="One Piece Wanted Poster Maker">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="One Piece Wanted Poster Maker" />
   <meta name="twitter:description"
-    content="Free online web application for creating One Piece wanted poster. You can import any image as the wanted photo to edit, and export the poster as an image whenever you want.">
-  <meta name="twitter:image" content="https://yuskawu.github.io/one-piece-wanted-poster/dist/images/share-preview.png">
+    content="Free online web application for creating One Piece wanted poster. You can import any image as the wanted photo to edit, and export the poster as an image whenever you want." />
+  <meta name="twitter:image"
+    content="https://yuskawu.github.io/one-piece-wanted-poster/dist/images/share-preview.png" />
 
-  <link rel="shortcut icon" href="favicon.png">
+  <link rel="shortcut icon" href="./favicon.png" />
   <!-- PWA: Apple Touch Icon, and Service Worker registration. -->
   <!-- Vite Plugin PWA will add the Web App Manifest during build -->
-  <link rel="apple-touch-icon" href="./images/pwa/icon-192x192.png">
+  <link rel="apple-touch-icon" href="./images/pwa/icon-192x192.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@700&display=swap" rel="stylesheet" />
 
-  <link rel="preload" as="image" href="./images/luffy.png">
-  <link rel="preload" as="image" href="./images/cement-wall.jpg">
-  <link rel="preload" as="image" href="./images/wood-bg.png">
-  <link rel="preload" as="image" href="./images/scroll-paper.png">
-  <link rel="preload" as="image" href="./images/input-frame.png">
-  <link rel="preload" as="image" href="./images/slider-thumb.png">
-  <link rel="preload" as="image" href="./images/close-button.png">
-  <link rel="preload" as="image" href="./images/wood-button.png">
-  <link rel="preload" as="image" href="./images/tips-paper.png">
+  <link rel="preload" as="image" href="./images/luffy.png" />
+  <link rel="preload" as="image" href="./images/cement-wall.jpg" />
+  <link rel="preload" as="image" href="./images/wood-bg.png" />
+  <link rel="preload" as="image" href="./images/scroll-paper.png" />
+  <link rel="preload" as="image" href="./images/input-frame.png" />
+  <link rel="preload" as="image" href="./images/slider-thumb.png" />
+  <link rel="preload" as="image" href="./images/close-button.png" />
+  <link rel="preload" as="image" href="./images/wood-button.png" />
+  <link rel="preload" as="image" href="./images/tips-paper.png" />
 
-  <link rel="prefetch" as="image" href="./images/blood-stains-0.png">
-  <link rel="prefetch" as="image" href="./images/blood-stains-1.png">
-  <link rel="prefetch" as="image" href="./images/war-criminal/criminal-avatar.png">
-  <link rel="prefetch" as="image" href="./images/war-criminal/criminal-stamp.png">
-  <link rel="modulepreload" href="https://unpkg.com/github-corner-element/dist/github-corner-element.es.js">
-
+  <link rel="prefetch" as="image" href="./images/blood-stains-0.png" />
+  <link rel="prefetch" as="image" href="./images/blood-stains-1.png" />
+  <link rel="prefetch" as="image" href="./images/war-criminal/criminal-avatar.png" />
+  <link rel="prefetch" as="image" href="./images/war-criminal/criminal-stamp.png" />
+  <link rel="modulepreload" href="https://unpkg.com/github-corner-element/dist/github-corner-element.es.js" />
 
   <script type="application/ld+json">
     {
@@ -82,21 +82,22 @@
     }
   </script>
 
-  <script type="module">
-    // Register Service Worker using Vite Plugin PWA
-    import {registerSW} from 'virtual:pwa-register';
-    registerSW();
-  </script>
-
   <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-NFBVGWZ');</script>
+  <script>
+    ; (function (w, d, s, l, i) {
+      w[l] = w[l] || []
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      })
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : ''
+      j.async = true
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+      f.parentNode.insertBefore(j, f)
+    })(window, document, 'script', 'dataLayer', 'GTM-NFBVGWZ')
+  </script>
   <!-- End Google Tag Manager -->
 
   <script type="module" src="/src/main.ts"></script>
@@ -106,7 +107,7 @@
 <body>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NFBVGWZ" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
+      style="display: none; visibility: hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
   <app-container>

@@ -1,27 +1,49 @@
-<input id="uploadInput" type="file" accept="image/*">
+<input id="upload-input" type="file" accept="image/*" />
 <slot name="poster"></slot>
 <div class="blood-overlay"></div>
 
 <div class="button-container">
-  <wanted-button id="editButton" aria-label="Edit panel button" title="Open the edit panel.">
+  <wanted-button
+    id="editButton"
+    aria-label="Edit panel button"
+    title="Open the edit panel."
+  >
     <iconify-icon slot="icon" icon="fluent-mdl2:edit-photo"></iconify-icon>
     EDIT
   </wanted-button>
 
-  <wanted-button id="importButton" aria-label="Import button" title="Import local image to edit.">
+  <wanted-button
+    id="importButton"
+    aria-label="Import button"
+    title="Import local image to edit."
+  >
     <iconify-icon slot="icon" icon="uil:image-upload"></iconify-icon>
     IMPORT
   </wanted-button>
 
-  <wanted-button id="exportButton" aria-label="Export button" title="Export as image file.">
+  <wanted-button
+    id="exportButton"
+    aria-label="Export button"
+    title="Export as image file."
+  >
     <iconify-icon slot="icon" icon="uil:image-download"></iconify-icon>
     EXPORT
   </wanted-button>
 </div>
 
-<button id="criminalButton" class="criminal" aria-label="Criminal mode button" title="War criminal"></button>
+<button
+  id="criminalButton"
+  class="criminal"
+  aria-label="Criminal mode button"
+  title="War criminal"
+></button>
 
-<button id="tipsButton" class="tips-button" aria-label="Tips button" title="Tips">
+<button
+  id="tipsButton"
+  class="tips-button"
+  aria-label="Tips button"
+  title="Tips"
+>
   <svg width="32" height="32" viewBox="0 0 25 22">
     <defs>
       <radialGradient id="logo-gradient" cx="34%" cy="32%" fr="5%">
@@ -29,14 +51,20 @@
         <stop offset="70%" stop-color="#FFAB00"></stop>
       </radialGradient>
     </defs>
-    <path fill="url('#logo-gradient')" stroke="#4E4A49"
-      d="m22 10l-.625-1.375L20 8l1.375-.625L22 6l.625 1.375L24 8l-1.375.625Zm-3-4l-.95-2.05L16 3l2.05-.95L19 0l.95 2.05L22 3l-2.05.95ZM9 22q-.825 0-1.412-.587Q7 20.825 7 20h4q0 .825-.587 1.413Q9.825 22 9 22Zm-4-3v-2h8v2Zm.25-3q-1.725-1.025-2.737-2.75Q1.5 11.525 1.5 9.5q0-3.125 2.188-5.312Q5.875 2 9 2q3.125 0 5.312 2.188Q16.5 6.375 16.5 9.5q0 2.025-1.012 3.75q-1.013 1.725-2.738 2.75Z" />
+    <path
+      fill="url('#logo-gradient')"
+      stroke="#4E4A49"
+      d="m22 10l-.625-1.375L20 8l1.375-.625L22 6l.625 1.375L24 8l-1.375.625Zm-3-4l-.95-2.05L16 3l2.05-.95L19 0l.95 2.05L22 3l-2.05.95ZM9 22q-.825 0-1.412-.587Q7 20.825 7 20h4q0 .825-.587 1.413Q9.825 22 9 22Zm-4-3v-2h8v2Zm.25-3q-1.725-1.025-2.737-2.75Q1.5 11.525 1.5 9.5q0-3.125 2.188-5.312Q5.875 2 9 2q3.125 0 5.312 2.188Q16.5 6.375 16.5 9.5q0 2.025-1.012 3.75q-1.013 1.725-2.738 2.75Z"
+    />
   </svg>
 </button>
 
-<button id="optcButton" class="optc-button" aria-label="ONE PIECE Treasure Cruise gallery"
-  title="ONE PIECE Treasure Cruise gallery">
-</button>
+<button
+  id="optcButton"
+  class="optc-button"
+  aria-label="ONE PIECE Treasure Cruise gallery"
+  title="ONE PIECE Treasure Cruise gallery"
+></button>
 
 <tips-dialog></tips-dialog>
 
@@ -44,7 +72,6 @@
 
 <edit-panel></edit-panel>
 <optc-gallery-panel></optc-gallery-panel>
-
 
 <div class="loading-overlay">
   <luffy-logo class="loading-overlay__luffy"></luffy-logo>

@@ -1,6 +1,7 @@
+import type { WantedImageInfo } from './types'
+
 import bellySignImageUrl from './images/belly.png'
 import wantedImageUrl from './images/one-piece-wanted.png'
-import { WantedImageInfo } from './types'
 
 export const ONE_PIECE_WANTED_IMAGE: WantedImageInfo = {
   imageUrl: wantedImageUrl,

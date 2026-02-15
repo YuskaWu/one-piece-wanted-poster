@@ -41,8 +41,8 @@ class OptcGalleryPanel extends HTMLElement {
 
     this.#searchInput =
       shadowRoot.querySelector<HTMLInputElement>('#searchInput')!
-    this.#orderButton = shadowRoot.querySelector<IconButton>('#orderButton')!
-    this.#closeButton = shadowRoot.querySelector<IconButton>('#closeButton')!
+    this.#orderButton = shadowRoot.querySelector<IconButton>('#order-button')!
+    this.#closeButton = shadowRoot.querySelector<IconButton>('#close-button')!
     this.#imageGrid = shadowRoot.querySelector<HTMLDivElement>('#imageGrid')!
     this.#pageNumberWrapper =
       shadowRoot.querySelector<HTMLDivElement>('#pageNumberWrapper')!
@@ -57,7 +57,9 @@ class OptcGalleryPanel extends HTMLElement {
       if (isInside) {
         return
       }
-      this.classList.contains('open') && this.toggle()
+      if (this.classList.contains('open')) {
+        this.toggle()
+      }
     }
   }
 
