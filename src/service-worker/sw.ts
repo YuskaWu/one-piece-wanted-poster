@@ -14,7 +14,7 @@ cleanupOutdatedCaches()
 
 setDefaultHandler(new StaleWhileRevalidate())
 
-registerRoute(({ url }) => url.host === 'optc-db.github.io', new NetworkFirst())
+registerRoute(({ url }) => url.host === '2shankz.github.io', new NetworkFirst())
 
 self.skipWaiting()
 clientsClaim()

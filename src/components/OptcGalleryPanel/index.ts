@@ -99,7 +99,7 @@ class OptcGalleryPanel extends HTMLElement {
 
   async #fetchFamilies() {
     const response = await fetch(
-      'https://raw.githubusercontent.com/optc-db/optc-db.github.io/master/common/data/families.js'
+      'https://2shankz.github.io/optc-db.github.io/common/data/families.js'
     )
 
     let text = await response.text()
@@ -125,25 +125,15 @@ class OptcGalleryPanel extends HTMLElement {
 
   async #fetchUnits() {
     const response = await fetch(
-      'https://raw.githubusercontent.com/optc-db/optc-db.github.io/master/common/data/units.js'
+      'https://2shankz.github.io/optc-db.github.io/common/data/units.js'
     )
 
     let text = await response.text()
 
-    text = text
-      .replace('window.units =', 'const units = ')
-      .replace('for(var i = 0; window.units.length', 'for(var i = 0; Infinity')
-      .replace('window.units.push', 'units.push')
-      .replace('window.units = window.units.concat(globalExUnits);', '')
-      .replace(
-        'window.units = window.units.concat(ghostsUnits);',
-        'export default units'
-      )
-      .replaceAll('var ', 'let ')
+    text = text.replace('window.units =', 'export default ')
 
     const blob = new Blob([text], { type: 'text/javascript' })
     const unitsModuleUrl = URL.createObjectURL(blob)
-
     const { default: units } = (await import(
       /* @vite-ignore */ unitsModuleUrl
     )) as {
@@ -276,7 +266,7 @@ class OptcGalleryPanel extends HTMLElement {
         .toString()
         .padStart(3, '0')
       const fileName = idNumber.toString().padStart(4, '0') + '.png'
-      const url = `https://optc-db.github.io/api/images/full/transparent/${groupNumber}/${subGroupNumber}/${fileName}`
+      const url = `https://2shankz.github.io/optc-db.github.io/api/images/full/transparent/${groupNumber}/${subGroupNumber}/${fileName}`
       const names = this.#characterFamily
         ? this.#characterFamily[id].join(', ').toUpperCase()
         : ''
