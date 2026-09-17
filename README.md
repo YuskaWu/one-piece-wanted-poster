@@ -20,6 +20,17 @@
 
 [Demo](https://yuskawu.github.io/one-piece-wanted-poster/dist)
 
+## Documentation
+
+The project includes a small wiki for contributors and advanced users:
+
+- [Wiki home](./docs/README.md)
+- [Overview](./docs/overview.md)
+- [User guide](./docs/usage.md)
+- [Architecture](./docs/architecture.md)
+- [Development guide](./docs/development.md)
+- [Deployment guide](./docs/deployment.md)
+
 ## License
 
 **This license applies only to the code in this repository. Images and other assets are explicitly excluded.**
