@@ -13,6 +13,30 @@ The application is organized as a set of custom web components backed by a small
 - `public/` stores static image assets used as poster backgrounds and app resources
 - `vite.config.ts` configures Vite, PWA generation, and the app manifest
 
+## Application flow
+
+The main interaction path runs from browser input through the shared store into the poster renderer. Static assets and the generated PWA service worker support the same client-side application without requiring a backend.
+
+```mermaid
+flowchart LR
+    User[Browser user]
+    App[App custom element]
+    Controls[EditPanel and action components]
+    Store[Reactive store]
+    Poster[WantedPoster renderer]
+    Export[Poster image export]
+    Assets[Public and component assets]
+    PWA[Vite PWA plugin and service worker]
+
+    User -->|upload, drag and drop, or edit| App
+    App --> Controls
+    Controls -->|update settings| Store
+    Store -->|state listeners and poster attributes| Poster
+    Assets --> Poster
+    Poster -->|render and export| Export
+    PWA -->|cache app shell and serve manifest| App
+```
+
 ## State model
 
 The store is a centralized proxy-based state container. It exposes defaults for values such as:
